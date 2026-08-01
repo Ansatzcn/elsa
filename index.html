@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>词汇管理器</title>
+    <title>英语单词管理器 · 第二仓库</title>
     <style>
         * {
             box-sizing: border-box;
@@ -708,7 +708,7 @@
 
         <div class="add-section">
             <h2>
-                添加新词
+                添加
                 <span class="info-tip">同一单词可添加多条不同释义</span>
             </h2>
             <div class="form-grid">
@@ -720,6 +720,8 @@
                     <label for="typeSelect">类型</label>
                     <select id="typeSelect">
                         <option value="">请选择类型</option>
+                        <option value="CN1">CN1</option>
+                        <option value="CN2">CN2</option>
                         <option value="OPW">OPW</option>
                         <option value="NCE">NCE</option>
                         <option value="SHE">SHE</option>
@@ -734,14 +736,14 @@
         </div>
 
         <div class="word-list-header">
-            <h2>词汇总表</h2>
+            <h2>词汇</h2>
             <span class="badge" id="countDisplay">0</span>
         </div>
         <div class="table-wrapper">
             <table class="word-table" id="wordTable">
                 <thead>
                     <tr>
-                        <th class="sortable" id="sortWordHead">单词 <span class="sort-icon" id="sortIcon">▼</span></th>
+                        <th class="sortable" id="sortWordHead">词汇<span class="sort-icon" id="sortIcon">▼</span></th>
                         <th>类型</th>
                         <th>备注</th>
                         <th class="col-action">操作</th>
@@ -749,7 +751,7 @@
                 </thead>
                 <tbody id="tableBody">
                     <tr class="empty-row">
-                        <td colspan="4">加载中...</td>
+                        <td colspan="4">加载中</td>
                     </tr>
                 </tbody>
             </table>
@@ -763,14 +765,14 @@
     <!-- 编辑弹窗 -->
     <div class="modal-overlay hidden" id="editModal">
         <div class="modal-box">
-            <h3>编辑</h3>
+            <h3>编辑条目</h3>
             <div class="modal-sub" id="editModalWord">词汇：<span id="editWordDisplay"></span></div>
             <div class="form-group">
                 <label for="editTypeSelect">类型</label>
                 <select id="editTypeSelect">
                     <option value="">请选择类型</option>
-                    <option value="CN1">SHE</option>
-                    <option value="CN2">SHE</option>
+                    <option value="CN1">CN1</option>
+                    <option value="CN2">CN2</option>
                     <option value="OPW">OPW</option>
                     <option value="NCE">NCE</option>
                     <option value="SHE">SHE</option>

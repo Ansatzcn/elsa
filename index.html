@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>英语单词</title>
+    <title>词汇管理器</title>
     <style>
         * {
             box-sizing: border-box;
@@ -713,11 +713,11 @@
             </h2>
             <div class="form-grid">
                 <div class="form-group full-width">
-                    <label for="wordInput">单词 *</label>
+                    <label for="wordInput">词汇 *</label>
                     <input type="text" id="wordInput" placeholder="例如: apple" autofocus>
                 </div>
                 <div class="form-group full-width">
-                    <label for="typeSelect">类型 (选填)</label>
+                    <label for="typeSelect">类型</label>
                     <select id="typeSelect">
                         <option value="">请选择类型</option>
                         <option value="OPW">OPW</option>
@@ -726,7 +726,7 @@
                     </select>
                 </div>
                 <div class="form-group full-width">
-                    <label for="noteInput">备注 (选填)</label>
+                    <label for="noteInput">备注</label>
                     <input type="text" id="noteInput" placeholder="可留空，后续可编辑补充">
                 </div>
                 <button class="btn-primary" id="addBtn">添加单词</button>
@@ -734,7 +734,7 @@
         </div>
 
         <div class="word-list-header">
-            <h2>English</h2>
+            <h2>词汇总表</h2>
             <span class="badge" id="countDisplay">0</span>
         </div>
         <div class="table-wrapper">
@@ -763,12 +763,14 @@
     <!-- 编辑弹窗 -->
     <div class="modal-overlay hidden" id="editModal">
         <div class="modal-box">
-            <h3>编辑条目</h3>
-            <div class="modal-sub" id="editModalWord">单词：<span id="editWordDisplay"></span></div>
+            <h3>编辑</h3>
+            <div class="modal-sub" id="editModalWord">词汇：<span id="editWordDisplay"></span></div>
             <div class="form-group">
                 <label for="editTypeSelect">类型</label>
                 <select id="editTypeSelect">
                     <option value="">请选择类型</option>
+                    <option value="CN1">SHE</option>
+                    <option value="CN2">SHE</option>
                     <option value="OPW">OPW</option>
                     <option value="NCE">NCE</option>
                     <option value="SHE">SHE</option>
@@ -825,9 +827,11 @@
 
     <script>
         (function() {
-            // ---------- 配置存储 ----------
-            const CONFIG_KEY = 'github_wordbook_config_v2';    // 新仓库的配置键
-            const STORAGE_KEY = 'wordbook_az_data_v2';         // 新仓库的数据键
+            // ============================================================
+            //  🔑 第二个仓库使用独立的存储键名（与第一个仓库完全隔离）
+            // ============================================================
+            const CONFIG_KEY = 'github_wordbook_config_v2';
+            const STORAGE_KEY = 'wordbook_az_data_v2';
 
             // ---------- 全局状态 ----------
             let words = [];
@@ -1068,10 +1072,10 @@
                         words = [];
                     }
                 } else {
+                    // 第二个仓库使用独立的示例数据
                     words = [
-                        { word: 'apple', type: 'OPW', note: '常见水果' },
-                        { word: 'book', type: 'NCE', note: '学习材料' },
-                        { word: 'light', type: 'SHE', note: '物理概念' }
+                        { word: 'example', type: 'OPW', note: '第二个仓库的示例数据' },
+                        { word: 'test', type: 'NCE', note: '可以删除或编辑' }
                     ];
                 }
                 applySortAndRender();
@@ -1177,7 +1181,6 @@
                 editingIndex = index;
                 const item = words[index];
                 editWordDisplay.textContent = item.word;
-                // 设置类型和备注
                 if (item.type) {
                     const options = Array.from(editTypeSelect.options);
                     const found = options.some(opt => opt.value === item.type);

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>词汇管理器</title>
+    <title>Elsa</title>
     <style>
         * {
             box-sizing: border-box;
@@ -675,16 +675,15 @@
             </h2>
             <div class="form-grid">
                 <div class="form-group full-width">
-                    <label for="wordInput">字词 *</label>
+                    <label for="wordInput">词汇 *</label>
                     <input type="text" id="wordInput" maxlength="200" autocomplete="off">
                 </div>
                 <div class="form-group full-width">
                     <label for="typeSelect">类型</label>
                     <select id="typeSelect">
-                        <option value="">选择</option>
-                        <option value="写字">写字</option>
-                        <option value="识字">识字</option>
-                        <option value="课文">课文</option>
+                        <option value="">类型</option>
+                        <option value="一类字">一类字</option>
+                        <option value="二类字">二类字</option>
                         <option value="OPW">OPW</option>
                         <option value="NCE">NCE</option>
                         <option value="SHE">SHE</option>
@@ -733,10 +732,9 @@
             <div class="form-group">
                 <label for="editTypeSelect">类型</label>
                 <select id="editTypeSelect">
-                    <option value="">选择</option>
-                    <option value="写字">写字</option>
-                    <option value="识字">识字</option>
-                    <option value="课文">课文</option>
+                    <option value="">类型</option>
+                    <option value="一类字">一类字</option>
+                    <option value="二类字">二类字</option>
                     <option value="OPW">OPW</option>
                     <option value="NCE">NCE</option>
                     <option value="SHE">SHE</option>
@@ -1373,16 +1371,68 @@
             }
 
             // ---------- 核心函数 ----------
+            // 显式使用拼音校对规则：中文按拼音首字母及后续拼音排序。
+            // numeric: true 使 word2 排在 word10 前；ignorePunctuation 减少标点对主排序的干扰。
+            const pinyinCollator = new Intl.Collator('zh-CN-u-co-pinyin', {
+                usage: 'sort',
+                sensitivity: 'base',
+                numeric: true,
+                ignorePunctuation: true
+            });
+            const generalCollator = new Intl.Collator('zh-CN', {
+                usage: 'sort',
+                sensitivity: 'base',
+                numeric: true,
+                ignorePunctuation: true
+            });
+            const strokeCollator = new Intl.Collator('zh-CN-u-co-stroke', {
+                usage: 'sort',
+                sensitivity: 'variant',
+                numeric: true
+            });
+
+            function normalizeSortText(value) {
+                return typeof value === 'string'
+                    ? value.normalize('NFKC').trim()
+                    : '';
+            }
+
+            function startsWithChinese(text) {
+                const firstCharacter = Array.from(text)[0] || '';
+                return /^\p{Script=Han}$/u.test(firstCharacter);
+            }
+
+            function compareWordText(wordA, wordB) {
+                const textA = normalizeSortText(wordA);
+                const textB = normalizeSortText(wordB);
+
+                if (textA === textB) return 0;
+                if (!textA) return 1;
+                if (!textB) return -1;
+
+                const bothStartWithChinese = startsWithChinese(textA) && startsWithChinese(textB);
+                let result = bothStartWithChinese
+                    ? pinyinCollator.compare(textA, textB)
+                    : generalCollator.compare(textA, textB);
+
+                // 同音、大小写或全角/半角等在主比较中相等时，按笔画及原字符回退，
+                // 保证每次渲染和重新加载后的顺序一致。
+                if (result === 0) {
+                    result = strokeCollator.compare(textA, textB);
+                }
+                if (result === 0) {
+                    result = textA < textB ? -1 : 1;
+                }
+
+                return result;
+            }
+
             function sortWords(order) {
                 const direction = order || sortOrder;
+                const multiplier = direction === 'asc' ? 1 : -1;
+
                 words.sort((a, b) => {
-                    const wordA = typeof a.word === 'string' ? a.word : '';
-                    const wordB = typeof b.word === 'string' ? b.word : '';
-                    const result = wordA.localeCompare(wordB, 'zh-CN', {
-                        sensitivity: 'base',
-                        numeric: true
-                    });
-                    return direction === 'asc' ? result : -result;
+                    return compareWordText(a && a.word, b && b.word) * multiplier;
                 });
             }
 

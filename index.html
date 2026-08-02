@@ -411,7 +411,7 @@
             padding: 2rem 2rem 1.8rem;
             max-width: 520px;
             width: 92%;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
             animation: slideUp 0.25s ease;
         }
         .modal-box h3 {
@@ -514,7 +514,7 @@
             font-size: 0.9rem;
             z-index: 1000;
             animation: slideUp 0.3s ease;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
             background: #1e293b;
             max-width: 90%;
             text-align: center;
@@ -548,7 +548,7 @@
             padding: 2rem 2rem 1.8rem;
             max-width: 560px;
             width: 94%;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
             animation: slideUp 0.25s ease;
         }
         .config-box h3 {
@@ -648,7 +648,7 @@
 <body>
     <div class="container">
         <h1>
-            词汇
+            Elsa
             <small>A-Z</small>
             <span class="cloud-status" id="cloudStatus">
                 <span class="dot" id="statusDot"></span>
@@ -676,7 +676,6 @@
             <div class="form-grid">
                 <div class="form-group full-width">
                     <label for="wordInput">词汇 *</label>
-                    <input type="text" id="wordInput" placeholder="例如: apple" autofocus>
                 </div>
                 <div class="form-group full-width">
                     <label for="typeSelect">类型</label>
@@ -697,14 +696,14 @@
         </div>
 
         <div class="word-list-header">
-            <h2>词汇</h2>
+            <h2>条目</h2>
             <span class="badge" id="countDisplay">0</span>
         </div>
         <div class="table-wrapper">
             <table class="word-table" id="wordTable">
                 <thead>
                     <tr>
-                        <th class="sortable" id="sortWordHead">单词 <span class="sort-icon" id="sortIcon">▼</span></th>
+                        <th class="sortable" id="sortWordHead">字词 <span class="sort-icon" id="sortIcon">▼</span></th>
                         <th>类型</th>
                         <th>备注</th>
                         <th class="col-action">操作</th>
@@ -712,7 +711,7 @@
                 </thead>
                 <tbody id="tableBody">
                     <tr class="empty-row">
-                        <td colspan="4">加载中...</td>
+                        <td colspan="4">加载中</td>
                     </tr>
                 </tbody>
             </table>
@@ -727,7 +726,7 @@
     <div class="modal-overlay hidden" id="editModal">
         <div class="modal-box">
             <h3>编辑</h3>
-            <div class="modal-sub" id="editModalWord">词汇：<span id="editWordDisplay"></span></div>
+            <div class="modal-sub" id="editModalWord">字词：<span id="editWordDisplay"></span></div>
             <div class="form-group">
                 <label for="editTypeSelect">类型</label>
                 <select id="editTypeSelect">
@@ -908,21 +907,35 @@
                 }
             }
 
-            // 🔧 核心修复：正确处理 UTF-8 编码
+            // ============================================================
+            //  UTF-8 编解码（修复中文乱码）
+            // ============================================================
+            function utf8ToBase64(str) {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(str);
+                let binary = '';
+                for (let i = 0; i < data.length; i++) {
+                    binary += String.fromCharCode(data[i]);
+                }
+                return btoa(binary);
+            }
+
+            function base64ToUtf8(base64) {
+                const binaryString = atob(base64);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                return new TextDecoder('utf-8').decode(bytes);
+            }
+
             async function loadFromGitHub() {
                 if (!isConfigValid()) {
                     throw new Error('请先配置 GitHub 连接');
                 }
                 try {
                     const data = await githubApi('GET', `contents/${config.file}`);
-                    // 使用正确的 UTF-8 解码方式
-                    const content = data.content;
-                    const binaryString = atob(content);
-                    const bytes = new Uint8Array(binaryString.length);
-                    for (let i = 0; i < binaryString.length; i++) {
-                        bytes[i] = binaryString.charCodeAt(i);
-                    }
-                    const decoded = new TextDecoder('utf-8').decode(bytes);
+                    const decoded = base64ToUtf8(data.content);
                     return JSON.parse(decoded);
                 } catch (e) {
                     if (e.message.includes('404')) {
@@ -961,16 +974,7 @@
                         }
                     } catch (e) {}
 
-                    // 🔧 核心修复：使用正确的 UTF-8 编码方式
-                    const jsonStr = JSON.stringify(words, null, 2);
-                    const encoder = new TextEncoder();
-                    const data = encoder.encode(jsonStr);
-                    let binary = '';
-                    for (let i = 0; i < data.length; i++) {
-                        binary += String.fromCharCode(data[i]);
-                    }
-                    const content = btoa(binary);
-
+                    const content = utf8ToBase64(JSON.stringify(words, null, 2));
                     const body = {
                         message: `更新单词数据 - ${new Date().toLocaleString()}`,
                         content: content
@@ -1051,10 +1055,7 @@
                         words = [];
                     }
                 } else {
-                    words = [
-                        { word: 'example', type: 'OPW', note: '第二个仓库的示例数据' },
-                        { word: 'test', type: 'NCE', note: '可以删除或编辑' }
-                    ];
+                    words = [];
                 }
                 applySortAndRender();
                 saveToLocal();
@@ -1159,6 +1160,7 @@
                 editingIndex = index;
                 const item = words[index];
                 editWordDisplay.textContent = item.word;
+                // 设置类型下拉菜单的值
                 if (item.type) {
                     const options = Array.from(editTypeSelect.options);
                     const found = options.some(opt => opt.value === item.type);
@@ -1183,9 +1185,12 @@
                     return;
                 }
 
-                const pos = editTypeSelect.value;
-                words[editingIndex].type = pos;
-                words[editingIndex].note = editNoteInput.value.trim();
+                // 修复：正确保存类型和备注
+                const type = editTypeSelect.value;
+                const note = editNoteInput.value.trim();
+
+                words[editingIndex].type = type;
+                words[editingIndex].note = note;
 
                 closeEditModal();
                 applySortAndRender();

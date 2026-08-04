@@ -380,11 +380,46 @@
             color: #334155;
         }
 
-        .footer-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 1.2rem;
-            gap: 12px;
+        /* 回到顶部：固定悬浮在页面右侧中段 */
+        .back-to-top {
+            position: fixed;
+            top: 50%;
+            right: 18px;
+            transform: translateY(-50%);
+            z-index: 900;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 0.48rem 0.72rem;
+            border: 1px solid rgba(148, 163, 184, 0.55);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.82);
+            color: #64748b;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.10);
+            font-family: inherit;
+            font-size: 0.78rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.2s ease, visibility 0.2s ease,
+                        background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .back-to-top.visible {
+            opacity: 0.72;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .back-to-top:hover,
+        .back-to-top:focus-visible {
+            opacity: 1;
+            color: #334155;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 7px 22px rgba(15, 23, 42, 0.16);
+            outline: none;
+        }
+        .back-to-top:active {
+            transform: translateY(-50%) scale(0.97);
         }
 
         /* 编辑弹窗 */
@@ -642,6 +677,11 @@
             .toolbar .left-group, .toolbar .right-group { justify-content: center; }
             .cloud-status { margin-left: 0; }
             .config-box { padding: 1.5rem; }
+            .back-to-top {
+                right: 8px;
+                padding: 0.45rem 0.58rem;
+                font-size: 0.72rem;
+            }
         }
     </style>
 </head>
@@ -676,7 +716,7 @@
             <div class="form-grid">
                 <div class="form-group full-width">
                     <label for="wordInput">字词 *</label>
-                    <input type="text" id="wordInput" maxlength="200" autocomplete="off">
+                    <input type="text" id="wordInput" maxlength="200" autocomplete="off" autofocus>
                 </div>
                 <div class="form-group full-width">
                     <label for="typeSelect">类型</label>
@@ -719,11 +759,12 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="footer-actions">
-            <button type="button" class="btn-outline" id="clearAllBtn">清空全部</button>
-        </div>
     </div>
+
+    <button type="button" class="back-to-top" id="backToTopBtn" title="回到顶部" aria-label="回到顶部">
+        <span aria-hidden="true">↑</span>
+        <span>回到顶部</span>
+    </button>
 
     <!-- 编辑弹窗 -->
     <div class="modal-overlay hidden" id="editModal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
@@ -837,7 +878,6 @@
             const addBtn = document.getElementById('addBtn');
             const tableBody = document.getElementById('tableBody');
             const countDisplay = document.getElementById('countDisplay');
-            const clearAllBtn = document.getElementById('clearAllBtn');
             const exportBtn = document.getElementById('exportBtn');
             const importBtn = document.getElementById('importBtn');
             const fileInput = document.getElementById('fileInput');
@@ -848,6 +888,7 @@
             const statusDot = document.getElementById('statusDot');
             const statusText = document.getElementById('statusText');
             const configBtn = document.getElementById('configBtn');
+            const backToTopBtn = document.getElementById('backToTopBtn');
 
             const editModal = document.getElementById('editModal');
             const editWordDisplay = document.getElementById('editWordDisplay');
@@ -1679,23 +1720,6 @@
                 reader.readAsText(file, 'utf-8');
             }
 
-            // ---------- 清空全部 ----------
-            function clearAll() {
-                if (words.length === 0) {
-                    alert('列表已经是空的。');
-                    return;
-                }
-                if (confirm('确定要删除所有单词条目吗？此操作不可撤销！')) {
-                    words = [];
-                    markLocalDirty();
-                    applySortAndRender();
-                    wordInput.focus();
-                    if (isConfigValid()) {
-                        syncToCloud(false);
-                    }
-                }
-            }
-
             // ---------- Cloud Status ----------
             function setCloudStatus(status, text) {
                 statusDot.className = `dot ${status}`;
@@ -1790,21 +1814,23 @@
             document.querySelectorAll('.add-section input, .add-section textarea, .add-section select')
                 .forEach(input => {
                     input.addEventListener('keydown', function(e) {
-                        if (e.key === 'Enter') {
-                            if (this.tagName === 'TEXTAREA') {
-                                if (e.ctrlKey || e.metaKey) {
-                                    e.preventDefault();
-                                    addWord();
-                                }
-                            } else if (this.tagName !== 'SELECT') {
+                        if (e.key !== 'Enter' || e.isComposing) {
+                            return;
+                        }
+
+                        if (this.tagName === 'TEXTAREA') {
+                            // 备注栏按 Enter 直接添加；Shift + Enter 才换行。
+                            if (!e.shiftKey) {
                                 e.preventDefault();
                                 addWord();
                             }
+                        } else if (this.tagName !== 'SELECT') {
+                            e.preventDefault();
+                            addWord();
                         }
                     });
                 });
 
-            clearAllBtn.addEventListener('click', clearAll);
             exportBtn.addEventListener('click', exportData);
             importBtn.addEventListener('click', function() {
                 fileInput.click();
@@ -1882,6 +1908,21 @@
                     closeConfigModal();
                 }
             });
+
+            // ---------- 回到顶部 ----------
+            function updateBackToTopVisibility() {
+                backToTopBtn.classList.toggle('visible', window.scrollY > 240);
+            }
+
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+
+            window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
+            updateBackToTopVisibility();
 
             // ---------- 初始化 ----------
             loadSyncMeta();

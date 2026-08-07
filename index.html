@@ -774,7 +774,7 @@
             </h2>
             <div class="form-grid">
                 <div class="form-group full-width">
-                    <label for="wordInput">字词 *</label>
+                    <label for="wordInput">词汇</label>
                     <input type="text" id="wordInput" maxlength="200" autocomplete="off" autofocus>
                 </div>
                 <div class="form-group full-width">
@@ -805,7 +805,7 @@
             <table class="word-table" id="wordTable">
                 <thead>
                     <tr>
-                        <th class="sortable" id="sortWordHead" tabindex="0" role="button" aria-sort="ascending">字词 <span class="sort-icon" id="sortIcon">▲</span></th>
+                        <th class="sortable" id="sortWordHead" tabindex="0" role="button" aria-sort="ascending">词汇 <span class="sort-icon" id="sortIcon">▲</span></th>
                         <th>类型</th>
                         <th>备注</th>
                         <th class="col-action">操作</th>
@@ -829,7 +829,7 @@
     <div class="modal-overlay hidden" id="editModal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
         <div class="modal-box">
             <h3 id="editModalTitle">编辑</h3>
-            <div class="modal-sub" id="editModalWord">字词：<span id="editWordDisplay"></span></div>
+            <div class="modal-sub" id="editModalWord">词汇：<span id="editWordDisplay"></span></div>
             <div class="form-group">
                 <label for="editTypeSelect">类型</label>
                 <select id="editTypeSelect">
@@ -1588,7 +1588,7 @@
                 countDisplay.textContent = words.length;
 
                 if (words.length === 0) {
-                    tableBody.innerHTML = `<tr class="empty-row"><td colspan="4">单词列表为空，添加一个新词吧！</td></tr>`;
+                    tableBody.innerHTML = `<tr class="empty-row"><td colspan="4">词汇列表为空，添加一个新词吧！</td></tr>`;
                     return;
                 }
 
@@ -1713,7 +1713,7 @@
                 const note = noteInput.value.trim().slice(0, MAX_NOTE_LENGTH);
 
                 if (!word) {
-                    alert('请填写 "单词" 字段。');
+                    alert('请填写“词汇”字段。');
                     wordInput.focus();
                     return;
                 }
@@ -1741,7 +1741,7 @@
             // ---------- 导出/导入 ----------
             function exportData() {
                 if (words.length === 0) {
-                    alert('单词列表为空，没有什么可导出的。');
+                    alert('词汇列表为空，没有什么可导出的。');
                     return;
                 }
                 const jsonStr = JSON.stringify(words, null, 2);
@@ -1777,7 +1777,7 @@
                     }
 
                     if (!Array.isArray(imported)) {
-                        alert('文件格式错误：不是一个有效的单词列表。');
+                        alert('文件格式错误：不是一个有效的词汇列表。');
                         return;
                     }
                     if (imported.length > MAX_ITEMS) {
@@ -1787,7 +1787,7 @@
 
                     const valid = normalizeWords(imported);
                     if (valid.length === 0) {
-                        alert('文件中没有找到有效的单词数据。');
+                        alert('文件中没有找到有效的词汇数据。');
                         return;
                     }
                     if (valid.length !== imported.length) {

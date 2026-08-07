@@ -562,15 +562,20 @@
         /* 配置弹窗 */
         .config-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
+            height: 100dvh;
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(6px);
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow-y: auto;
+            padding:
+                max(12px, env(safe-area-inset-top))
+                12px
+                max(12px, env(safe-area-inset-bottom));
             z-index: 1000;
             animation: fadeIn 0.25s ease;
         }
@@ -583,6 +588,12 @@
             padding: 2rem 2rem 1.8rem;
             max-width: 560px;
             width: 94%;
+            max-height: calc(100vh - 24px);
+            max-height: calc(100dvh - 24px);
+            overflow-y: auto;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-gutter: stable;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
             animation: slideUp 0.25s ease;
         }
@@ -634,11 +645,40 @@
         .config-box .form-group .hint a:hover {
             text-decoration: underline;
         }
+        .config-box .token-save-option {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 8px;
+            margin-top: 9px;
+            color: #475569;
+            font-size: 0.82rem;
+            font-weight: 500;
+            text-transform: none;
+            letter-spacing: 0;
+            line-height: 1.5;
+            cursor: pointer;
+        }
+        .config-box .token-save-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            flex: 0 0 auto;
+            margin: 2px 0 0;
+            padding: 0;
+            accent-color: #2563eb;
+            cursor: pointer;
+        }
         .config-actions {
+            position: sticky;
+            bottom: 0;
+            z-index: 2;
             display: flex;
             gap: 10px;
             justify-content: flex-end;
-            margin-top: 1.2rem;
+            margin: 1.2rem -0.15rem -0.2rem;
+            padding: 0.8rem 0.15rem max(0.2rem, env(safe-area-inset-bottom));
+            background: linear-gradient(to bottom, rgba(255,255,255,0.88), white 24%);
+            border-top: 1px solid #eef2f6;
         }
         .config-actions .btn-config {
             padding: 0.5rem 1.8rem;
@@ -676,7 +716,26 @@
             .toolbar { flex-direction: column; align-items: stretch; }
             .toolbar .left-group, .toolbar .right-group { justify-content: center; }
             .cloud-status { margin-left: 0; }
-            .config-box { padding: 1.5rem; }
+            .config-overlay {
+                align-items: flex-start;
+                padding:
+                    max(8px, env(safe-area-inset-top))
+                    8px
+                    max(8px, env(safe-area-inset-bottom));
+            }
+            .config-box {
+                width: 100%;
+                max-height: calc(100vh - 16px);
+                max-height: calc(100dvh - 16px);
+                padding: 1.25rem 1rem 1rem;
+                border-radius: 20px;
+            }
+            .config-actions .btn-config {
+                flex: 1 1 0;
+                min-width: 0;
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
             .back-to-top {
                 right: 8px;
                 padding: 0.45rem 0.58rem;
@@ -803,10 +862,20 @@
             </div>
             <div class="form-group">
                 <label for="cfgToken">GitHub Personal Access Token *</label>
-                <input type="password" id="cfgToken" placeholder="ghp_xxxxxxxxxxxx">
+                <input
+                    type="password"
+                    id="cfgToken"
+                    name="github-token"
+                    autocomplete="current-password"
+                    placeholder="ghp_xxxxxxxxxxxx"
+                >
+                <label class="token-save-option" for="cfgRememberToken">
+                    <input type="checkbox" id="cfgRememberToken" checked>
+                    <span>在本设备保存Token。若浏览器出现“保存密码”提示，请选择保存；开启浏览器密码同步后，其他设备可自动填充。</span>
+                </label>
                 <div class="hint">
                     <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">创建 Token</a>
-                    （建议使用仅限目标仓库的细粒度 Token，只授予 Contents 读写权限并设置合理有效期）
+                    （建议使用仅限目标仓库的细粒度 Token，只授予 Contents 读写权限并设置合理有效期；共享设备建议不要勾选“在本设备保存Token”）
                 </div>
             </div>
             <div class="form-group">
@@ -840,6 +909,7 @@
             const CONFIG_KEY = 'github_wordbook_config_v2';
             const STORAGE_KEY = 'wordbook_az_data_v2';
             const SYNC_META_KEY = 'wordbook_az_sync_meta_v1';
+            const TOKEN_LOCAL_KEY = 'github_wordbook_token_local_v1';
             const TOKEN_SESSION_KEY = 'github_wordbook_token_session_v1';
 
             const MAX_ITEMS = 10000;
@@ -866,6 +936,7 @@
 
             let config = {
                 token: '',
+                rememberToken: true,
                 owner: '',
                 repo: '',
                 file: 'wordbook_data.json'
@@ -899,6 +970,7 @@
 
             const configModal = document.getElementById('configModal');
             const cfgToken = document.getElementById('cfgToken');
+            const cfgRememberToken = document.getElementById('cfgRememberToken');
             const cfgOwner = document.getElementById('cfgOwner');
             const cfgRepo = document.getElementById('cfgRepo');
             const cfgFile = document.getElementById('cfgFile');
@@ -953,10 +1025,24 @@
                 }
 
                 const legacyToken = typeof parsed.token === 'string' ? parsed.token : '';
+                const localToken = safeStorageGet(localStorage, TOKEN_LOCAL_KEY) || '';
                 const sessionToken = safeStorageGet(sessionStorage, TOKEN_SESSION_KEY) || '';
 
+                // 兼容旧版本：若旧配置内直接保存过 Token，先迁移到本设备保存槽位。
+                if (legacyToken && !localToken) {
+                    safeStorageSet(localStorage, TOKEN_LOCAL_KEY, legacyToken);
+                }
+
+                const effectiveLocalToken = localToken || legacyToken;
+                const rememberToken = typeof parsed.rememberToken === 'boolean'
+                    ? parsed.rememberToken
+                    : Boolean(effectiveLocalToken);
+
                 config = {
-                    token: sessionToken || legacyToken,
+                    token: rememberToken
+                        ? (effectiveLocalToken || sessionToken)
+                        : sessionToken,
+                    rememberToken,
                     owner: typeof parsed.owner === 'string' ? parsed.owner : '',
                     repo: typeof parsed.repo === 'string' ? parsed.repo : '',
                     file: typeof parsed.file === 'string' && parsed.file.trim()
@@ -964,10 +1050,10 @@
                         : 'wordbook_data.json'
                 };
 
-                // 兼容旧版本：把旧 Token 迁移到会话存储，并从 localStorage 删除。
-                if (legacyToken) {
-                    safeStorageSet(sessionStorage, TOKEN_SESSION_KEY, legacyToken);
+                // 清理旧配置对象中的明文 Token，Token 独立存放。
+                if (legacyToken || Object.prototype.hasOwnProperty.call(parsed, 'token')) {
                     safeStorageSet(localStorage, CONFIG_KEY, JSON.stringify({
+                        rememberToken: config.rememberToken,
                         owner: config.owner,
                         repo: config.repo,
                         file: config.file
@@ -975,6 +1061,7 @@
                 }
 
                 cfgToken.value = config.token;
+                cfgRememberToken.checked = config.rememberToken;
                 cfgOwner.value = config.owner;
                 cfgRepo.value = config.repo;
                 cfgFile.value = config.file;
@@ -984,18 +1071,29 @@
 
             function saveConfig() {
                 config.token = cfgToken.value.trim();
+                config.rememberToken = cfgRememberToken.checked;
                 config.owner = cfgOwner.value.trim();
                 config.repo = cfgRepo.value.trim();
                 config.file = cfgFile.value.trim() || 'wordbook_data.json';
 
-                // Token 只在当前浏览器会话中保存，不再写入 localStorage。
-                if (config.token) {
-                    safeStorageSet(sessionStorage, TOKEN_SESSION_KEY, config.token);
-                } else {
+                if (config.rememberToken) {
+                    if (config.token) {
+                        safeStorageSet(localStorage, TOKEN_LOCAL_KEY, config.token, true);
+                    } else {
+                        safeStorageRemove(localStorage, TOKEN_LOCAL_KEY);
+                    }
                     safeStorageRemove(sessionStorage, TOKEN_SESSION_KEY);
+                } else {
+                    safeStorageRemove(localStorage, TOKEN_LOCAL_KEY);
+                    if (config.token) {
+                        safeStorageSet(sessionStorage, TOKEN_SESSION_KEY, config.token);
+                    } else {
+                        safeStorageRemove(sessionStorage, TOKEN_SESSION_KEY);
+                    }
                 }
 
                 return safeStorageSet(localStorage, CONFIG_KEY, JSON.stringify({
+                    rememberToken: config.rememberToken,
                     owner: config.owner,
                     repo: config.repo,
                     file: config.file
@@ -1741,6 +1839,7 @@
             function openConfigModal() {
                 previousFocusedElement = document.activeElement;
                 cfgToken.value = config.token || '';
+                cfgRememberToken.checked = config.rememberToken;
                 cfgOwner.value = config.owner || '';
                 cfgRepo.value = config.repo || '';
                 cfgFile.value = config.file || 'wordbook_data.json';
@@ -1786,6 +1885,7 @@
                 const oldRemoteKey = isConfigValid() ? getRemoteKey() : '';
 
                 config.token = token;
+                config.rememberToken = cfgRememberToken.checked;
                 config.owner = owner;
                 config.repo = repo;
                 config.file = file;

@@ -1,7 +1,6 @@
 {
   "schemaVersion": 2,
   "types": [
-    "OPW",
     "NCE",
     "SHE",
     "OPW1"

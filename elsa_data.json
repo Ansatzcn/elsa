@@ -1,7 +1,6 @@
 {
   "schemaVersion": 2,
   "types": [
-    "课文",
     "OPW",
     "NCE",
     "SHE"

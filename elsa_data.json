@@ -1,7 +1,6 @@
 {
   "schemaVersion": 2,
   "types": [
-    "识字",
     "课文",
     "OPW",
     "NCE",

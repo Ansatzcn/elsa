@@ -1,122 +1,108 @@
-[
-  {
-    "word": "alligator",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "ant",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "apple",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "ax",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "banana",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "bear",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "bed",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "bird",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "car",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "cat",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "computer",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "cup",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "desk",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "dog",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "doll",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "duck",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "egg",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "elbow",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "elephant",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "envelope",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "fan",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "farm",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "fish",
-    "type": "OPW",
-    "note": "1"
-  },
-  {
-    "word": "fork",
-    "type": "OPW",
-    "note": "1"
-  }
-]
+{
+  "schemaVersion": 2,
+  "types": [
+    "识字",
+    "课文",
+    "OPW",
+    "NCE",
+    "SHE"
+  ],
+  "words": [
+    {
+      "word": "alligator",
+      "type": "OPW"
+    },
+    {
+      "word": "ant",
+      "type": "OPW"
+    },
+    {
+      "word": "apple",
+      "type": "OPW"
+    },
+    {
+      "word": "ax",
+      "type": "OPW"
+    },
+    {
+      "word": "banana",
+      "type": "OPW"
+    },
+    {
+      "word": "bear",
+      "type": "OPW"
+    },
+    {
+      "word": "bed",
+      "type": "OPW"
+    },
+    {
+      "word": "bird",
+      "type": "OPW"
+    },
+    {
+      "word": "car",
+      "type": "OPW"
+    },
+    {
+      "word": "cat",
+      "type": "OPW"
+    },
+    {
+      "word": "computer",
+      "type": "OPW"
+    },
+    {
+      "word": "cup",
+      "type": "OPW"
+    },
+    {
+      "word": "desk",
+      "type": "OPW"
+    },
+    {
+      "word": "dog",
+      "type": "OPW"
+    },
+    {
+      "word": "doll",
+      "type": "OPW"
+    },
+    {
+      "word": "duck",
+      "type": "OPW"
+    },
+    {
+      "word": "egg",
+      "type": "OPW"
+    },
+    {
+      "word": "elbow",
+      "type": "OPW"
+    },
+    {
+      "word": "elephant",
+      "type": "OPW"
+    },
+    {
+      "word": "envelope",
+      "type": "OPW"
+    },
+    {
+      "word": "fan",
+      "type": "OPW"
+    },
+    {
+      "word": "farm",
+      "type": "OPW"
+    },
+    {
+      "word": "fish",
+      "type": "OPW"
+    },
+    {
+      "word": "fork",
+      "type": "OPW"
+    }
+  ]
+}

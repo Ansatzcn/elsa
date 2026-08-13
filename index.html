@@ -611,6 +611,13 @@
         .modal-actions .btn-modal.save:hover {
             background: #0f172a;
         }
+        .modal-actions .btn-modal.delete {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .modal-actions .btn-modal.delete:hover {
+            background: #fecaca;
+        }
 
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -929,6 +936,7 @@
                 </div>
             </div>
             <div class="modal-actions">
+                <button type="button" class="btn-modal delete" id="editDeleteBtn">删除</button>
                 <button type="button" class="btn-modal cancel" id="editCancelBtn">取消</button>
                 <button type="button" class="btn-modal save" id="editSaveBtn">保存</button>
             </div>
@@ -1057,6 +1065,7 @@
             const editTypePanel = document.getElementById('editTypePanel');
             const editTypeOptions = document.getElementById('editTypeOptions');
             const editTypeAddCurrent = document.getElementById('editTypeAddCurrent');
+            const editDeleteBtn = document.getElementById('editDeleteBtn');
             const editCancelBtn = document.getElementById('editCancelBtn');
             const editSaveBtn = document.getElementById('editSaveBtn');
 
@@ -1876,7 +1885,6 @@
                             <td class="col-type">${type}</td>
                             <td class="col-action">
                                 <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
-                                <button type="button" class="action-btn delete-btn" data-index="${index}" title="删除">删除</button>
                             </td>
                         </tr>
                     `;
@@ -1891,26 +1899,6 @@
                             const idx = Number.parseInt(index, 10);
                             if (Number.isInteger(idx) && idx >= 0 && idx < words.length) {
                                 openEditModal(idx);
-                            }
-                        }
-                    });
-                });
-
-                document.querySelectorAll('#tableBody .delete-btn').forEach(btn => {
-                    btn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const index = this.getAttribute('data-index');
-                        if (index !== null) {
-                            const idx = Number.parseInt(index, 10);
-                            if (Number.isInteger(idx) && idx >= 0 && idx < words.length) {
-                                if (confirm(`确定要删除 "${words[idx].word}" 吗？`)) {
-                                    words.splice(idx, 1);
-                                    markLocalDirty();
-                                    applySortAndRender();
-                                    if (isConfigValid()) {
-                                        syncToCloud(false);
-                                    }
-                                }
                             }
                         }
                     });
@@ -1965,6 +1953,28 @@
                 markLocalDirty();
                 closeEditModal();
                 applySortAndRender();
+                if (isConfigValid()) {
+                    syncToCloud(false);
+                }
+            }
+
+            function deleteEditingWord() {
+                if (editingIndex === null || editingIndex < 0 || editingIndex >= words.length) {
+                    alert('删除出错，请重试。');
+                    closeEditModal();
+                    return;
+                }
+
+                const item = words[editingIndex];
+                if (!confirm(`确定要删除 "${item.word}" 吗？`)) {
+                    return;
+                }
+
+                words.splice(editingIndex, 1);
+                markLocalDirty();
+                closeEditModal();
+                applySortAndRender();
+
                 if (isConfigValid()) {
                     syncToCloud(false);
                 }
@@ -2290,6 +2300,7 @@
                 }
             });
 
+            editDeleteBtn.addEventListener('click', deleteEditingWord);
             editCancelBtn.addEventListener('click', closeEditModal);
             editSaveBtn.addEventListener('click', saveEdit);
             editModal.addEventListener('click', function(e) {

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <title>Elsa</title>
     <style>
         * {
@@ -683,19 +683,20 @@
         .toast.info { background: #2563eb; }
         .toast.hidden { display: none; }
 
-        /* 配置弹窗 */
+        /* 配置弹窗：固定操作栏 + 独立滚动正文。不要让整个弹窗自己滚动。 */
         .config-overlay {
             position: fixed;
-            inset: 0;
+            top: var(--config-viewport-top, 0px);
+            left: 0;
             width: 100%;
-            height: 100vh;
-            height: 100dvh;
+            height: var(--config-viewport-height, 100dvh);
+            min-height: 0;
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(6px);
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow-y: auto;
+            overflow: hidden;
             padding:
                 max(12px, env(safe-area-inset-top))
                 12px
@@ -703,30 +704,65 @@
             z-index: 1000;
             animation: fadeIn 0.25s ease;
         }
+
         .config-overlay.hidden {
             display: none;
         }
+
         .config-box {
             background: white;
             border-radius: 28px;
-            padding: 2rem 2rem 1.8rem;
+            padding: 0;
             max-width: 560px;
             width: 94%;
-            max-height: calc(100vh - 24px);
-            max-height: calc(100dvh - 24px);
-            overflow-y: auto;
-            overscroll-behavior: contain;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-gutter: stable;
+            height: min(720px, calc(100% - 24px));
+            min-height: 0;
+            display: grid;
+            grid-template-rows: minmax(0, 1fr) auto;
+            overflow: hidden;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
             animation: slideUp 0.25s ease;
         }
+
+        .config-scroll {
+            min-width: 0;
+            min-height: 0;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-gutter: stable;
+            touch-action: pan-y;
+            padding: 2rem 2rem 1rem;
+        }
+
+        .config-scroll::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .config-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 999px;
+        }
+
+        .config-scroll::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border: 2px solid #f1f5f9;
+            border-radius: 999px;
+        }
+
+        .config-scroll {
+            scrollbar-width: auto;
+            scrollbar-color: #94a3b8 #f1f5f9;
+        }
+
         .config-box h3 {
             font-size: 1.3rem;
             font-weight: 600;
             color: #0f172a;
             margin-bottom: 0.5rem;
         }
+
         .config-box .config-desc {
             color: #64748b;
             font-size: 0.9rem;
@@ -734,15 +770,18 @@
             border-bottom: 1px solid #e9edf4;
             padding-bottom: 0.8rem;
         }
+
         .config-box .form-group {
             margin-bottom: 1rem;
         }
+
         .config-box .form-group label {
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
             color: #475569;
         }
+
         .config-box .form-group input {
             width: 100%;
             background: white;
@@ -753,22 +792,27 @@
             font-family: inherit;
             transition: 0.2s;
         }
+
         .config-box .form-group input:focus {
             outline: 2px solid #7c9bff;
             border-color: transparent;
         }
+
         .config-box .form-group .hint {
             font-size: 0.75rem;
             color: #94a3b8;
             margin-top: 4px;
         }
+
         .config-box .form-group .hint a {
             color: #2563eb;
             text-decoration: none;
         }
+
         .config-box .form-group .hint a:hover {
             text-decoration: underline;
         }
+
         .config-box .token-save-option {
             display: flex;
             flex-direction: row;
@@ -783,6 +827,7 @@
             line-height: 1.5;
             cursor: pointer;
         }
+
         .config-box .token-save-option input[type="checkbox"] {
             width: 16px;
             height: 16px;
@@ -792,19 +837,23 @@
             accent-color: #2563eb;
             cursor: pointer;
         }
+
         .config-actions {
-            position: sticky;
-            bottom: 0;
-            z-index: 2;
+            position: relative;
+            z-index: 5;
             display: flex;
+            flex: 0 0 auto;
             gap: 10px;
             justify-content: flex-end;
-            margin: 1.2rem -0.15rem -0.2rem;
-            padding: 0.8rem 0.15rem max(0.2rem, env(safe-area-inset-bottom));
-            background: linear-gradient(to bottom, rgba(255,255,255,0.88), white 24%);
-            border-top: 1px solid #eef2f6;
+            margin: 0;
+            padding: 0.95rem 2rem max(0.95rem, env(safe-area-inset-bottom));
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            box-shadow: 0 -8px 22px rgba(15, 23, 42, 0.06);
         }
+
         .config-actions .btn-config {
+            min-height: 42px;
             padding: 0.5rem 1.8rem;
             border-radius: 40px;
             font-weight: 600;
@@ -813,17 +862,21 @@
             cursor: pointer;
             transition: 0.15s;
         }
+
         .config-actions .btn-config.primary {
             background: #1e293b;
             color: white;
         }
+
         .config-actions .btn-config.primary:hover {
             background: #0f172a;
         }
+
         .config-actions .btn-config.secondary {
             background: #f1f5f9;
             color: #334155;
         }
+
         .config-actions .btn-config.secondary:hover {
             background: #e2e8f0;
         }
@@ -841,22 +894,30 @@
             .toolbar .left-group, .toolbar .right-group { justify-content: center; }
             .cloud-status { margin-left: 0; }
             .config-overlay {
-                align-items: flex-start;
+                align-items: stretch;
                 padding:
-                    max(8px, env(safe-area-inset-top))
-                    8px
-                    max(8px, env(safe-area-inset-bottom));
+                    max(6px, env(safe-area-inset-top))
+                    6px
+                    max(6px, env(safe-area-inset-bottom));
             }
             .config-box {
                 width: 100%;
-                max-height: calc(100vh - 16px);
-                max-height: calc(100dvh - 16px);
-                padding: 1.25rem 1rem 1rem;
-                border-radius: 20px;
+                max-width: none;
+                height: 100%;
+                min-height: 0;
+                border-radius: 18px;
+            }
+            .config-scroll {
+                padding: 1.2rem 1rem 1rem;
+            }
+            .config-actions {
+                gap: 8px;
+                padding: 0.8rem 1rem max(0.8rem, env(safe-area-inset-bottom));
             }
             .config-actions .btn-config {
                 flex: 1 1 0;
                 min-width: 0;
+                min-height: 46px;
                 padding-left: 0.75rem;
                 padding-right: 0.75rem;
             }
@@ -981,40 +1042,42 @@
     <!-- 配置弹窗 -->
     <div class="config-overlay hidden" id="configModal" role="dialog" aria-modal="true" aria-labelledby="configModalTitle">
         <div class="config-box">
-            <h3 id="configModalTitle">GitHub 云端配置</h3>
-            <div class="config-desc">
-                配置后数据将保存到您的 GitHub 仓库，在任何设备上打开都能同步。
-            </div>
-            <div class="form-group">
-                <label for="cfgToken">GitHub Personal Access Token *</label>
-                <input
-                    type="password"
-                    id="cfgToken"
-                    name="github-token"
-                    autocomplete="current-password"
-                    placeholder="ghp_xxxxxxxxxxxx"
-                >
-                <label class="token-save-option" for="cfgRememberToken">
-                    <input type="checkbox" id="cfgRememberToken" checked>
-                    <span>在本设备保存Token。若浏览器出现“保存密码”提示，请选择保存；开启浏览器密码同步后，其他设备可自动填充。</span>
-                </label>
-                <div class="hint">
-                    <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">创建 Token</a>
-                    （建议使用仅限目标仓库的细粒度 Token，只授予 Contents 读写权限并设置合理有效期；共享设备建议不要勾选“在本设备保存Token”）
+            <div class="config-scroll" id="configScroll">
+                <h3 id="configModalTitle">GitHub 云端配置</h3>
+                <div class="config-desc">
+                    配置后数据将保存到您的 GitHub 仓库，在任何设备上打开都能同步。
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="cfgOwner">仓库所有者 *</label>
-                <input type="text" id="cfgOwner" placeholder="你的GitHub用户名">
-            </div>
-            <div class="form-group">
-                <label for="cfgRepo">仓库名称 *</label>
-                <input type="text" id="cfgRepo" placeholder="wordbook">
-                <div class="hint">当前仓库名：<strong>wordbook</strong></div>
-            </div>
-            <div class="form-group">
-                <label for="cfgFile">数据文件名</label>
-                <input type="text" id="cfgFile" placeholder="wordbook_data.json" value="wordbook_data.json">
+                <div class="form-group">
+                    <label for="cfgToken">GitHub Personal Access Token *</label>
+                    <input
+                        type="password"
+                        id="cfgToken"
+                        name="github-token"
+                        autocomplete="current-password"
+                        placeholder="ghp_xxxxxxxxxxxx"
+                    >
+                    <label class="token-save-option" for="cfgRememberToken">
+                        <input type="checkbox" id="cfgRememberToken" checked>
+                        <span>在本设备保存Token。若浏览器出现“保存密码”提示，请选择保存；开启浏览器密码同步后，其他设备可自动填充。</span>
+                    </label>
+                    <div class="hint">
+                        <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">创建 Token</a>
+                        （建议使用仅限目标仓库的细粒度 Token，只授予 Contents 读写权限并设置合理有效期；共享设备建议不要勾选“在本设备保存Token”）
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cfgOwner">仓库所有者 *</label>
+                    <input type="text" id="cfgOwner" placeholder="你的GitHub用户名">
+                </div>
+                <div class="form-group">
+                    <label for="cfgRepo">仓库名称 *</label>
+                    <input type="text" id="cfgRepo" placeholder="wordbook">
+                    <div class="hint">当前仓库名：<strong>wordbook</strong></div>
+                </div>
+                <div class="form-group">
+                    <label for="cfgFile">数据文件名</label>
+                    <input type="text" id="cfgFile" placeholder="wordbook_data.json" value="wordbook_data.json">
+                </div>
             </div>
             <div class="config-actions">
                 <button type="button" class="btn-config secondary" id="configCancelBtn">取消</button>
@@ -1106,6 +1169,7 @@
             const editSaveBtn = document.getElementById('editSaveBtn');
 
             const configModal = document.getElementById('configModal');
+            const configScroll = document.getElementById('configScroll');
             const cfgToken = document.getElementById('cfgToken');
             const cfgRememberToken = document.getElementById('cfgRememberToken');
             const cfgOwner = document.getElementById('cfgOwner');
@@ -2175,6 +2239,16 @@
             }
 
             // ---------- 配置弹窗 ----------
+            let configBodyOverflow = '';
+
+            function syncConfigViewport() {
+                const vv = window.visualViewport;
+                const height = vv ? vv.height : window.innerHeight;
+                const top = vv ? vv.offsetTop : 0;
+                document.documentElement.style.setProperty('--config-viewport-height', `${Math.max(1, Math.round(height))}px`);
+                document.documentElement.style.setProperty('--config-viewport-top', `${Math.max(0, Math.round(top))}px`);
+            }
+
             function openConfigModal() {
                 previousFocusedElement = document.activeElement;
                 cfgToken.value = config.token || '';
@@ -2182,14 +2256,26 @@
                 cfgOwner.value = config.owner || '';
                 cfgRepo.value = config.repo || '';
                 cfgFile.value = config.file || 'wordbook_data.json';
+
+                syncConfigViewport();
+                configScroll.scrollTop = 0;
+                configBodyOverflow = document.body.style.overflow;
+                document.body.style.overflow = 'hidden';
                 configModal.classList.remove('hidden');
-                setTimeout(() => cfgToken.focus(), 100);
+
+                // 手机端不要自动聚焦，否则软键盘会在弹窗刚打开时立即吞掉大量可视高度。
+                if (window.matchMedia('(min-width: 701px)').matches) {
+                    setTimeout(() => cfgToken.focus({ preventScroll: true }), 80);
+                }
             }
 
             function closeConfigModal() {
                 configModal.classList.add('hidden');
+                document.body.style.overflow = configBodyOverflow;
+                document.documentElement.style.removeProperty('--config-viewport-height');
+                document.documentElement.style.removeProperty('--config-viewport-top');
                 if (previousFocusedElement instanceof HTMLElement) {
-                    previousFocusedElement.focus();
+                    previousFocusedElement.focus({ preventScroll: true });
                 }
                 previousFocusedElement = null;
             }
@@ -2360,6 +2446,20 @@
             configModal.addEventListener('click', function(e) {
                 if (e.target === this) {
                     closeConfigModal();
+                }
+            });
+
+            if (window.visualViewport) {
+                window.visualViewport.addEventListener('resize', () => {
+                    if (!configModal.classList.contains('hidden')) syncConfigViewport();
+                });
+                window.visualViewport.addEventListener('scroll', () => {
+                    if (!configModal.classList.contains('hidden')) syncConfigViewport();
+                });
+            }
+            window.addEventListener('orientationchange', () => {
+                if (!configModal.classList.contains('hidden')) {
+                    setTimeout(syncConfigViewport, 80);
                 }
             });
 

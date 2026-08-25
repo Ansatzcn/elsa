@@ -2,7 +2,6 @@
   "schemaVersion": 2,
   "types": [
     "NCE",
-    "SHE",
     "OPW1",
     "SHE11"
   ],

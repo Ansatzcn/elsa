@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="app-build" content="2026-08-26-larger-headings-sync-word-color-v1">
+    <meta name="app-build" content="2026-08-26-bold-larger-entry-word-v1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <title>Elsa</title>
     <style>
@@ -139,8 +139,8 @@
             background: #0f172a;
         }
         .toolbar .btn-sync {
-            background: #2563eb;
-            border: 1px solid #2563eb;
+            background: #AE0B2A;
+            border: 1px solid #AE0B2A;
             padding: 0.4rem 1.2rem;
             border-radius: 40px;
             font-weight: 500;
@@ -429,7 +429,7 @@
             position: relative;
             min-width: 0;
             white-space: normal;
-            color: #2563eb;
+            color: #AE0B2A;
         }
         .word-item-head {
             display: flex;
@@ -441,8 +441,9 @@
         .word-item-title {
             min-width: 0;
             padding-right: 0.5rem;
-            font-weight: 600;
+            font-weight: 700;
             overflow-wrap: anywhere;
+            font-size: 1.15rem;
         }
         .word-item-meta {
             margin-top: 0.18rem;
@@ -519,7 +520,7 @@
             justify-content: center;
             border: 0;
             border-radius: 50%;
-            background: #2563eb;
+            background: #AE0B2A;
             color: white;
             box-shadow: 0 3px 10px rgba(37, 99, 235, 0.28);
             font-family: inherit;
@@ -695,7 +696,7 @@
         }
         .toast.success { background: #16a34a; }
         .toast.error { background: #dc2626; }
-        .toast.info { background: #2563eb; }
+        .toast.info { background: #AE0B2A; }
         .toast.hidden { display: none; }
 
         /* 配置弹窗：固定操作栏 + 独立滚动正文。不要让整个弹窗自己滚动。 */
@@ -820,7 +821,7 @@
         }
 
         .config-box .form-group .hint a {
-            color: #2563eb;
+            color: #AE0B2A;
             text-decoration: none;
         }
 
@@ -849,7 +850,7 @@
             flex: 0 0 auto;
             margin: 2px 0 0;
             padding: 0;
-            accent-color: #2563eb;
+            accent-color: #AE0B2A;
             cursor: pointer;
         }
 
@@ -1023,9 +1024,7 @@
         </div>
     </div>
 
-    <button type="button" class="back-to-top" id="backToTopBtn" title="回到顶部" aria-label="回到顶部">
-        <span aria-hidden="true">↑</span>
-    </button>
+    <button type="button" class="back-to-top" id="backToTopBtn" title="回到顶部" aria-label="回到顶部"></button>
 
     <!-- 编辑弹窗 -->
     <div class="modal-overlay hidden" id="editModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="editModalTitle">

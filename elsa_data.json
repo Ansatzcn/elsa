@@ -1,258 +1,319 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "types": [
-    "NCE",
-    "OPW1",
-    "SHE11"
+    "课外",
+    "一上"
   ],
   "words": [
     {
       "word": "alligator",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "ant",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "apple",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "ax",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "banana",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "bear",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "bed",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "bird",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "car",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "cat",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "classroom",
-      "type": "SHE11"
+      "type": "一上",
+      "date": ""
     },
     {
       "word": "computer",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "cup",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "desk",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "dog",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "doll",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "door",
-      "type": "SHE11"
+      "type": "一上",
+      "date": ""
     },
     {
       "word": "duck",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "egg",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "elbow",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "elephant",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "envelope",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "eraser",
-      "type": "SHE11"
+      "type": "一上",
+      "date": ""
     },
     {
       "word": "evening",
-      "type": "SHE11"
+      "type": "一上",
+      "date": ""
     },
     {
       "word": "fan",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "farm",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "fish",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "fork",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "gift",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "girl",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "goat",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "gorilla",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "hat",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "horse",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "hot dog",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "house",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "igloo",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "iguana",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "ink",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "insect",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "jacket",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "jam",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "jet",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "juice",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "kangaroo",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "key",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "king",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "kite",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "lamp",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "leaf",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "lemon",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "lion",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "milk",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "money",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "monkey",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "morning",
-      "type": "SHE11"
+      "type": "一上",
+      "date": "2026-08-26"
     },
     {
       "word": "mouse",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "nest",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "net",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "nose",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "nut",
-      "type": "OPW1"
+      "type": "课外",
+      "date": ""
     },
     {
       "word": "pencil",
-      "type": "SHE11"
+      "type": "一上",
+      "date": ""
     }
   ]
 }

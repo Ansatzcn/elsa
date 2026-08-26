@@ -262,52 +262,60 @@
         }
         .type-option-row {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 38px;
-            gap: 0;
+            grid-template-columns: minmax(0, 1fr) 40px 40px 38px;
+            gap: 6px;
             align-items: stretch;
-            overflow: hidden;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            background: white;
-            transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+            width: 100%;
+            min-width: 0;
         }
         .type-option-row + .type-option-row {
             margin-top: 6px;
         }
-        .type-option-row:hover {
-            border-color: #cbd5e1;
-            background: #f8fafc;
-            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
-        }
         .type-option {
             width: 100%;
+            min-width: 0;
             padding: 0.58rem 0.75rem;
             border: 0;
-            border-radius: 0;
-            background: transparent;
+            border-radius: 10px;
+            background: white;
             color: #0f172a;
             text-align: left;
+            overflow-wrap: anywhere;
             cursor: pointer;
         }
         .type-option:hover {
             background: #f1f5f9;
         }
-        .type-delete {
-            width: 38px;
+        .type-control {
+            min-width: 38px;
             min-height: 36px;
+            padding: 0.45rem 0.5rem;
             border: 0;
-            border-left: 1px solid #e2e8f0;
-            border-radius: 0;
-            background: transparent;
+            border-radius: 10px;
+            background: #f1f5f9;
+            color: #475569;
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 650;
+            cursor: pointer;
+        }
+        .type-control:hover:not(:disabled) {
+            background: #e2e8f0;
+        }
+        .type-control:disabled {
+            opacity: 0.32;
+            cursor: not-allowed;
+        }
+        .type-delete {
+            background: #fff1f2;
             color: #be123c;
             font-size: 1rem;
             font-weight: 700;
-            cursor: pointer;
         }
         .type-delete:hover {
-            background: #fff1f2;
+            background: #ffe4e6;
         }
-        .type-empty {
+        .type-empty {        .type-empty {
             padding: 0.7rem;
             color: #94a3b8;
             text-align: center;
@@ -412,58 +420,54 @@
             border-bottom: none;
         }
         .word-table .col-word {
-            font-weight: 600;
+            position: relative;
+            min-width: 0;
             color: #0f172a;
-            white-space: nowrap;
-            min-width: 100px;
+            white-space: normal;
         }
-        .word-table .col-type {
-            white-space: nowrap;
-            color: #1e3a8a;
-            min-width: 80px;
+        .word-item-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 1rem;
+            width: 100%;
         }
-        .word-table .col-action {
-            text-align: center;
-            white-space: nowrap;
-            width: 110px;
+        .word-item-title {
+            min-width: 0;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+        .word-item-meta {
+            margin-top: 0.16rem;
+            color: #475569;
+            font-size: 0.9rem;
+            font-weight: 400;
+            line-height: 1.38;
+            overflow-wrap: anywhere;
         }
         .word-table .action-btn {
-            background: none;
+            flex: 0 0 auto;
+            margin: 0;
+            padding: 0;
             border: none;
-            padding: 4px 10px;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: 0.15s;
+            border-radius: 0;
+            background: transparent;
+            color: #64748b;
+            font-family: inherit;
             font-size: 0.85rem;
             font-weight: 500;
             line-height: 1.4;
-            margin: 0 2px;
-        }
-        .word-table .action-btn.edit-btn {
-            padding: 0;
-            border-radius: 0;
-            background: transparent;
-            color: #94a3b8;
-            font-weight: 400;
             text-decoration: underline;
             text-underline-offset: 2px;
+            cursor: pointer;
+            transition: color 0.15s;
         }
         .word-table .action-btn.edit-btn:hover,
         .word-table .action-btn.edit-btn:focus-visible {
-            background: transparent;
-            color: #64748b;
-            transform: none;
+            color: #1e3a8a;
             outline: none;
         }
-        .word-table .action-btn.delete-btn {
-            color: #991b1b;
-            background: #fee2e2;
-        }
-        .word-table .action-btn.delete-btn:hover {
-            background: #fecaca;
-            transform: scale(1.05);
-        }
-        .empty-row td {
+        .empty-row td {        .empty-row td {
             padding: 2.5rem 1rem;
             text-align: center;
             color: #94a3b8;
@@ -493,49 +497,51 @@
             color: #334155;
         }
 
-        /* 回到顶部：固定悬浮在页面右侧中段 */
+        /* 回到顶部：实心圆，主色与同步按钮一致 */
         .back-to-top {
             position: fixed;
             top: 70%;
             right: 18px;
-            transform: translateY(-50%);
             z-index: 900;
-            display: inline-flex;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            display: flex;
             align-items: center;
-            gap: 5px;
-            padding: 0.48rem 0.72rem;
-            border: 1px solid rgba(148, 163, 184, 0.55);
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.82);
-            color: #64748b;
-            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.10);
+            justify-content: center;
+            transform: translateY(-50%);
+            border: 0;
+            border-radius: 50%;
+            background: #2563eb;
+            color: white;
+            box-shadow: 0 3px 10px rgba(37, 99, 235, 0.28);
             font-family: inherit;
-            font-size: 0.78rem;
+            font-size: 0.74rem;
+            font-weight: 700;
+            line-height: 1;
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
             transition: opacity 0.2s ease, visibility 0.2s ease,
-                        background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+                        background 0.2s ease, transform 0.2s ease;
         }
         .back-to-top.visible {
-            opacity: 0.72;
+            opacity: 1;
             visibility: visible;
             pointer-events: auto;
         }
         .back-to-top:hover,
         .back-to-top:focus-visible {
-            opacity: 1;
-            color: #334155;
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 7px 22px rgba(15, 23, 42, 0.16);
+            background: #1d4ed8;
+            transform: translateY(-50%) translateX(-2px);
             outline: none;
         }
         .back-to-top:active {
             transform: translateY(-50%) scale(0.97);
         }
 
-        /* 编辑弹窗 */
+        /* 编辑弹窗 */        /* 编辑弹窗 */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -888,8 +894,8 @@
                 padding: 0.6rem 0.8rem;
                 font-size: 0.85rem;
             }
-            .word-table .col-word { min-width: 70px; }
-            .word-table .col-action { width: 80px; }
+            .word-table .col-word { min-width: 0; }
+            .word-item-meta { font-size: 0.84rem; }
             .toolbar { flex-direction: column; align-items: stretch; }
             .toolbar .left-group, .toolbar .right-group { justify-content: center; }
             .cloud-status { margin-left: 0; }
@@ -923,8 +929,10 @@
             }
             .back-to-top {
                 right: 8px;
-                padding: 0.45rem 0.58rem;
-                font-size: 0.72rem;
+                width: 29px;
+                height: 29px;
+                padding: 0;
+                font-size: 0.68rem;
             }
         }
     </style>
@@ -977,6 +985,10 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-group full-width">
+                    <label for="dateInput">日期</label>
+                    <input type="date" id="dateInput">
+                </div>
                 <button type="button" class="btn-primary" id="addBtn">添加</button>
             </div>
         </div>
@@ -990,13 +1002,11 @@
                 <thead>
                     <tr>
                         <th class="sortable" id="sortWordHead" tabindex="0" role="button" aria-sort="ascending">词汇 <span class="sort-icon" id="sortIcon">▲</span></th>
-                        <th>类型</th>
-                        <th class="col-action">操作</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
                     <tr class="empty-row">
-                        <td colspan="3">加载中</td>
+                        <td>加载中</td>
                     </tr>
                 </tbody>
             </table>
@@ -1030,6 +1040,10 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="editDateInput">日期</label>
+                <input type="date" id="editDateInput">
             </div>
             <div class="modal-actions">
                 <button type="button" class="btn-modal delete" id="editDeleteBtn">删除</button>
@@ -1104,7 +1118,7 @@
             const MAX_WORD_LENGTH = 200;
             const MAX_TYPE_LENGTH = 100;
             const MAX_IMPORT_FILE_SIZE = 5 * 1024 * 1024;
-            const DEFAULT_TYPES = ['写字', '识字', '课文', 'OPW', 'NCE', 'SHE'];
+            const DEFAULT_TYPES = ['写字', '识字', '课文', 'OPW', '课外', 'SHE', '一上'];
 
             // ---------- 全局状态 ----------
             let words = [];
@@ -1141,6 +1155,7 @@
             const typePanel = document.getElementById('typePanel');
             const typeOptions = document.getElementById('typeOptions');
             const typeAddCurrent = document.getElementById('typeAddCurrent');
+            const dateInput = document.getElementById('dateInput');
             const addBtn = document.getElementById('addBtn');
             const tableBody = document.getElementById('tableBody');
             const countDisplay = document.getElementById('countDisplay');
@@ -1164,6 +1179,7 @@
             const editTypePanel = document.getElementById('editTypePanel');
             const editTypeOptions = document.getElementById('editTypeOptions');
             const editTypeAddCurrent = document.getElementById('editTypeAddCurrent');
+            const editDateInput = document.getElementById('editDateInput');
             const editDeleteBtn = document.getElementById('editDeleteBtn');
             const editCancelBtn = document.getElementById('editCancelBtn');
             const editSaveBtn = document.getElementById('editSaveBtn');
@@ -1407,6 +1423,22 @@
                 return new TextDecoder('utf-8', { fatal: false }).decode(bytes);
             }
 
+            function normalizeTypeValue(value) {
+                const raw = typeof value === 'string'
+                    ? value.trim().slice(0, MAX_TYPE_LENGTH)
+                    : '';
+                const key = raw.toLocaleUpperCase('en-US');
+
+                if (key === 'NCE' || key === 'OPW1') return '课外';
+                if (key === 'SHE11') return '一上';
+                return raw;
+            }
+
+            function normalizeDateValue(value) {
+                const raw = typeof value === 'string' ? value.trim() : '';
+                return /^\d{4}-\d{2}-\d{2}$/.test(raw) ? raw : '';
+            }
+
             function normalizeItem(item) {
                 if (!item || typeof item !== 'object' || typeof item.word !== 'string') {
                     return null;
@@ -1419,7 +1451,8 @@
 
                 return {
                     word,
-                    type: typeof item.type === 'string' ? item.type.trim().slice(0, MAX_TYPE_LENGTH) : ''
+                    type: normalizeTypeValue(item.type),
+                    date: normalizeDateValue(item.date)
                 };
             }
 
@@ -1439,9 +1472,7 @@
                 const seen = new Set();
 
                 (Array.isArray(values) ? values : []).forEach(raw => {
-                    const value = typeof raw === 'string'
-                        ? raw.trim().slice(0, MAX_TYPE_LENGTH)
-                        : '';
+                    const value = normalizeTypeValue(raw);
                     const key = value.toLocaleLowerCase('zh-CN');
 
                     if (value && !seen.has(key)) {
@@ -1493,7 +1524,7 @@
 
             function createDataSnapshot() {
                 return {
-                    schemaVersion: 2,
+                    schemaVersion: 3,
                     types: normalizeTypeHistory(typeHistory),
                     words: normalizeWords(words)
                 };
@@ -1807,21 +1838,22 @@
 
             function renderTypeCombo(which) {
                 const ctx = getTypeContext(which);
-                const current = ctx.input.value.trim();
+                const current = normalizeTypeValue(ctx.input.value);
                 const currentKey = current.toLocaleLowerCase('zh-CN');
 
-                const visibleTypes = normalizeTypeHistory(typeHistory).filter(value =>
-                    value.toLocaleLowerCase('zh-CN') !== currentKey
-                );
+                typeHistory = normalizeTypeHistory(typeHistory);
+                const visibleTypes = typeHistory;
 
                 ctx.options.innerHTML = visibleTypes.length
-                    ? visibleTypes.map(value => `
+                    ? visibleTypes.map((value, index) => `
                         <div class="type-option-row">
                             <button type="button" class="type-option" data-value="${escapeAttribute(value)}">${escapeHtml(value)}</button>
-                            <button type="button" class="type-delete" data-value="${escapeAttribute(value)}" title="从类型菜单删除">×</button>
+                            <button type="button" class="type-control type-move-up" data-value="${escapeAttribute(value)}" title="上移" aria-label="上移类型 ${escapeAttribute(value)}" ${index === 0 ? 'disabled' : ''}>↑</button>
+                            <button type="button" class="type-control type-move-down" data-value="${escapeAttribute(value)}" title="下移" aria-label="下移类型 ${escapeAttribute(value)}" ${index === visibleTypes.length - 1 ? 'disabled' : ''}>↓</button>
+                            <button type="button" class="type-control type-delete" data-value="${escapeAttribute(value)}" title="从类型菜单删除" aria-label="删除类型 ${escapeAttribute(value)}">×</button>
                         </div>
                     `).join('')
-                    : '<div class="type-empty">暂无其它类型，可直接输入后按 Enter 添加</div>';
+                    : '<div class="type-empty">暂无类型，可直接输入后按 Enter 添加</div>';
 
                 const alreadyExists = typeHistory.some(value =>
                     value.toLocaleLowerCase('zh-CN') === currentKey
@@ -1852,9 +1884,7 @@
 
             function commitType(which, value = null) {
                 const ctx = getTypeContext(which);
-                const next = String(value === null ? ctx.input.value : value)
-                    .trim()
-                    .slice(0, MAX_TYPE_LENGTH);
+                const next = normalizeTypeValue(value === null ? ctx.input.value : value);
 
                 if (!next) {
                     return false;
@@ -1892,6 +1922,22 @@
                 );
                 persistTypeHistoryChange();
                 showToast(`已从类型菜单删除“${target}”`, 'success');
+            }
+
+            function moveTypeHistory(value, direction) {
+                const target = normalizeTypeValue(value);
+                const index = typeHistory.findIndex(item =>
+                    item.toLocaleLowerCase('zh-CN') === target.toLocaleLowerCase('zh-CN')
+                );
+                if (index < 0) return;
+
+                const targetIndex = index + direction;
+                if (targetIndex < 0 || targetIndex >= typeHistory.length) return;
+
+                [typeHistory[index], typeHistory[targetIndex]] =
+                    [typeHistory[targetIndex], typeHistory[index]];
+
+                persistTypeHistoryChange();
             }
 
             // ---------- 核心函数 ----------
@@ -1971,7 +2017,7 @@
                 countDisplay.textContent = words.length;
 
                 if (words.length === 0) {
-                    tableBody.innerHTML = `<tr class="empty-row"><td colspan="3">词汇列表为空，添加一个新词吧！</td></tr>`;
+                    tableBody.innerHTML = `<tr class="empty-row"><td>词汇列表为空，添加一个新词吧！</td></tr>`;
                     return;
                 }
 
@@ -1979,12 +2025,16 @@
                 words.forEach((item, index) => {
                     const word = escapeHtml(item.word || '');
                     const type = escapeHtml(item.type || '');
+                    const date = escapeHtml(item.date || '');
                     html += `
                         <tr data-index="${index}">
-                            <td class="col-word">${word}</td>
-                            <td class="col-type">${type}</td>
-                            <td class="col-action">
-                                <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
+                            <td class="col-word">
+                                <div class="word-item-head">
+                                    <div class="word-item-title">${word}</div>
+                                    <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
+                                </div>
+                                <div class="word-item-meta">类型：${type || '—'}</div>
+                                <div class="word-item-meta">日期：${date || '—'}</div>
                             </td>
                         </tr>
                     `;
@@ -2023,11 +2073,13 @@
                 previousFocusedElement = document.activeElement;
                 editOriginalSnapshot = {
                     word: item.word || '',
-                    type: item.type || ''
+                    type: item.type || '',
+                    date: item.date || ''
                 };
 
                 editWordInput.value = editOriginalSnapshot.word;
                 editTypeInput.value = editOriginalSnapshot.type;
+                editDateInput.value = editOriginalSnapshot.date;
                 renderTypeCombo('edit');
                 editModal.classList.remove('hidden');
                 setTimeout(() => editWordInput.focus(), 100);
@@ -2039,8 +2091,11 @@
                 }
 
                 const currentWord = editWordInput.value.trim().slice(0, MAX_WORD_LENGTH);
-                const currentType = editTypeInput.value.trim().slice(0, MAX_TYPE_LENGTH);
-                return currentWord !== editOriginalSnapshot.word || currentType !== editOriginalSnapshot.type;
+                const currentType = normalizeTypeValue(editTypeInput.value);
+                const currentDate = normalizeDateValue(editDateInput.value);
+                return currentWord !== editOriginalSnapshot.word
+                    || currentType !== editOriginalSnapshot.type
+                    || currentDate !== editOriginalSnapshot.date;
             }
 
             function closeEditModal() {
@@ -2062,7 +2117,8 @@
                 }
 
                 const word = editWordInput.value.trim().slice(0, MAX_WORD_LENGTH);
-                const type = editTypeInput.value.trim().slice(0, MAX_TYPE_LENGTH);
+                const type = normalizeTypeValue(editTypeInput.value);
+                const date = normalizeDateValue(editDateInput.value);
 
                 if (!word) {
                     alert('请填写“词汇”字段。');
@@ -2075,7 +2131,7 @@
                     return;
                 }
 
-                words[editingIndex] = { word, type };
+                words[editingIndex] = { word, type, date };
 
                 markLocalDirty();
                 closeEditModal();
@@ -2110,7 +2166,8 @@
             // ---------- 添加单词 ----------
             function addWord() {
                 const word = wordInput.value.trim().slice(0, MAX_WORD_LENGTH);
-                const type = typeInput.value.trim().slice(0, MAX_TYPE_LENGTH);
+                const type = normalizeTypeValue(typeInput.value);
+                const date = normalizeDateValue(dateInput.value);
 
                 if (!word) {
                     alert('请填写“词汇”字段。');
@@ -2118,7 +2175,7 @@
                     return;
                 }
 
-                words.push({ word, type });
+                words.push({ word, type, date });
                 markLocalDirty();
                 applySortAndRender();
 
@@ -2128,6 +2185,7 @@
 
                 wordInput.value = '';
                 typeInput.value = '';
+                dateInput.value = '';
                 closeTypePanels();
                 renderTypeCombo('add');
                 wordInput.focus();
@@ -2391,6 +2449,20 @@
             editTypeAddCurrent.addEventListener('click', () => commitType('edit'));
 
             function handleTypeOptionsClick(which, event) {
+                const moveUpButton = event.target.closest('.type-move-up[data-value]');
+                if (moveUpButton) {
+                    event.stopPropagation();
+                    moveTypeHistory(moveUpButton.dataset.value, -1);
+                    return;
+                }
+
+                const moveDownButton = event.target.closest('.type-move-down[data-value]');
+                if (moveDownButton) {
+                    event.stopPropagation();
+                    moveTypeHistory(moveDownButton.dataset.value, 1);
+                    return;
+                }
+
                 const deleteButton = event.target.closest('.type-delete[data-value]');
                 if (deleteButton) {
                     event.stopPropagation();
@@ -2500,12 +2572,27 @@
                 backToTopBtn.classList.toggle('visible', window.scrollY > 240);
             }
 
-            backToTopBtn.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
+            function fastScrollToTop() {
+                const startY = window.scrollY;
+                if (startY <= 0) return;
+
+                const duration = 50;
+                const startTime = performance.now();
+
+                function step(now) {
+                    const progress = Math.min((now - startTime) / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    window.scrollTo(0, Math.round(startY * (1 - eased)));
+
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    }
+                }
+
+                requestAnimationFrame(step);
+            }
+
+            backToTopBtn.addEventListener('click', fastScrollToTop);
 
             window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
             updateBackToTopVisibility();

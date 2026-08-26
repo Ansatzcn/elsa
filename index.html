@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="app-build" content="2026-08-26-elsa-date-types-single-column-v2">
+    <meta name="app-build" content="2026-08-26-plain-text-date-v2">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <title>Elsa</title>
     <style>
@@ -451,12 +451,6 @@
             font-weight: 400;
             line-height: 1.4;
             overflow-wrap: anywhere;
-        }
-        .word-item-meta .meta-label {
-            display: inline-block;
-            min-width: 2.7em;
-            color: #475569;
-            font-weight: 500;
         }
         .word-table .action-btn {
             flex: 0 0 auto;
@@ -1003,7 +997,7 @@
                 </div>
                 <div class="form-group full-width">
                     <label for="dateInput">日期</label>
-                    <input type="date" id="dateInput">
+                    <input type="text" id="dateInput" maxlength="100" autocomplete="off">
                 </div>
                 <button type="button" class="btn-primary" id="addBtn">添加</button>
             </div>
@@ -1059,7 +1053,7 @@
             </div>
             <div class="form-group">
                 <label for="editDateInput">日期</label>
-                <input type="date" id="editDateInput">
+                <input type="text" id="editDateInput" maxlength="100" autocomplete="off">
             </div>
             <div class="modal-actions">
                 <button type="button" class="btn-modal delete" id="editDeleteBtn">删除</button>
@@ -1451,8 +1445,7 @@
             }
 
             function normalizeDateValue(value) {
-                const normalized = typeof value === 'string' ? value.trim() : '';
-                return /^\d{4}-\d{2}-\d{2}$/.test(normalized) ? normalized : '';
+                return typeof value === 'string' ? value.trim().slice(0, 100) : '';
             }
 
             function normalizeItem(item) {
@@ -2046,8 +2039,8 @@
                                     <div class="word-item-title">${word}</div>
                                     <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
                                 </div>
-                                <div class="word-item-meta"><span class="meta-label">类型</span>${type}</div>
-                                <div class="word-item-meta"><span class="meta-label">日期</span>${date}</div>
+                                ${type ? `<div class="word-item-meta">${type}</div>` : ''}
+                                ${date ? `<div class="word-item-meta">${date}</div>` : ''}
                             </td>
                         </tr>
                     `;

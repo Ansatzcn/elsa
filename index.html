@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="app-build" content="2026-08-26-bold-larger-entry-word-v1">
+    <meta name="app-build" content="2026-08-26-black-text-bold-section-headings-v1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <title>Elsa</title>
     <style>
@@ -165,8 +165,8 @@
         }
         .add-section h2 {
             font-size: 1.4rem;
-            font-weight: 500;
-            color: #0f172a;
+            font-weight: 700;
+            color: #000000;
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
@@ -200,7 +200,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.4px;
-            color: #475569;
+            color: #000000;
         }
         .form-group input,
         .form-group textarea,
@@ -213,6 +213,7 @@
             transition: 0.2s;
             font-family: inherit;
             resize: vertical;
+            color: #000000;
         }
         .form-group input:focus,
         .form-group textarea:focus,
@@ -221,6 +222,12 @@
             border-color: transparent;
             box-shadow: 0 0 0 3px rgba(124, 155, 255, 0.2);
         }
+        .add-section input::placeholder,
+        .add-section textarea::placeholder {
+            color: #000000;
+            opacity: 1;
+        }
+
         .type-combo {
             position: relative;
         }
@@ -237,7 +244,7 @@
             border: 1px solid #d1d9e6;
             border-radius: 16px;
             background: white;
-            color: #475569;
+            color: #000000;
             font-weight: 700;
             cursor: pointer;
         }
@@ -279,7 +286,7 @@
             border: 0;
             border-radius: 10px;
             background: white;
-            color: #0f172a;
+            color: #000000;
             text-align: left;
             overflow-wrap: anywhere;
             cursor: pointer;
@@ -338,7 +345,7 @@
             border: 0;
             border-radius: 10px;
             background: #f1f5f9;
-            color: #334155;
+            color: #000000;
             font-size: 0.82rem;
             font-weight: 650;
             cursor: pointer;
@@ -447,7 +454,7 @@
         }
         .word-item-meta {
             margin-top: 0.18rem;
-            color: #64748b;
+            color: #000000;
             font-size: 0.88rem;
             font-weight: 400;
             line-height: 1.4;
@@ -493,8 +500,8 @@
         }
         .word-list-header h2 {
             font-size: 1.5rem;
-            font-weight: 600;
-            color: #0f172a;
+            font-weight: 700;
+            color: #000000;
         }
         .word-list-header .badge {
             background: #e9edf4;
@@ -985,7 +992,7 @@
                     <label for="typeInput">类型</label>
                     <div class="type-combo" id="typeCombo">
                         <div class="type-primary-row">
-                            <input type="text" id="typeInput" maxlength="100" autocomplete="off" placeholder="选择或输入类型">
+                            <input type="text" id="typeInput" maxlength="100" autocomplete="off">
                             <button type="button" class="type-trigger" id="typeTrigger" aria-label="展开类型菜单" aria-expanded="false">▾</button>
                         </div>
                         <div class="type-panel hidden" id="typePanel">
@@ -1039,7 +1046,7 @@
                 <label for="editTypeInput">类型</label>
                 <div class="type-combo" id="editTypeCombo">
                     <div class="type-primary-row">
-                        <input type="text" id="editTypeInput" maxlength="100" autocomplete="off" placeholder="选择或输入类型">
+                        <input type="text" id="editTypeInput" maxlength="100" autocomplete="off">
                         <button type="button" class="type-trigger" id="editTypeTrigger" aria-label="展开类型菜单" aria-expanded="false">▾</button>
                     </div>
                     <div class="type-panel hidden" id="editTypePanel">

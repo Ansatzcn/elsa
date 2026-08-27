@@ -981,7 +981,82 @@
                 font-size: 0.68rem;
             }
         }
-    </style>
+    
+/* 总表字号：词汇 1.2rem，其它信息 1.1rem */
+.word-table .word-item-title{
+    font-size:1.2rem!important;
+    line-height:1.45;
+}
+.word-table .word-item-meta,
+.word-table .action-btn,
+.word-list-header .badge{
+    font-size:1.1rem!important;
+    line-height:1.45;
+}
+
+/* 手机端添加板块：所有子项必须收缩在卡片内部 */
+@media (max-width:700px){
+    .add-section{
+        width:100%;
+        max-width:100%;
+        min-width:0;
+        padding:1.15rem .9rem;
+        overflow:visible;
+    }
+    .add-section .form-grid,
+    .add-section .form-group,
+    .add-section .type-combo,
+    .add-section .type-primary-row{
+        width:100%;
+        max-width:100%;
+        min-width:0;
+    }
+    .add-section .form-group input,
+    .add-section .form-group textarea,
+    .add-section .form-group select,
+    .add-section .type-primary-row input{
+        width:100%;
+        max-width:100%;
+        min-width:0;
+        box-sizing:border-box;
+    }
+    .add-section .type-primary-row{
+        grid-template-columns:minmax(0,1fr) 40px;
+        gap:6px;
+    }
+    .add-section .type-trigger{
+        width:40px;
+        min-width:40px;
+        max-width:40px;
+        padding:0;
+    }
+    .add-section .type-panel{
+        left:0;
+        right:0;
+        width:auto;
+        max-width:100%;
+        min-width:0;
+        box-sizing:border-box;
+    }
+    .add-section .type-option-row{
+        grid-template-columns:minmax(0,1fr) 34px 34px 34px;
+        gap:4px;
+        width:100%;
+        max-width:100%;
+        min-width:0;
+    }
+    .add-section .type-option,
+    .add-section .type-control,
+    .add-section .type-delete,
+    .add-section .type-add-current,
+    .add-section .btn-primary{
+        min-width:0;
+        max-width:100%;
+        box-sizing:border-box;
+    }
+}
+
+</style>
 </head>
 <body>
     <div class="container">

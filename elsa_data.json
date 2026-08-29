@@ -2,8 +2,8 @@
   "schemaVersion": 4,
   "types": [
     "一上",
-    "课外",
-    "二上"
+    "二上",
+    "课外"
   ],
   "phrases": [
     "brush my teeth"

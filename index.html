@@ -1107,16 +1107,18 @@
     line-height: 1.45;
 }
 
-.word-item-meta.phrase-meta,
+/* 只有条目中已保存的词组内容使用主色；添加板块和编辑框中的词组控件保持黑色 */
+.word-item-meta.phrase-meta { color: #1E40AF; }
+
 label[for="phraseInput"],
 label[for="editPhraseInput"],
 .phrase-combo input,
 .phrase-combo .type-trigger,
-.phrase-combo .type-option { color: #1E40AF; }
+.phrase-combo .type-option { color: #000000; }
 
 .phrase-combo .type-option.is-current {
     background: #eef2ff;
-    color: #1E40AF;
+    color: #000000;
     font-weight: 700;
 }
 
@@ -1198,7 +1200,7 @@ label[for="editPhraseInput"],
                     <label for="phraseInput">词组</label>
                     <div class="type-combo phrase-combo" id="phraseCombo">
                         <div class="type-primary-row">
-                            <input type="text" id="phraseInput" maxlength="500" autocomplete="off" placeholder="多个词组用 / 分隔">
+                            <input type="text" id="phraseInput" maxlength="500" autocomplete="off">
                             <button type="button" class="type-trigger" id="phraseTrigger" aria-label="展开词组菜单" aria-expanded="false">▾</button>
                         </div>
                         <div class="type-panel hidden" id="phrasePanel">
@@ -1267,7 +1269,7 @@ label[for="editPhraseInput"],
                 <label for="editPhraseInput">词组</label>
                 <div class="type-combo phrase-combo" id="editPhraseCombo">
                     <div class="type-primary-row">
-                        <input type="text" id="editPhraseInput" maxlength="500" autocomplete="off" placeholder="多个词组用 / 分隔">
+                        <input type="text" id="editPhraseInput" maxlength="500" autocomplete="off">
                         <button type="button" class="type-trigger" id="editPhraseTrigger" aria-label="展开词组菜单" aria-expanded="false">▾</button>
                     </div>
                     <div class="type-panel hidden" id="editPhrasePanel">
@@ -2288,7 +2290,7 @@ label[for="editPhraseInput"],
                             </div>
                         `;
                     }).join('')
-                    : '<div class="type-empty">暂无词组，可输入后按 Enter 添加；多个词组用 / 分隔</div>';
+                    : '<div class="type-empty">暂无词组，可输入后按 Enter 添加</div>';
 
                 const hasNew = selected.some(value =>
                     !phraseHistory.some(item => item.toLocaleLowerCase('zh-CN') === value.toLocaleLowerCase('zh-CN'))

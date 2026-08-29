@@ -6,7 +6,8 @@
     "课外"
   ],
   "phrases": [
-    "brush my teeth"
+    "brush my teeth",
+    "hot dog"
   ],
   "words": [
     {
@@ -256,10 +257,10 @@
       "phrase": ""
     },
     {
-      "word": "hot dog",
+      "word": "hot",
       "type": "课外",
       "dictation": "",
-      "phrase": ""
+      "phrase": "hot dog"
     },
     {
       "word": "house",

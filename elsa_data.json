@@ -14,14 +14,15 @@
     "Use my pencil.",
     "Good morning.",
     "How are you?",
-    "Good evening."
+    "Good evening.",
+    "Good afternoon."
   ],
   "words": [
     {
       "word": "afternoon",
       "type": "一上",
       "dictation": "2026-08-31",
-      "phrase": ""
+      "phrase": "Good afternoon."
     },
     {
       "word": "alligator",

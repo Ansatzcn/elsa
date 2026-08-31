@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="app-build" content="2026-08-29-elsa-word-dictation-phrase-v1">
+    <meta name="app-build" content="2026-08-31-elsa-edit-modal-no-accidental-close-v1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <title>Elsa</title>
     <style>
@@ -3060,9 +3060,13 @@ label[for="editPhraseInput"],
             editDeleteBtn.addEventListener('click', deleteEditingWord);
             editCancelBtn.addEventListener('click', closeEditModal);
             editSaveBtn.addEventListener('click', saveEdit);
+
+            // 编辑弹窗禁止点击遮罩层关闭，避免编辑时鼠标误出框导致弹窗被关闭。
+            // 退出编辑必须通过“取消”“保存”或“删除”等明确操作。
             editModal.addEventListener('click', function(e) {
-                if (e.target === this && !hasEditChanges()) {
-                    closeEditModal();
+                if (e.target === this) {
+                    e.preventDefault();
+                    e.stopPropagation();
                 }
             });
 
@@ -3085,7 +3089,8 @@ label[for="editPhraseInput"],
                     closeTypePanels();
                     closePhrasePanels();
                 } else if (!editModal.classList.contains('hidden')) {
-                    closeEditModal();
+                    // 编辑弹窗不响应 Escape 关闭，防止编辑过程中误操作导致内容丢失。
+                    return;
                 } else if (!configModal.classList.contains('hidden')) {
                     closeConfigModal();
                 }

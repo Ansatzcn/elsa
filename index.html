@@ -13,7 +13,7 @@
         }
         body {
             background: #f5f7fa;
-            font-family: "Times New Roman", serif;
+            font-family: "Times New Roman", SimSun, "宋体", serif;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -289,6 +289,17 @@
         }
         .type-panel.hidden {
             display: none;
+        }
+
+        /* 下拉菜单中英文字体统一：英文 Times New Roman，中文宋体 */
+        .type-panel,
+        .type-panel button,
+        .type-panel .type-option,
+        .type-panel .type-control,
+        .type-panel .type-delete,
+        .type-panel .type-empty,
+        .type-panel .type-add-current {
+            font-family: "Times New Roman", SimSun, "宋体", serif;
         }
         .type-option-row {
             display: grid;

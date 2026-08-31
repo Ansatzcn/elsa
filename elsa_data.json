@@ -10,7 +10,8 @@
     "hot dog",
     "Pack my pencils.",
     "pencil case",
-    "Don't worry."
+    "Don't worry.",
+    "Use my pencil."
   ],
   "words": [
     {
@@ -534,6 +535,12 @@
       "type": "一上",
       "dictation": "2026-09-01",
       "phrase": ""
+    },
+    {
+      "word": "use",
+      "type": "一上",
+      "dictation": "",
+      "phrase": "Use my pencil."
     },
     {
       "word": "welcome",

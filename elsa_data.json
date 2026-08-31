@@ -15,7 +15,8 @@
     "Good morning.",
     "How are you?",
     "Good evening.",
-    "Good afternoon."
+    "Good afternoon.",
+    "Welcome to China."
   ],
   "words": [
     {
@@ -551,6 +552,12 @@
       "type": "一上",
       "dictation": "",
       "phrase": ""
+    },
+    {
+      "word": "welcome",
+      "type": "一上",
+      "dictation": "",
+      "phrase": "Welcome to China."
     },
     {
       "word": "worry",

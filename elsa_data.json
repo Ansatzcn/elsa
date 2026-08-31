@@ -12,7 +12,8 @@
     "pencil case",
     "Don't worry.",
     "Use my pencil.",
-    "Good morning."
+    "Good morning.",
+    "How are you?"
   ],
   "words": [
     {
@@ -554,6 +555,12 @@
       "type": "一上",
       "dictation": "",
       "phrase": "Don't worry."
+    },
+    {
+      "word": "you",
+      "type": "一上",
+      "dictation": "",
+      "phrase": "How are you?"
     }
   ]
 }

@@ -13,7 +13,8 @@
     "Don't worry.",
     "Use my pencil.",
     "Good morning.",
-    "How are you?"
+    "How are you?",
+    "Good evening."
   ],
   "words": [
     {
@@ -212,7 +213,7 @@
       "word": "evening",
       "type": "一上",
       "dictation": "",
-      "phrase": ""
+      "phrase": "Good evening."
     },
     {
       "word": "face",

@@ -16,7 +16,8 @@
     "How are you?",
     "Good evening.",
     "Good afternoon.",
-    "Welcome to China."
+    "Welcome to China.",
+    "on duty"
   ],
   "words": [
     {
@@ -174,6 +175,12 @@
       "type": "课外",
       "dictation": "2026-08-27",
       "phrase": ""
+    },
+    {
+      "word": "duty",
+      "type": "一上",
+      "dictation": "",
+      "phrase": "on duty"
     },
     {
       "word": "ear",

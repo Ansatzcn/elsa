@@ -9,7 +9,8 @@
     "brush my teeth",
     "hot dog",
     "Pack my pencils.",
-    "pencil case"
+    "pencil case",
+    "Don't worry."
   ],
   "words": [
     {
@@ -539,6 +540,12 @@
       "type": "一上",
       "dictation": "",
       "phrase": ""
+    },
+    {
+      "word": "worry",
+      "type": "一上",
+      "dictation": "",
+      "phrase": "Don't worry."
     }
   ]
 }

@@ -1204,20 +1204,20 @@ label[for="editPhraseInput"],
                     </div>
                 </div>
                 <div class="form-group full-width">
-                    <label for="dateInput">听写</label>
+                    <label for="dateInput">日期</label>
                     <input type="text" id="dateInput" maxlength="100" autocomplete="off">
                 </div>
                 <div class="form-group full-width">
-                    <label for="phraseInput">词组</label>
+                    <label for="phraseInput">语料</label>
                     <div class="type-combo phrase-combo" id="phraseCombo">
                         <div class="type-primary-row">
                             <input type="text" id="phraseInput" maxlength="500" autocomplete="off">
-                            <button type="button" class="type-trigger" id="phraseTrigger" aria-label="展开词组菜单" aria-expanded="false">▾</button>
+                            <button type="button" class="type-trigger" id="phraseTrigger" aria-label="展开语料菜单" aria-expanded="false">▾</button>
                         </div>
                         <div class="type-panel hidden" id="phrasePanel">
                             <div id="phraseOptions"></div>
                             <div class="type-actions">
-                                <button type="button" class="type-add-current" id="phraseAddCurrent">＋ 添加当前词组</button>
+                                <button type="button" class="type-add-current" id="phraseAddCurrent">＋ 添加当前语料</button>
                             </div>
                         </div>
                     </div>
@@ -1273,20 +1273,20 @@ label[for="editPhraseInput"],
                 </div>
             </div>
             <div class="form-group">
-                <label for="editDateInput">听写</label>
+                <label for="editDateInput">日期</label>
                 <input type="text" id="editDateInput" maxlength="100" autocomplete="off">
             </div>
             <div class="form-group">
-                <label for="editPhraseInput">词组</label>
+                <label for="editPhraseInput">语料</label>
                 <div class="type-combo phrase-combo" id="editPhraseCombo">
                     <div class="type-primary-row">
                         <input type="text" id="editPhraseInput" maxlength="500" autocomplete="off">
-                        <button type="button" class="type-trigger" id="editPhraseTrigger" aria-label="展开词组菜单" aria-expanded="false">▾</button>
+                        <button type="button" class="type-trigger" id="editPhraseTrigger" aria-label="展开语料菜单" aria-expanded="false">▾</button>
                     </div>
                     <div class="type-panel hidden" id="editPhrasePanel">
                         <div id="editPhraseOptions"></div>
                         <div class="type-actions">
-                            <button type="button" class="type-add-current" id="editPhraseAddCurrent">＋ 添加当前词组</button>
+                            <button type="button" class="type-add-current" id="editPhraseAddCurrent">＋ 添加当前语料</button>
                         </div>
                     </div>
                 </div>
@@ -2297,11 +2297,11 @@ label[for="editPhraseInput"],
                         return `
                             <div class="phrase-option-row">
                                 <button type="button" class="type-option phrase-option${selectedNow ? ' is-current' : ''}" data-value="${escapeAttribute(value)}">${escapeHtml(value)}</button>
-                                <button type="button" class="type-control type-delete phrase-delete" data-value="${escapeAttribute(value)}" title="从词组菜单删除" aria-label="删除词组 ${escapeAttribute(value)}">×</button>
+                                <button type="button" class="type-control type-delete phrase-delete" data-value="${escapeAttribute(value)}" title="从语料菜单删除" aria-label="删除语料 ${escapeAttribute(value)}">×</button>
                             </div>
                         `;
                     }).join('')
-                    : '<div class="type-empty">暂无词组，可输入后按 Enter 添加</div>';
+                    : '<div class="type-empty">暂无语料，可输入后按 Enter 添加</div>';
 
                 const hasNew = selected.some(value =>
                     !phraseHistory.some(item => item.toLocaleLowerCase('zh-CN') === value.toLocaleLowerCase('zh-CN'))
@@ -2333,7 +2333,7 @@ label[for="editPhraseInput"],
 
                 if (phraseHistory.length !== before) {
                     persistPhraseHistoryChange();
-                    showToast('已添加到词组菜单', 'success');
+                    showToast('已添加到语料菜单', 'success');
                 } else {
                     renderPhraseCombos();
                 }
@@ -2360,13 +2360,13 @@ label[for="editPhraseInput"],
             function deletePhraseFromHistory(value) {
                 const target = normalizePhraseParts(value)[0];
                 if (!target) return;
-                if (!confirm(`确定从词组下拉菜单中删除“${target}”吗？\n\n已有单词中的词组不会被删除。`)) return;
+                if (!confirm(`确定从语料下拉菜单中删除“${target}”吗？\n\n已有单词中的语料不会被删除。`)) return;
 
                 phraseHistory = phraseHistory.filter(item =>
                     item.toLocaleLowerCase('zh-CN') !== target.toLocaleLowerCase('zh-CN')
                 );
                 persistPhraseHistoryChange();
-                showToast(`已从词组菜单删除“${target}”`, 'success');
+                showToast(`已从语料菜单删除“${target}”`, 'success');
             }
 
             // ---------- 核心函数 ----------

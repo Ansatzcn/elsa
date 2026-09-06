@@ -16,7 +16,8 @@
     "How are you?",
     "Good evening.",
     "Welcome to China.",
-    "on duty"
+    "on duty",
+    "Good afternoon."
   ],
   "lessons": [
     "Good afternoon."
@@ -26,7 +27,7 @@
       "word": "afternoon",
       "type": "一上",
       "dictation": "2026-08-31",
-      "lesson": "",
+      "lesson": "Good afternoon.",
       "phrase": "Good afternoon."
     },
     {

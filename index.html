@@ -2516,13 +2516,29 @@ label[for="editLessonInput"],
             function deletePhraseFromHistory(value) {
                 const target = normalizePhraseParts(value)[0];
                 if (!target) return;
-                if (!confirm(`确定从词组下拉菜单中删除“${target}”吗？\n\n已有单词中的词组不会被删除。`)) return;
+                if (!confirm(`确定从词组下拉菜单中删除“${target}”吗？\n\n所有条目中的该词组也将同时移除，其它内容保留。`)) return;
 
                 phraseHistory = phraseHistory.filter(item =>
                     item.toLocaleLowerCase('zh-CN') !== target.toLocaleLowerCase('zh-CN')
                 );
+                const targetKey = target.toLocaleLowerCase('zh-CN');
+                const removeSelected = value => normalizePhraseValue(
+                    normalizePhraseParts(value).filter(part =>
+                        part.toLocaleLowerCase('zh-CN') !== targetKey
+                    )
+                );
+                words.forEach(item => {
+                    item.phrase = removeSelected(item.phrase);
+                });
+                [phraseInput, editPhraseInput].forEach(input => {
+                    input.value = removeSelected(input.value);
+                });
+                if (editOriginalSnapshot) {
+                    editOriginalSnapshot.phrase = removeSelected(editOriginalSnapshot.phrase);
+                }
+                renderTable();
                 persistPhraseHistoryChange();
-                showToast(`已从词组菜单删除“${target}”`, 'success');
+                showToast(`已从词组菜单和对应条目中删除“${target}”`, 'success');
             }
 
             function getLessonContext(which) {
@@ -2624,13 +2640,29 @@ label[for="editLessonInput"],
             function deleteLessonFromHistory(value) {
                 const target = normalizeLessonParts(value)[0];
                 if (!target) return;
-                if (!confirm(`确定从课文下拉菜单中删除“${target}”吗？\n\n已有单词中的课文不会被删除。`)) return;
+                if (!confirm(`确定从课文下拉菜单中删除“${target}”吗？\n\n所有条目中的该课文也将同时移除，其它内容保留。`)) return;
 
                 lessonHistory = lessonHistory.filter(item =>
                     item.toLocaleLowerCase('zh-CN') !== target.toLocaleLowerCase('zh-CN')
                 );
+                const targetKey = target.toLocaleLowerCase('zh-CN');
+                const removeSelected = value => normalizeLessonValue(
+                    normalizeLessonParts(value).filter(part =>
+                        part.toLocaleLowerCase('zh-CN') !== targetKey
+                    )
+                );
+                words.forEach(item => {
+                    item.lesson = removeSelected(item.lesson);
+                });
+                [lessonInput, editLessonInput].forEach(input => {
+                    input.value = removeSelected(input.value);
+                });
+                if (editOriginalSnapshot) {
+                    editOriginalSnapshot.lesson = removeSelected(editOriginalSnapshot.lesson);
+                }
+                renderTable();
                 persistLessonHistoryChange();
-                showToast(`已从课文菜单删除“${target}”`, 'success');
+                showToast(`已从课文菜单和对应条目中删除“${target}”`, 'success');
             }
 
             // ---------- 核心函数 ----------
@@ -2728,10 +2760,10 @@ label[for="editLessonInput"],
                                     <div class="word-item-title">${word}</div>
                                     <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
                                 </div>
-                                ${type ? `<div class="word-item-meta">${type}</div>` : ''}
-                                ${dictation ? `<div class="word-item-meta">${dictation}</div>` : ''}
                                 ${phrase ? `<div class="word-item-meta phrase-meta">${phrase}</div>` : ''}
                                 ${lesson ? `<div class="word-item-meta lesson-meta">${lesson}</div>` : ''}
+                                ${type ? `<div class="word-item-meta">${type}</div>` : ''}
+                                ${dictation ? `<div class="word-item-meta">${dictation}</div>` : ''}
                             </td>
                         </tr>
                     `;

@@ -277,7 +277,7 @@
             position: absolute;
             left: 0;
             right: 0;
-            top: calc(44px + 7px);
+            top: calc(100% + 7px);
             z-index: 700;
             max-height: 280px;
             overflow-y: auto;
@@ -1121,8 +1121,8 @@
 /* 只有条目中已保存的词组内容使用主色；添加板块和编辑框中的词组控件保持黑色 */
 .word-item-meta.phrase-meta { color: #1E40AF; }
 
-label[for="phraseInput"],
-label[for="editPhraseInput"],
+label[for="phraseDraft"],
+label[for="editPhraseDraft"],
 .phrase-combo input,
 .phrase-combo .type-trigger,
 .phrase-combo .type-option { color: #000000; }
@@ -1155,8 +1155,8 @@ label[for="editPhraseInput"],
 
 .word-item-meta.lesson-meta { color: #1E40AF; }
 
-label[for="lessonInput"],
-label[for="editLessonInput"],
+label[for="lessonDraft"],
+label[for="editLessonDraft"],
 .lesson-combo input,
 .lesson-combo .type-trigger,
 .lesson-combo .type-option { color: #000000; }
@@ -1193,6 +1193,18 @@ html, body, body *, body *::before, body *::after,
 input::placeholder, textarea::placeholder, input::file-selector-button {
     font-family: "Times New Roman", SimSun, "宋体", serif !important;
 }
+.token-editor { min-width: 0; padding: 8px; background: white; border: 1px solid #d1d9e6; border-radius: 16px; }
+.selected-tokens { display: flex; flex-wrap: wrap; gap: 7px; }
+.selected-tokens:not(:empty) { margin-bottom: 8px; }
+.selected-token { display: inline-flex; align-items: center; gap: 7px; max-width: 100%; padding: 4px 8px 4px 12px; border: 1px solid #c7d2fe; border-radius: 999px; background: #eef2ff; color: #000; line-height: 1.4; }
+.selected-token span { min-width: 0; overflow-wrap: anywhere; }
+.token-remove { flex: 0 0 26px; width: 26px; height: 26px; border: 0; border-radius: 50%; background: transparent; color: #475569; cursor: pointer; font-size: 1.1rem; }
+.token-remove:hover { background: #dbe4ff; }
+.token-entry-row { display: flex; gap: 7px; align-items: center; }
+.token-entry-row input { flex: 1 1 0; min-width: 0; width: 0 !important; }
+.token-add { flex: 0 0 auto; border: 1px solid #d1d9e6; border-radius: 999px; background: #f1f5f9; padding: 8px 12px; cursor: pointer; color: #000; font-size: 1rem; }
+.token-add:disabled { opacity: .45; cursor: default; }
+.type-primary-row { align-items: stretch; }
 </style>
 </head>
 <body>
@@ -1229,46 +1241,67 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     <input type="text" id="wordInput" maxlength="200" autocomplete="off" autofocus>
                 </div>
                 <div class="form-group full-width">
-                    <label for="phraseInput">词组</label>
+                    <label for="phraseDraft">词组</label>
                     <div class="type-combo phrase-combo" id="phraseCombo">
                         <div class="type-primary-row">
-                            <input type="text" id="phraseInput" maxlength="500" autocomplete="off">
+                            <input type="hidden" id="phraseInput">
+                            <div class="token-editor">
+                                <div class="selected-tokens" id="phraseSelected" role="group" aria-label="已选词组"></div>
+                                <div class="token-entry-row">
+                                    <input type="text" id="phraseDraft" maxlength="500" autocomplete="off" placeholder="输入词组后添加" aria-label="输入新词组">
+                                    <button type="button" class="token-add" id="phraseManualAdd">添加</button>
+                                </div>
+                            </div>
                             <button type="button" class="type-trigger" id="phraseTrigger" aria-label="展开词组菜单" aria-expanded="false">▾</button>
                         </div>
                         <div class="type-panel hidden" id="phrasePanel">
                             <div id="phraseOptions"></div>
                             <div class="type-actions">
-                                <button type="button" class="type-add-current" id="phraseAddCurrent">＋ 添加当前词组</button>
+                                <button type="button" class="type-add-current" id="phraseAddCurrent">＋ 添加输入的词组</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group full-width">
-                    <label for="lessonInput">课文</label>
+                    <label for="lessonDraft">课文</label>
                     <div class="type-combo phrase-combo" id="lessonCombo">
                         <div class="type-primary-row">
-                            <input type="text" id="lessonInput" maxlength="500" autocomplete="off">
+                            <input type="hidden" id="lessonInput">
+                            <div class="token-editor">
+                                <div class="selected-tokens" id="lessonSelected" role="group" aria-label="已选课文"></div>
+                                <div class="token-entry-row">
+                                    <input type="text" id="lessonDraft" maxlength="500" autocomplete="off" placeholder="输入课文后添加" aria-label="输入新课文">
+                                    <button type="button" class="token-add" id="lessonManualAdd">添加</button>
+                                </div>
+                            </div>
                             <button type="button" class="type-trigger" id="lessonTrigger" aria-label="展开课文菜单" aria-expanded="false">▾</button>
                         </div>
                         <div class="type-panel hidden" id="lessonPanel">
                             <div id="lessonOptions"></div>
                             <div class="type-actions">
-                                <button type="button" class="type-add-current" id="lessonAddCurrent">＋ 添加当前课文</button>
+                                <button type="button" class="type-add-current" id="lessonAddCurrent">＋ 添加输入的课文</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group full-width">
-                    <label for="typeInput">类型</label>
+                    <label for="typeDraft">类型</label>
                     <div class="type-combo" id="typeCombo">
                         <div class="type-primary-row">
-                            <input type="text" id="typeInput" maxlength="100" autocomplete="off">
+                            <input type="hidden" id="typeInput">
+                            <div class="token-editor">
+                                <div class="selected-tokens" id="typeSelected" role="group" aria-label="已选类型"></div>
+                                <div class="token-entry-row">
+                                    <input type="text" id="typeDraft" maxlength="100" autocomplete="off" placeholder="输入类型后添加" aria-label="输入新类型">
+                                    <button type="button" class="token-add" id="typeManualAdd">添加</button>
+                                </div>
+                            </div>
                             <button type="button" class="type-trigger" id="typeTrigger" aria-label="展开类型菜单" aria-expanded="false">▾</button>
                         </div>
                         <div class="type-panel hidden" id="typePanel">
                             <div id="typeOptions"></div>
                             <div class="type-actions">
-                                <button type="button" class="type-add-current" id="typeAddCurrent">＋ 添加当前类型</button>
+                                <button type="button" class="type-add-current" id="typeAddCurrent">＋ 添加输入的类型</button>
                             </div>
                         </div>
                     </div>
@@ -1313,46 +1346,67 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 <input type="text" id="editWordInput" maxlength="200" autocomplete="off">
             </div>
             <div class="form-group">
-                <label for="editPhraseInput">词组</label>
+                <label for="editPhraseDraft">词组</label>
                 <div class="type-combo phrase-combo" id="editPhraseCombo">
                     <div class="type-primary-row">
-                        <input type="text" id="editPhraseInput" maxlength="500" autocomplete="off">
+                        <input type="hidden" id="editPhraseInput">
+                            <div class="token-editor">
+                                <div class="selected-tokens" id="editPhraseSelected" role="group" aria-label="已选词组"></div>
+                                <div class="token-entry-row">
+                                    <input type="text" id="editPhraseDraft" maxlength="500" autocomplete="off" placeholder="输入词组后添加" aria-label="输入新词组">
+                                    <button type="button" class="token-add" id="editPhraseManualAdd">添加</button>
+                                </div>
+                            </div>
                         <button type="button" class="type-trigger" id="editPhraseTrigger" aria-label="展开词组菜单" aria-expanded="false">▾</button>
                     </div>
                     <div class="type-panel hidden" id="editPhrasePanel">
                         <div id="editPhraseOptions"></div>
                         <div class="type-actions">
-                            <button type="button" class="type-add-current" id="editPhraseAddCurrent">＋ 添加当前词组</button>
+                            <button type="button" class="type-add-current" id="editPhraseAddCurrent">＋ 添加输入的词组</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="editLessonInput">课文</label>
+                <label for="editLessonDraft">课文</label>
                 <div class="type-combo phrase-combo" id="editLessonCombo">
                     <div class="type-primary-row">
-                        <input type="text" id="editLessonInput" maxlength="500" autocomplete="off">
+                        <input type="hidden" id="editLessonInput">
+                            <div class="token-editor">
+                                <div class="selected-tokens" id="editLessonSelected" role="group" aria-label="已选课文"></div>
+                                <div class="token-entry-row">
+                                    <input type="text" id="editLessonDraft" maxlength="500" autocomplete="off" placeholder="输入课文后添加" aria-label="输入新课文">
+                                    <button type="button" class="token-add" id="editLessonManualAdd">添加</button>
+                                </div>
+                            </div>
                         <button type="button" class="type-trigger" id="editLessonTrigger" aria-label="展开课文菜单" aria-expanded="false">▾</button>
                     </div>
                     <div class="type-panel hidden" id="editLessonPanel">
                         <div id="editLessonOptions"></div>
                         <div class="type-actions">
-                            <button type="button" class="type-add-current" id="editLessonAddCurrent">＋ 添加当前课文</button>
+                            <button type="button" class="type-add-current" id="editLessonAddCurrent">＋ 添加输入的课文</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="editTypeInput">类型</label>
+                <label for="editTypeDraft">类型</label>
                 <div class="type-combo" id="editTypeCombo">
                     <div class="type-primary-row">
-                        <input type="text" id="editTypeInput" maxlength="100" autocomplete="off">
+                        <input type="hidden" id="editTypeInput">
+                            <div class="token-editor">
+                                <div class="selected-tokens" id="editTypeSelected" role="group" aria-label="已选类型"></div>
+                                <div class="token-entry-row">
+                                    <input type="text" id="editTypeDraft" maxlength="100" autocomplete="off" placeholder="输入类型后添加" aria-label="输入新类型">
+                                    <button type="button" class="token-add" id="editTypeManualAdd">添加</button>
+                                </div>
+                            </div>
                         <button type="button" class="type-trigger" id="editTypeTrigger" aria-label="展开类型菜单" aria-expanded="false">▾</button>
                     </div>
                     <div class="type-panel hidden" id="editTypePanel">
                         <div id="editTypeOptions"></div>
                         <div class="type-actions">
-                            <button type="button" class="type-add-current" id="editTypeAddCurrent">＋ 添加当前类型</button>
+                            <button type="button" class="type-add-current" id="editTypeAddCurrent">＋ 添加输入的类型</button>
                         </div>
                     </div>
                 </div>
@@ -2278,6 +2332,97 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 saveSyncMeta();
             }
 
+            // Selected values remain separate from text being entered.
+            function tokenContext(field, which) {
+                return field === 'type' ? getTypeContext(which) :
+                    field === 'phrase' ? getPhraseContext(which) : getLessonContext(which);
+            }
+            function renderTokenCombo(field, which) {
+                if (field === 'type') renderTypeCombo(which);
+                else if (field === 'phrase') renderPhraseCombo(which);
+                else renderLessonCombo(which);
+            }
+            function renderSelectedTokens(field, which) {
+                const ctx = tokenContext(field, which);
+                const base = ctx.input.id.replace('Input', '');
+                const selected = field === 'type' ? [normalizeTypeValue(ctx.input.value)].filter(Boolean) : normalizePhraseParts(ctx.input.value);
+                document.getElementById(base + 'Selected').innerHTML = selected.map(value => `
+                    <span class="selected-token"><span>${escapeHtml(value)}</span><button type="button" class="token-remove" data-value="${escapeAttribute(value)}" aria-label="取消选择 ${escapeAttribute(value)}" title="取消选择">×</button></span>
+                `).join('');
+                document.getElementById(base + 'ManualAdd').disabled = !document.getElementById(base + 'Draft').value.trim();
+            }
+            function addManualToken(field, which) {
+                const ctx = tokenContext(field, which);
+                const draft = document.getElementById(ctx.input.id.replace('Input', 'Draft'));
+                const value = draft.value.trim();
+                if (!value) return false;
+                if (field === 'type') {
+                    commitType(which, value);
+                } else {
+                    const next = normalizePhraseParts([...normalizePhraseParts(ctx.input.value), ...normalizePhraseParts(value)]);
+                    const normalized = normalizePhraseValue(next);
+                    if (normalized !== next.join('/')) {
+                        showToast('已选内容过长，请减少选项后再添加', 'error');
+                        return false;
+                    }
+                    ctx.input.value = normalized;
+                    if (field === 'phrase') addCurrentPhrases(which);
+                    else addCurrentLessons(which);
+                }
+                draft.value = '';
+                renderTokenCombo(field, which);
+                draft.focus();
+                return true;
+            }
+            function clearTokenDrafts(which) {
+                ['type', 'phrase', 'lesson'].forEach(field => {
+                    const ctx = tokenContext(field, which);
+                    document.getElementById(ctx.input.id.replace('Input', 'Draft')).value = '';
+                });
+            }
+            function commitTokenDrafts(which) {
+                for (const field of ['type', 'phrase', 'lesson']) {
+                    const ctx = tokenContext(field, which);
+                    if (document.getElementById(ctx.input.id.replace('Input', 'Draft')).value.trim() && !addManualToken(field, which)) return false;
+                }
+                return true;
+            }
+            function hasTokenDrafts(which) {
+                return ['type', 'phrase', 'lesson'].some(field => {
+                    const ctx = tokenContext(field, which);
+                    return document.getElementById(ctx.input.id.replace('Input', 'Draft')).value !== '';
+                });
+            }
+            function bindTokenEditor(field, which) {
+                const ctx = tokenContext(field, which);
+                const base = ctx.input.id.replace('Input', '');
+                const draft = document.getElementById(base + 'Draft');
+                const open = () => {
+                    closeTypePanels(); closePhrasePanels(); closeLessonPanels();
+                    const setter = field === 'type' ? setTypePanelOpen : field === 'phrase' ? setPhrasePanelOpen : setLessonPanelOpen;
+                    setter(which, true);
+                    renderTokenCombo(field, which);
+                };
+                draft.addEventListener('click', open);
+                draft.addEventListener('input', () => renderTokenCombo(field, which));
+                draft.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' && !event.isComposing) {
+                        event.preventDefault(); event.stopPropagation();
+                        addManualToken(field, which);
+                    }
+                });
+                document.getElementById(base + 'ManualAdd').addEventListener('click', () => addManualToken(field, which));
+                document.getElementById(base + 'Selected').addEventListener('click', event => {
+                    const button = event.target.closest('.token-remove[data-value]');
+                    if (!button) return;
+                    event.stopPropagation();
+                    if (field === 'type') ctx.input.value = '';
+                    else ctx.input.value = normalizePhraseValue(normalizePhraseParts(ctx.input.value).filter(value => value.toLocaleLowerCase('zh-CN') !== button.dataset.value.toLocaleLowerCase('zh-CN')));
+                    renderTokenCombo(field, which);
+                    draft.focus();
+                });
+            }
+
             // ---------- 类型下拉 ----------
             function getTypeContext(which) {
                 const isAdd = which === 'add';
@@ -2302,6 +2447,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             }
 
             function renderTypeCombo(which) {
+                renderSelectedTokens('type', which);
                 const ctx = getTypeContext(which);
                 const current = normalizeTypeValue(ctx.input.value);
                 const currentKey = current.toLocaleLowerCase('zh-CN');
@@ -2322,7 +2468,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 const alreadyExists = typeHistory.some(value =>
                     value.toLocaleLowerCase('zh-CN') === currentKey
                 );
-                ctx.addCurrent.disabled = !current || alreadyExists;
+                ctx.addCurrent.disabled = !document.getElementById(ctx.input.id.replace('Input', 'Draft')).value.trim();
             }
 
             function renderTypeCombos() {
@@ -2367,7 +2513,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 }
 
                 setTypePanelOpen(which, false);
-                ctx.input.focus();
+                document.getElementById(ctx.input.id.replace('Input', 'Draft')).focus();
                 return true;
             }
 
@@ -2446,6 +2592,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             }
 
             function renderPhraseCombo(which) {
+                renderSelectedTokens('phrase', which);
                 const ctx = getPhraseContext(which);
                 const selected = normalizePhraseParts(ctx.input.value);
                 const selectedKeys = new Set(selected.map(value => value.toLocaleLowerCase('zh-CN')));
@@ -2467,7 +2614,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 const hasNew = selected.some(value =>
                     !phraseHistory.some(item => item.toLocaleLowerCase('zh-CN') === value.toLocaleLowerCase('zh-CN'))
                 );
-                ctx.addCurrent.disabled = selected.length === 0 || !hasNew;
+                ctx.addCurrent.disabled = !document.getElementById(ctx.input.id.replace('Input', 'Draft')).value.trim();
             }
 
             function renderPhraseCombos() {
@@ -2515,7 +2662,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
                 ctx.input.value = normalizePhraseValue(next);
                 renderPhraseCombo(which);
-                ctx.input.focus();
+                document.getElementById(ctx.input.id.replace('Input', 'Draft')).focus();
             }
 
             function deletePhraseFromHistory(value) {
@@ -2570,6 +2717,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             }
 
             function renderLessonCombo(which) {
+                renderSelectedTokens('lesson', which);
                 const ctx = getLessonContext(which);
                 const selected = normalizeLessonParts(ctx.input.value);
                 const selectedKeys = new Set(selected.map(value => value.toLocaleLowerCase('zh-CN')));
@@ -2591,7 +2739,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 const hasNew = selected.some(value =>
                     !lessonHistory.some(item => item.toLocaleLowerCase('zh-CN') === value.toLocaleLowerCase('zh-CN'))
                 );
-                ctx.addCurrent.disabled = selected.length === 0 || !hasNew;
+                ctx.addCurrent.disabled = !document.getElementById(ctx.input.id.replace('Input', 'Draft')).value.trim();
             }
 
             function renderLessonCombos() {
@@ -2639,7 +2787,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
                 ctx.input.value = normalizeLessonValue(next);
                 renderLessonCombo(which);
-                ctx.input.focus();
+                document.getElementById(ctx.input.id.replace('Input', 'Draft')).focus();
             }
 
             function deleteLessonFromHistory(value) {
@@ -2802,6 +2950,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
             // ---------- 编辑功能 ----------
             function openEditModal(index) {
+                clearTokenDrafts('edit');
                 editingIndex = index;
                 const item = words[index];
                 previousFocusedElement = document.activeElement;
@@ -2858,6 +3007,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             }
 
             function saveEdit() {
+                if (!commitTokenDrafts('edit')) return;
                 if (editingIndex === null || editingIndex < 0 || editingIndex >= words.length) {
                     alert('编辑出错，请重试。');
                     closeEditModal();
@@ -2917,6 +3067,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
             // ---------- 添加单词 ----------
             function addWord() {
+                if (!commitTokenDrafts('add')) return;
                 const word = wordInput.value.trim().slice(0, MAX_WORD_LENGTH);
                 const type = normalizeTypeValue(typeInput.value);
                 const dictation = normalizeDictationValue(dateInput.value);
@@ -2939,6 +3090,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     syncToCloud(false);
                 }
 
+                clearTokenDrafts('add');
                 wordInput.value = '';
                 typeInput.value = '';
                 dateInput.value = '';
@@ -3219,8 +3371,8 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 }
             });
 
-            typeAddCurrent.addEventListener('click', () => commitType('add'));
-            editTypeAddCurrent.addEventListener('click', () => commitType('edit'));
+            typeAddCurrent.addEventListener('click', () => addManualToken('type', 'add'));
+            editTypeAddCurrent.addEventListener('click', () => addManualToken('type', 'edit'));
 
             function handleTypeOptionsClick(which, event) {
                 const renameButton = event.target.closest('.type-rename[data-value]');
@@ -3307,8 +3459,8 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     addCurrentPhrases('edit');
                 }
             });
-            phraseAddCurrent.addEventListener('click', () => addCurrentPhrases('add'));
-            editPhraseAddCurrent.addEventListener('click', () => addCurrentPhrases('edit'));
+            phraseAddCurrent.addEventListener('click', () => addManualToken('phrase', 'add'));
+            editPhraseAddCurrent.addEventListener('click', () => addManualToken('phrase', 'edit'));
 
             function handlePhraseOptionsClick(which, event) {
                 const deleteButton = event.target.closest('.phrase-delete[data-value]');
@@ -3374,8 +3526,8 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     addCurrentLessons('edit');
                 }
             });
-            lessonAddCurrent.addEventListener('click', () => addCurrentLessons('add'));
-            editLessonAddCurrent.addEventListener('click', () => addCurrentLessons('edit'));
+            lessonAddCurrent.addEventListener('click', () => addManualToken('lesson', 'add'));
+            editLessonAddCurrent.addEventListener('click', () => addManualToken('lesson', 'edit'));
 
             function handleLessonOptionsClick(which, event) {
                 const deleteButton = event.target.closest('.lesson-delete[data-value]');
@@ -3474,7 +3626,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     [editTypeInput, 'type'],
                     [editDateInput, 'dictation']
                 ].every(([input, field]) => input.value === editOriginalSnapshot[field]);
-                if (unchanged) closeEditModal();
+                if (unchanged && !hasTokenDrafts('edit')) closeEditModal();
             });
 
 
@@ -3532,6 +3684,11 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
             window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
             updateBackToTopVisibility();
+
+            ['type', 'phrase', 'lesson'].forEach(field => {
+                bindTokenEditor(field, 'add');
+                bindTokenEditor(field, 'edit');
+            });
 
             // ---------- 初始化 ----------
             // 初始页面只显示主界面；编辑和配置弹窗只能由对应按钮打开。

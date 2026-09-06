@@ -1188,6 +1188,11 @@ label[for="editLessonInput"],
 }
 
 .type-option-row, .add-section .type-option-row { grid-template-columns: minmax(0, 1fr) 44px 32px 32px 32px; }
+/* 全站统一字体，覆盖浏览器对按钮、表单及占位文字的默认字体。 */
+html, body, body *, body *::before, body *::after,
+input::placeholder, textarea::placeholder, input::file-selector-button {
+    font-family: "Times New Roman", SimSun, "宋体", serif !important;
+}
 </style>
 </head>
 <body>
@@ -1308,25 +1313,6 @@ label[for="editLessonInput"],
                 <input type="text" id="editWordInput" maxlength="200" autocomplete="off">
             </div>
             <div class="form-group">
-                <label for="editTypeInput">类型</label>
-                <div class="type-combo" id="editTypeCombo">
-                    <div class="type-primary-row">
-                        <input type="text" id="editTypeInput" maxlength="100" autocomplete="off">
-                        <button type="button" class="type-trigger" id="editTypeTrigger" aria-label="展开类型菜单" aria-expanded="false">▾</button>
-                    </div>
-                    <div class="type-panel hidden" id="editTypePanel">
-                        <div id="editTypeOptions"></div>
-                        <div class="type-actions">
-                            <button type="button" class="type-add-current" id="editTypeAddCurrent">＋ 添加当前类型</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="editDateInput">日期</label>
-                <input type="text" id="editDateInput" maxlength="100" autocomplete="off">
-            </div>
-            <div class="form-group">
                 <label for="editPhraseInput">词组</label>
                 <div class="type-combo phrase-combo" id="editPhraseCombo">
                     <div class="type-primary-row">
@@ -1355,6 +1341,25 @@ label[for="editLessonInput"],
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="form-group">
+                <label for="editTypeInput">类型</label>
+                <div class="type-combo" id="editTypeCombo">
+                    <div class="type-primary-row">
+                        <input type="text" id="editTypeInput" maxlength="100" autocomplete="off">
+                        <button type="button" class="type-trigger" id="editTypeTrigger" aria-label="展开类型菜单" aria-expanded="false">▾</button>
+                    </div>
+                    <div class="type-panel hidden" id="editTypePanel">
+                        <div id="editTypeOptions"></div>
+                        <div class="type-actions">
+                            <button type="button" class="type-add-current" id="editTypeAddCurrent">＋ 添加当前类型</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="editDateInput">日期</label>
+                <input type="text" id="editDateInput" maxlength="100" autocomplete="off">
             </div>
             <div class="modal-actions">
                 <button type="button" class="btn-modal delete" id="editDeleteBtn">删除</button>
@@ -3456,13 +3461,20 @@ label[for="editLessonInput"],
             editCancelBtn.addEventListener('click', closeEditModal);
             editSaveBtn.addEventListener('click', saveEdit);
 
-            // 编辑弹窗禁止点击遮罩层关闭，避免编辑时鼠标误出框导致弹窗被关闭。
-            // 退出编辑必须通过“取消”“保存”或“删除”等明确操作。
+            // 只有直接单击遮罩且所有字段与打开时完全一致时，才关闭编辑弹窗。
             editModal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
+                if (e.target !== this) return;
+                e.preventDefault();
+                e.stopPropagation();
+                if (!editOriginalSnapshot) return;
+                const unchanged = [
+                    [editWordInput, 'word'],
+                    [editPhraseInput, 'phrase'],
+                    [editLessonInput, 'lesson'],
+                    [editTypeInput, 'type'],
+                    [editDateInput, 'dictation']
+                ].every(([input, field]) => input.value === editOriginalSnapshot[field]);
+                if (unchanged) closeEditModal();
             });
 
 

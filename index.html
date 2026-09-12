@@ -1156,16 +1156,29 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     color: #1E40AF !important;
     font-weight: 700 !important;
 }
-.word-table .entry-check {
+.word-table .entry-type-row {
     position: absolute;
     left: 1.2rem;
-    bottom: 0.72rem;
+    bottom: 0.58rem;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-width: 0;
+    max-width: calc(100% - 7rem);
+}
+.word-table .entry-check {
+    flex: 0 0 auto;
     width: 16px;
     height: 16px;
     margin: 0;
     padding: 0;
     accent-color: #1E40AF;
     cursor: pointer;
+}
+.word-table .entry-type-text {
+    margin-top: 0;
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 .word-table .action-btn.edit-btn {
     position: absolute;
@@ -1174,7 +1187,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     margin: 0;
 }
 @media (max-width: 700px) {
-    .word-table .entry-check { left: 0.8rem; }
+    .word-table .entry-type-row { left: 0.8rem; }
     .word-table .action-btn.edit-btn { right: 0.8rem; }
 }
 
@@ -2257,19 +2270,39 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             function renameTypeInHistory(value) {
                 const index = typeHistory.indexOf(value);
                 if (index < 0) return;
-                const entered = prompt('修改类型菜单选项（已有条目的类型保持不变）：', value);
+                const entered = prompt('修改类型菜单选项：', value);
                 if (entered === null) return;
                 const next = normalizeTypeValue(entered);
                 if (!next) { showToast('类型名称不能为空', 'error'); return; }
                 if (typeHistory.some((item, i) => i !== index && item.toLocaleLowerCase('zh-CN') === next.toLocaleLowerCase('zh-CN'))) {
                     showToast('该类型已存在', 'error'); return;
                 }
+
+                const previous = normalizeTypeValue(value);
+                const previousKey = previous.toLocaleLowerCase('zh-CN');
                 typeHistory[index] = next;
-                [typeInput, editTypeInput].forEach(input => {
-                    if (normalizeTypeValue(input.value) === value) input.value = next;
+
+                // 分类选项改名时，同步更新所有已经选择该分类的条目。
+                words.forEach(item => {
+                    if (normalizeTypeValue(item.type).toLocaleLowerCase('zh-CN') === previousKey) {
+                        item.type = next;
+                    }
                 });
+
+                [typeInput, editTypeInput].forEach(input => {
+                    if (normalizeTypeValue(input.value).toLocaleLowerCase('zh-CN') === previousKey) {
+                        input.value = next;
+                    }
+                });
+
+                // 编辑框若正打开，系统级分类改名不应被误判为用户尚未保存的编辑。
+                if (editOriginalSnapshot && normalizeTypeValue(editOriginalSnapshot.type).toLocaleLowerCase('zh-CN') === previousKey) {
+                    editOriginalSnapshot.type = next;
+                }
+
                 persistTypeHistoryChange();
-                showToast('已修改类型菜单选项', 'success');
+                renderTable();
+                showToast('已修改类型，并同步更新已有条目', 'success');
             }
 
             function moveTypeInHistory(value, direction) {
@@ -2398,8 +2431,10 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                                 <div class="word-item-head">
                                     <div class="word-item-title">${word}</div>
                                 </div>
-                                ${type ? `<div class="word-item-meta">${type}</div>` : ''}
-                                <input type="checkbox" class="entry-check" data-index="${index}" aria-label="勾选条目"${checked}>
+                                <div class="entry-type-row">
+                                    <input type="checkbox" class="entry-check" data-index="${index}" aria-label="勾选条目"${checked}>
+                                    ${type ? `<div class="word-item-meta entry-type-text">${type}</div>` : ''}
+                                </div>
                                 <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
                             </td>
                         </tr>

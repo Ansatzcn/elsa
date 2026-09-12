@@ -1,761 +1,535 @@
 {
-  "schemaVersion": 5,
+  "schemaVersion": 6,
   "types": [
     "沪教英语1上",
     "沪教英语2上",
     "自然拼读1"
   ],
-  "phrases": [
-    "brush my teeth",
-    "hot dog",
-    "pencil case",
-    "on duty"
-  ],
-  "lessons": [
-    "Good afternoon.",
-    "Good evening.",
-    "How are you?",
-    "Good morning.",
-    "Pack my pencils.",
-    "Use my pencil.",
-    "Don't worry.",
-    "Welcome to China."
-  ],
   "words": [
     {
       "word": "afternoon",
-      "type": "教材1上",
-      "dictation": "2026-08-31",
-      "lesson": "Good afternoon.",
-      "phrase": ""
+      "type": "沪教英语1上",
+      "lesson": "Good afternoon."
     },
     {
       "word": "alligator",
       "type": "拼读1",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "ant",
       "type": "拼读1",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "apple",
       "type": "拼读1",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "ax",
       "type": "拼读1",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "banana",
       "type": "拼读1",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "bear",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "bed",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "bee",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "bird",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "blackboard",
       "type": "教材1上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "book",
       "type": "一上",
-      "dictation": "2026-08-26",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "boy",
       "type": "课外",
-      "dictation": "2026-08-31",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "car",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "cat",
       "type": "教材1上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "chair",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "China",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "class",
       "type": "一上",
-      "dictation": "2026-08-27",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "classroom",
       "type": "一上",
-      "dictation": "2026-08-30",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "clean",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "computer",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "cup",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "desk",
       "type": "一上",
-      "dictation": "2026-08-30",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "dog",
       "type": "一上",
-      "dictation": "2026-08-27",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "doll",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "door",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "duck",
       "type": "课外",
-      "dictation": "2026-08-27",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "duty",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": "on duty"
+      "lesson": ""
     },
     {
       "word": "ear",
       "type": "一上",
-      "dictation": "2026-08-27",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "egg",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "elbow",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "elephant",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "English",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "envelope",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "eraser",
       "type": "一上",
-      "dictation": "2026-08-26",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "evening",
       "type": "一上",
-      "dictation": "",
-      "lesson": "Good evening.",
-      "phrase": ""
+      "lesson": "Good evening."
     },
     {
       "word": "eye",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "face",
       "type": "一上",
-      "dictation": "2026-08-30",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "family",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "fan",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "farm",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "fine",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "fish",
       "type": "课外",
-      "dictation": "2026-08-27",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "floor",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "fork",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "friend",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "gift",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "girl",
       "type": "课外",
-      "dictation": "2026-08-31",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "goat",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "goodbye",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "gorilla",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "hat",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "hello",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "hen",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "hi",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "horse",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "hot",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": "hot dog"
+      "lesson": ""
     },
     {
       "word": "house",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "igloo",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "iguana",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "ink",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "insect",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "jacket",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "jam",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "jet",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "juice",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "kangaroo",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "key",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "king",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "kite",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "lamp",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "leaf",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "learn",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "lemon",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "lion",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "milk",
       "type": "课外",
-      "dictation": "2026-08-31",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "money",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "monkey",
       "type": "课外",
-      "dictation": "2026-08-30",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "morning",
       "type": "一上",
-      "dictation": "2026-08-26",
-      "lesson": "Good morning.",
-      "phrase": ""
+      "lesson": "Good morning."
     },
     {
       "word": "mouse",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "mouth",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "my",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "name",
       "type": "一上",
-      "dictation": "2026-08-26",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "nest",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "net",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "nose",
       "type": "一上",
-      "dictation": "2026-08-30",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "nut",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "octopus",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "olive",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "ostrich",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "ox",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "pack",
       "type": "一上",
-      "dictation": "",
-      "lesson": "Pack my pencils.",
-      "phrase": ""
+      "lesson": "Pack my pencils."
     },
     {
       "word": "peach",
       "type": "课外",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "pencil",
       "type": "一上",
-      "dictation": "2026-09-01",
-      "lesson": "",
-      "phrase": "pencil case"
+      "lesson": ""
     },
     {
       "word": "red",
       "type": "一上",
-      "dictation": "2026-08-26",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "ruler",
       "type": "一上",
-      "dictation": "2026-08-31",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "schoolbag",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "teacher",
       "type": "一上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "teeth",
       "type": "二上",
-      "dictation": "",
-      "lesson": "",
-      "phrase": "brush my teeth"
+      "lesson": ""
     },
     {
       "word": "today",
       "type": "一上",
-      "dictation": "2026-09-01",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "use",
       "type": "一上",
-      "dictation": "",
-      "lesson": "Use my pencil.",
-      "phrase": ""
+      "lesson": "Use my pencil."
     },
     {
       "word": "welcome",
       "type": "一上",
-      "dictation": "",
-      "lesson": "Welcome to China.",
-      "phrase": ""
+      "lesson": "Welcome to China."
     },
     {
       "word": "worry",
       "type": "一上",
-      "dictation": "",
-      "lesson": "Don't worry.",
-      "phrase": ""
+      "lesson": "Don't worry."
     },
     {
       "word": "yak",
       "type": "拼读1",
-      "dictation": "",
-      "lesson": "",
-      "phrase": ""
+      "lesson": ""
     },
     {
       "word": "you",
       "type": "教材1上",
-      "dictation": "",
-      "lesson": "How are you?",
-      "phrase": ""
+      "lesson": "How are you?"
     }
   ]
 }

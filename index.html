@@ -1193,40 +1193,18 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     .word-table .action-btn.edit-btn { right: 0.8rem; }
 }
 
-/* 词汇前勾选框：与标签前勾选框同样式；词汇与标签同排，词汇在左、标签在右。 */
-.word-table .word-tag-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    width: 100%;
-    min-width: 0;
-}
+/* 词汇前勾选框：与标签前勾选框同样式；总表各字段仍各占一行。 */
 .word-table .word-item-head {
     justify-content: flex-start;
     align-items: center;
     gap: 0.45rem;
     min-width: 0;
-    flex: 1 1 auto;
-}
-.word-table .entry-type-row {
-    position: static;
-    flex: 0 1 50%;
-    margin-left: auto;
-    max-width: 50%;
-    justify-content: flex-end;
-}
-.word-table .entry-type-text {
-    text-align: right;
-}
-@media (max-width: 700px) {
-    .word-table .word-tag-row { gap: 0.75rem; }
-    .word-table .entry-type-row {
-        left: auto;
-        max-width: 50%;
-    }
 }
 
+/* 添加板块：例句独占首行；词汇与标签并列在下一行。 */
+.add-section .form-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
 
 /* 例句改为普通文本框；不保留下拉菜单。 */
 .add-section #lessonInput,
@@ -1271,11 +1249,11 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     <label for="lessonInput">例句</label>
                     <textarea id="lessonInput" maxlength="500" rows="2" autocomplete="off"></textarea>
                 </div>
-                <div class="form-group full-width">
+                <div class="form-group">
                     <label for="wordInput">词汇</label>
                     <input type="text" id="wordInput" maxlength="200" autocomplete="off" autofocus>
                 </div>
-                <div class="form-group full-width">
+                <div class="form-group">
                     <label for="typeDraft">标签</label>
                     <div class="type-combo" id="typeCombo">
                         <div class="type-primary-row">
@@ -2530,15 +2508,13 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         <tr data-index="${index}">
                             <td class="col-word">
                                 ${lesson ? `<div class="word-item-meta lesson-meta">${lesson}</div>` : ''}
-                                <div class="word-tag-row">
-                                    <div class="word-item-head">
-                                        <input type="checkbox" class="entry-check word-check" data-index="${index}" aria-label="勾选词汇"${checked}>
-                                        <div class="word-item-title">${word}</div>
-                                    </div>
-                                    <div class="entry-type-row">
-                                        <input type="checkbox" class="entry-check" data-index="${index}" aria-label="勾选条目"${checked}>
-                                        ${type ? `<div class="word-item-meta entry-type-text">${type}</div>` : ''}
-                                    </div>
+                                <div class="word-item-head">
+                                    <input type="checkbox" class="entry-check word-check" data-index="${index}" aria-label="勾选词汇"${checked}>
+                                    <div class="word-item-title">${word}</div>
+                                </div>
+                                <div class="entry-type-row">
+                                    <input type="checkbox" class="entry-check" data-index="${index}" aria-label="勾选条目"${checked}>
+                                    ${type ? `<div class="word-item-meta entry-type-text">${type}</div>` : ''}
                                 </div>
                                 <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
                             </td>

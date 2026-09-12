@@ -3055,7 +3055,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 if (!(target instanceof Element)) {
                     return;
                 }
-                if (!target.closest('input, button')) {
+                if (!target.closest('input, textarea, button, select')) {
                     wordInput.focus();
                 }
             });

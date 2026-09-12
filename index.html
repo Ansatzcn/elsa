@@ -1205,6 +1205,47 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 .token-add { flex: 0 0 auto; border: 1px solid #d1d9e6; border-radius: 999px; background: #f1f5f9; padding: 8px 12px; cursor: pointer; color: #000; font-size: 1rem; }
 .token-add:disabled { opacity: .45; cursor: default; }
 .type-primary-row { align-items: stretch; }
+
+
+/* 2026-09-12 条目字段与操作区：例句 1.05rem 主色加粗；其它字段 1rem 黑色。 */
+.word-table .col-word {
+    position: relative;
+    padding-bottom: 2.25rem !important;
+}
+.word-table .word-item-title,
+.word-table .word-item-meta {
+    font-size: 1rem !important;
+    color: #000000 !important;
+    font-weight: 400;
+    line-height: 1.45;
+}
+.word-table .word-item-meta.lesson-meta {
+    font-size: 1.05rem !important;
+    color: #1E40AF !important;
+    font-weight: 700 !important;
+}
+.word-table .entry-check {
+    position: absolute;
+    left: 1.2rem;
+    bottom: 0.72rem;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    padding: 0;
+    accent-color: #1E40AF;
+    cursor: pointer;
+}
+.word-table .action-btn.edit-btn {
+    position: absolute;
+    right: 1.2rem;
+    bottom: 0.58rem;
+    margin: 0;
+}
+@media (max-width: 700px) {
+    .word-table .entry-check { left: 0.8rem; }
+    .word-table .action-btn.edit-btn { right: 0.8rem; }
+}
+
 </style>
 </head>
 <body>
@@ -1237,10 +1278,32 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             </h2>
             <div class="form-grid">
                 <div class="form-group full-width">
+                    <label for="lessonDraft">例句</label>
+                    <div class="type-combo phrase-combo" id="lessonCombo">
+                        <div class="type-primary-row">
+                            <input type="hidden" id="lessonInput">
+                            <div class="token-editor">
+                                <div class="selected-tokens" id="lessonSelected" role="group" aria-label="已选例句"></div>
+                                <div class="token-entry-row">
+                                    <input type="text" id="lessonDraft" maxlength="500" autocomplete="off" aria-label="输入新例句">
+                                    <button type="button" class="token-add" id="lessonManualAdd">添加</button>
+                                </div>
+                            </div>
+                            <button type="button" class="type-trigger" id="lessonTrigger" aria-label="展开例句菜单" aria-expanded="false">▾</button>
+                        </div>
+                        <div class="type-panel hidden" id="lessonPanel">
+                            <div id="lessonOptions"></div>
+                            <div class="type-actions">
+                                <button type="button" class="type-add-current" id="lessonAddCurrent">＋ 添加输入的例句</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group full-width">
                     <label for="wordInput">单词</label>
                     <input type="text" id="wordInput" maxlength="200" autocomplete="off" autofocus>
                 </div>
-                <div class="form-group full-width">
+                <div class="form-group full-width" hidden aria-hidden="true">
                     <label for="phraseDraft">词组</label>
                     <div class="type-combo phrase-combo" id="phraseCombo">
                         <div class="type-primary-row">
@@ -1248,7 +1311,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                             <div class="token-editor">
                                 <div class="selected-tokens" id="phraseSelected" role="group" aria-label="已选词组"></div>
                                 <div class="token-entry-row">
-                                    <input type="text" id="phraseDraft" maxlength="500" autocomplete="off" placeholder="输入词组后添加" aria-label="输入新词组">
+                                    <input type="text" id="phraseDraft" maxlength="500" autocomplete="off" aria-label="输入新词组">
                                     <button type="button" class="token-add" id="phraseManualAdd">添加</button>
                                 </div>
                             </div>
@@ -1262,27 +1325,9 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         </div>
                     </div>
                 </div>
-                <div class="form-group full-width">
-                    <label for="lessonDraft">课文</label>
-                    <div class="type-combo phrase-combo" id="lessonCombo">
-                        <div class="type-primary-row">
-                            <input type="hidden" id="lessonInput">
-                            <div class="token-editor">
-                                <div class="selected-tokens" id="lessonSelected" role="group" aria-label="已选课文"></div>
-                                <div class="token-entry-row">
-                                    <input type="text" id="lessonDraft" maxlength="500" autocomplete="off" placeholder="输入课文后添加" aria-label="输入新课文">
-                                    <button type="button" class="token-add" id="lessonManualAdd">添加</button>
-                                </div>
-                            </div>
-                            <button type="button" class="type-trigger" id="lessonTrigger" aria-label="展开课文菜单" aria-expanded="false">▾</button>
-                        </div>
-                        <div class="type-panel hidden" id="lessonPanel">
-                            <div id="lessonOptions"></div>
-                            <div class="type-actions">
-                                <button type="button" class="type-add-current" id="lessonAddCurrent">＋ 添加输入的课文</button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="form-group full-width" hidden aria-hidden="true">
+                    <label for="dateInput">日期</label>
+                    <input type="text" id="dateInput" maxlength="100" autocomplete="off">
                 </div>
                 <div class="form-group full-width">
                     <label for="typeDraft">类型</label>
@@ -1292,7 +1337,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                             <div class="token-editor">
                                 <div class="selected-tokens" id="typeSelected" role="group" aria-label="已选类型"></div>
                                 <div class="token-entry-row">
-                                    <input type="text" id="typeDraft" maxlength="100" autocomplete="off" placeholder="输入类型后添加" aria-label="输入新类型">
+                                    <input type="text" id="typeDraft" maxlength="100" autocomplete="off" aria-label="输入新类型">
                                     <button type="button" class="token-add" id="typeManualAdd">添加</button>
                                 </div>
                             </div>
@@ -1305,10 +1350,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="form-group full-width">
-                    <label for="dateInput">日期</label>
-                    <input type="text" id="dateInput" maxlength="100" autocomplete="off">
                 </div>
                 <button type="button" class="btn-primary" id="addBtn">添加</button>
             </div>
@@ -1345,18 +1386,18 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 <label for="editWordInput">单词</label>
                 <input type="text" id="editWordInput" maxlength="200" autocomplete="off">
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden aria-hidden="true">
                 <label for="editPhraseDraft">词组</label>
                 <div class="type-combo phrase-combo" id="editPhraseCombo">
                     <div class="type-primary-row">
                         <input type="hidden" id="editPhraseInput">
-                            <div class="token-editor">
-                                <div class="selected-tokens" id="editPhraseSelected" role="group" aria-label="已选词组"></div>
-                                <div class="token-entry-row">
-                                    <input type="text" id="editPhraseDraft" maxlength="500" autocomplete="off" placeholder="输入词组后添加" aria-label="输入新词组">
-                                    <button type="button" class="token-add" id="editPhraseManualAdd">添加</button>
-                                </div>
+                        <div class="token-editor">
+                            <div class="selected-tokens" id="editPhraseSelected" role="group" aria-label="已选词组"></div>
+                            <div class="token-entry-row">
+                                <input type="text" id="editPhraseDraft" maxlength="500" autocomplete="off" aria-label="输入新词组">
+                                <button type="button" class="token-add" id="editPhraseManualAdd">添加</button>
                             </div>
+                        </div>
                         <button type="button" class="type-trigger" id="editPhraseTrigger" aria-label="展开词组菜单" aria-expanded="false">▾</button>
                     </div>
                     <div class="type-panel hidden" id="editPhrasePanel">
@@ -1368,23 +1409,23 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 </div>
             </div>
             <div class="form-group">
-                <label for="editLessonDraft">课文</label>
+                <label for="editLessonDraft">例句</label>
                 <div class="type-combo phrase-combo" id="editLessonCombo">
                     <div class="type-primary-row">
                         <input type="hidden" id="editLessonInput">
-                            <div class="token-editor">
-                                <div class="selected-tokens" id="editLessonSelected" role="group" aria-label="已选课文"></div>
-                                <div class="token-entry-row">
-                                    <input type="text" id="editLessonDraft" maxlength="500" autocomplete="off" placeholder="输入课文后添加" aria-label="输入新课文">
-                                    <button type="button" class="token-add" id="editLessonManualAdd">添加</button>
-                                </div>
+                        <div class="token-editor">
+                            <div class="selected-tokens" id="editLessonSelected" role="group" aria-label="已选例句"></div>
+                            <div class="token-entry-row">
+                                <input type="text" id="editLessonDraft" maxlength="500" autocomplete="off" aria-label="输入新例句">
+                                <button type="button" class="token-add" id="editLessonManualAdd">添加</button>
                             </div>
-                        <button type="button" class="type-trigger" id="editLessonTrigger" aria-label="展开课文菜单" aria-expanded="false">▾</button>
+                        </div>
+                        <button type="button" class="type-trigger" id="editLessonTrigger" aria-label="展开例句菜单" aria-expanded="false">▾</button>
                     </div>
                     <div class="type-panel hidden" id="editLessonPanel">
                         <div id="editLessonOptions"></div>
                         <div class="type-actions">
-                            <button type="button" class="type-add-current" id="editLessonAddCurrent">＋ 添加输入的课文</button>
+                            <button type="button" class="type-add-current" id="editLessonAddCurrent">＋ 添加输入的例句</button>
                         </div>
                     </div>
                 </div>
@@ -1394,13 +1435,13 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 <div class="type-combo" id="editTypeCombo">
                     <div class="type-primary-row">
                         <input type="hidden" id="editTypeInput">
-                            <div class="token-editor">
-                                <div class="selected-tokens" id="editTypeSelected" role="group" aria-label="已选类型"></div>
-                                <div class="token-entry-row">
-                                    <input type="text" id="editTypeDraft" maxlength="100" autocomplete="off" placeholder="输入类型后添加" aria-label="输入新类型">
-                                    <button type="button" class="token-add" id="editTypeManualAdd">添加</button>
-                                </div>
+                        <div class="token-editor">
+                            <div class="selected-tokens" id="editTypeSelected" role="group" aria-label="已选类型"></div>
+                            <div class="token-entry-row">
+                                <input type="text" id="editTypeDraft" maxlength="100" autocomplete="off" aria-label="输入新类型">
+                                <button type="button" class="token-add" id="editTypeManualAdd">添加</button>
                             </div>
+                        </div>
                         <button type="button" class="type-trigger" id="editTypeTrigger" aria-label="展开类型菜单" aria-expanded="false">▾</button>
                     </div>
                     <div class="type-panel hidden" id="editTypePanel">
@@ -1411,7 +1452,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     </div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden aria-hidden="true">
                 <label for="editDateInput">日期</label>
                 <input type="text" id="editDateInput" maxlength="100" autocomplete="off">
             </div>
@@ -1438,7 +1479,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         id="cfgToken"
                         name="github-token"
                         autocomplete="current-password"
-                        placeholder="ghp_xxxxxxxxxxxx"
                     >
                     <label class="token-save-option" for="cfgRememberToken">
                         <input type="checkbox" id="cfgRememberToken" checked>
@@ -1451,16 +1491,16 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 </div>
                 <div class="form-group">
                     <label for="cfgOwner">仓库所有者 *</label>
-                    <input type="text" id="cfgOwner" placeholder="你的GitHub用户名">
+                    <input type="text" id="cfgOwner">
                 </div>
                 <div class="form-group">
                     <label for="cfgRepo">仓库名称 *</label>
-                    <input type="text" id="cfgRepo" placeholder="wordbook">
+                    <input type="text" id="cfgRepo">
                     <div class="hint">当前仓库名：<strong>wordbook</strong></div>
                 </div>
                 <div class="form-group">
                     <label for="cfgFile">数据文件名</label>
-                    <input type="text" id="cfgFile" placeholder="wordbook_data.json" value="wordbook_data.json">
+                    <input type="text" id="cfgFile" value="wordbook_data.json">
                 </div>
             </div>
             <div class="config-actions">
@@ -1508,6 +1548,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             let lastKnownSha = null;
             let localChangeVersion = 0;
             let previousFocusedElement = null;
+            const checkedEntries = new WeakSet();
 
             let syncMeta = {
                 dirty: false,
@@ -1935,15 +1976,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 return {
                     word,
                     type: normalizeTypeValue(item.type),
-                    dictation: normalizeDictationValue(
-                        typeof item.dictation === 'string' ? item.dictation : item.date
-                    ),
-                    lesson: normalizeLessonValue(item.lesson),
-                    phrase: normalizePhraseValue(
-                        typeof item.phrase === 'string' || Array.isArray(item.phrase)
-                            ? item.phrase
-                            : ''
-                    )
+                    lesson: normalizeLessonValue(item.lesson)
                 };
             }
 
@@ -1989,7 +2022,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                             DEFAULT_TYPES,
                             legacyWords.map(item => item.type)
                         ),
-                        phrases: mergePhraseHistory(legacyWords.map(item => item.phrase)),
+                        phrases: [],
                         lessons: mergeLessonHistory(legacyWords.map(item => item.lesson))
                     };
                 }
@@ -2005,7 +2038,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
                 const normalizedWords = normalizeWords(payload.words);
                 const hasExplicitTypes = Array.isArray(payload.types);
-                const hasExplicitPhrases = Array.isArray(payload.phrases);
                 const hasExplicitLessons = Array.isArray(payload.lessons);
 
                 return {
@@ -2019,9 +2051,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     lessons: hasExplicitLessons
                         ? mergeLessonHistory(payload.lessons, normalizedWords.map(item => item.lesson))
                         : mergeLessonHistory(normalizedWords.map(item => item.lesson)),
-                    phrases: hasExplicitPhrases
-                        ? mergePhraseHistory(payload.phrases, normalizedWords.map(item => item.phrase))
-                        : mergePhraseHistory(normalizedWords.map(item => item.phrase))
+                    phrases: []
                 };
             }
 
@@ -2029,7 +2059,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 return {
                     schemaVersion: 5,
                     types: normalizeTypeHistory(typeHistory),
-                    phrases: normalizePhraseHistory(phraseHistory),
                     lessons: normalizeLessonHistory(lessonHistory),
                     words: normalizeWords(words)
                 };
@@ -2730,7 +2759,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         return `
                             <div class="lesson-option-row">
                                 <button type="button" class="type-option lesson-option${selectedNow ? ' is-current' : ''}" data-value="${escapeAttribute(value)}">${escapeHtml(value)}</button>
-                                <button type="button" class="type-control type-delete lesson-delete" data-value="${escapeAttribute(value)}" title="从课文菜单删除" aria-label="删除课文 ${escapeAttribute(value)}">×</button>
+                                <button type="button" class="type-control type-delete lesson-delete" data-value="${escapeAttribute(value)}" title="从例句菜单删除" aria-label="删除例句 ${escapeAttribute(value)}">×</button>
                             </div>
                         `;
                     }).join('')
@@ -2903,25 +2932,34 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 words.forEach((item, index) => {
                     const word = escapeHtml(item.word || '');
                     const type = escapeHtml(item.type || '');
-                    const dictation = escapeHtml(item.dictation || '');
-                    const phrase = escapeHtml(item.phrase || '');
                     const lesson = escapeHtml(item.lesson || '');
+                    const checked = checkedEntries.has(item) ? ' checked' : '';
                     html += `
                         <tr data-index="${index}">
                             <td class="col-word">
                                 <div class="word-item-head">
                                     <div class="word-item-title">${word}</div>
-                                    <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
                                 </div>
-                                ${phrase ? `<div class="word-item-meta phrase-meta">${phrase}</div>` : ''}
                                 ${lesson ? `<div class="word-item-meta lesson-meta">${lesson}</div>` : ''}
                                 ${type ? `<div class="word-item-meta">${type}</div>` : ''}
-                                ${dictation ? `<div class="word-item-meta">${dictation}</div>` : ''}
+                                <input type="checkbox" class="entry-check" data-index="${index}" aria-label="勾选条目"${checked}>
+                                <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
                             </td>
                         </tr>
                     `;
                 });
                 tableBody.innerHTML = html;
+
+                document.querySelectorAll('#tableBody .entry-check').forEach(box => {
+                    box.addEventListener('change', function(e) {
+                        e.stopPropagation();
+                        const idx = Number.parseInt(this.dataset.index || '', 10);
+                        if (!Number.isInteger(idx) || idx < 0 || idx >= words.length) return;
+                        if (this.checked) checkedEntries.add(words[idx]);
+                        else checkedEntries.delete(words[idx]);
+                    });
+                    box.addEventListener('click', e => e.stopPropagation());
+                });
 
                 document.querySelectorAll('#tableBody .edit-btn').forEach(btn => {
                     btn.addEventListener('click', function(e) {
@@ -2957,15 +2995,13 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 editOriginalSnapshot = {
                     word: item.word || '',
                     type: item.type || '',
-                    dictation: item.dictation || '',
-                    lesson: item.lesson || '',
-                    phrase: item.phrase || ''
+                    lesson: item.lesson || ''
                 };
 
                 editWordInput.value = editOriginalSnapshot.word;
                 editTypeInput.value = editOriginalSnapshot.type;
-                editDateInput.value = editOriginalSnapshot.dictation;
-                editPhraseInput.value = editOriginalSnapshot.phrase;
+                editPhraseInput.value = '';
+                editDateInput.value = '';
                 editLessonInput.value = editOriginalSnapshot.lesson;
                 renderTypeCombo('edit');
                 renderPhraseCombo('edit');
@@ -2982,13 +3018,9 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
                 const currentWord = editWordInput.value.trim().slice(0, MAX_WORD_LENGTH);
                 const currentType = normalizeTypeValue(editTypeInput.value);
-                const currentDictation = normalizeDictationValue(editDateInput.value);
-                const currentPhrase = normalizePhraseValue(editPhraseInput.value);
                 const currentLesson = normalizeLessonValue(editLessonInput.value);
                 return currentWord !== editOriginalSnapshot.word
                     || currentType !== editOriginalSnapshot.type
-                    || currentDictation !== editOriginalSnapshot.dictation
-                    || currentPhrase !== editOriginalSnapshot.phrase
                     || currentLesson !== editOriginalSnapshot.lesson;
             }
 
@@ -3016,8 +3048,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
                 const word = editWordInput.value.trim().slice(0, MAX_WORD_LENGTH);
                 const type = normalizeTypeValue(editTypeInput.value);
-                const dictation = normalizeDictationValue(editDateInput.value);
-                const phrase = normalizePhraseValue(editPhraseInput.value);
                 const lesson = normalizeLessonValue(editLessonInput.value);
 
                 if (!word) {
@@ -3031,8 +3061,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     return;
                 }
 
-                words[editingIndex] = { word, type, dictation, phrase, lesson };
-                phraseHistory = mergePhraseHistory(phraseHistory, normalizePhraseParts(phrase));
+                words[editingIndex] = { word, type, lesson };
                 lessonHistory = mergeLessonHistory(lessonHistory, normalizeLessonParts(lesson));
 
                 markLocalDirty();
@@ -3070,8 +3099,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 if (!commitTokenDrafts('add')) return;
                 const word = wordInput.value.trim().slice(0, MAX_WORD_LENGTH);
                 const type = normalizeTypeValue(typeInput.value);
-                const dictation = normalizeDictationValue(dateInput.value);
-                const phrase = normalizePhraseValue(phraseInput.value);
                 const lesson = normalizeLessonValue(lessonInput.value);
 
                 if (!word) {
@@ -3080,8 +3107,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     return;
                 }
 
-                words.push({ word, type, dictation, phrase, lesson });
-                phraseHistory = mergePhraseHistory(phraseHistory, normalizePhraseParts(phrase));
+                words.push({ word, type, lesson });
                 lessonHistory = mergeLessonHistory(lessonHistory, normalizeLessonParts(lesson));
                 markLocalDirty();
                 applySortAndRender();
@@ -3621,10 +3647,8 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 if (!editOriginalSnapshot) return;
                 const unchanged = [
                     [editWordInput, 'word'],
-                    [editPhraseInput, 'phrase'],
                     [editLessonInput, 'lesson'],
-                    [editTypeInput, 'type'],
-                    [editDateInput, 'dictation']
+                    [editTypeInput, 'type']
                 ].every(([input, field]) => input.value === editOriginalSnapshot[field]);
                 if (unchanged && !hasTokenDrafts('edit')) closeEditModal();
             });

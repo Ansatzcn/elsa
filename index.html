@@ -1126,7 +1126,8 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     font-family: "Times New Roman", SimSun, "宋体", serif !important;
 }
 .token-editor { min-width: 0; padding: 8px; background: white; border: 1px solid #d1d9e6; border-radius: 16px; }
-.selected-tokens { display: flex; flex-wrap: wrap; gap: 7px; }
+.selected-tokens { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+.token-separator { flex: 0 0 auto; color: #000; line-height: 1.4; }
 .selected-tokens:not(:empty) { margin-bottom: 8px; }
 .selected-token { display: inline-flex; align-items: center; gap: 7px; max-width: 100%; padding: 4px 8px 4px 12px; border: 1px solid #c7d2fe; border-radius: 999px; background: #eef2ff; color: #000; line-height: 1.4; }
 .selected-token span { min-width: 0; overflow-wrap: anywhere; }
@@ -1139,7 +1140,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 .type-primary-row { align-items: stretch; }
 
 
-/* 2026-09-12 条目字段与操作区：例句 1.1rem 主色加粗；单词和分组 1rem 黑色；编辑 0.9rem。 */
+/* 2026-09-12 条目字段与操作区：例句 1.1rem 主色加粗；词汇和分组 1rem 黑色；编辑 0.9rem。 */
 .word-table .col-word {
     position: relative;
     padding-bottom: 2.25rem !important;
@@ -1237,27 +1238,27 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     <textarea id="lessonInput" maxlength="500" rows="2" autocomplete="off"></textarea>
                 </div>
                 <div class="form-group full-width">
-                    <label for="wordInput">单词</label>
+                    <label for="wordInput">词汇</label>
                     <input type="text" id="wordInput" maxlength="200" autocomplete="off" autofocus>
                 </div>
                 <div class="form-group full-width">
-                    <label for="typeDraft">类型</label>
+                    <label for="typeDraft">标签</label>
                     <div class="type-combo" id="typeCombo">
                         <div class="type-primary-row">
                             <input type="hidden" id="typeInput">
                             <div class="token-editor">
-                                <div class="selected-tokens" id="typeSelected" role="group" aria-label="已选类型"></div>
+                                <div class="selected-tokens" id="typeSelected" role="group" aria-label="已选标签"></div>
                                 <div class="token-entry-row">
-                                    <input type="text" id="typeDraft" maxlength="100" autocomplete="off" aria-label="输入新类型">
+                                    <input type="text" id="typeDraft" maxlength="100" autocomplete="off" aria-label="输入新标签">
                                     <button type="button" class="token-add" id="typeManualAdd">添加</button>
                                 </div>
                             </div>
-                            <button type="button" class="type-trigger" id="typeTrigger" aria-label="展开类型菜单" aria-expanded="false">▾</button>
+                            <button type="button" class="type-trigger" id="typeTrigger" aria-label="展开标签菜单" aria-expanded="false">▾</button>
                         </div>
                         <div class="type-panel hidden" id="typePanel">
                             <div id="typeOptions"></div>
                             <div class="type-actions">
-                                <button type="button" class="type-add-current" id="typeAddCurrent">＋ 添加输入的类型</button>
+                                <button type="button" class="type-add-current" id="typeAddCurrent">＋ 添加输入的标签</button>
                             </div>
                         </div>
                     </div>
@@ -1274,7 +1275,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             <table class="word-table" id="wordTable">
                 <thead>
                     <tr>
-                        <th class="sortable" id="sortWordHead" tabindex="0" role="button" aria-sort="ascending">单词 <span class="sort-icon" id="sortIcon">▲</span></th>
+                        <th class="sortable" id="sortWordHead" tabindex="0" role="button" aria-sort="ascending">词汇 <span class="sort-icon" id="sortIcon">▲</span></th>
                     </tr>
                 </thead>
                 <tbody id="tableBody">
@@ -1298,27 +1299,27 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 <textarea id="editLessonInput" maxlength="500" rows="3" autocomplete="off"></textarea>
             </div>
             <div class="form-group">
-                <label for="editWordInput">单词</label>
+                <label for="editWordInput">词汇</label>
                 <input type="text" id="editWordInput" maxlength="200" autocomplete="off">
             </div>
             <div class="form-group">
-                <label for="editTypeDraft">类型</label>
+                <label for="editTypeDraft">标签</label>
                 <div class="type-combo" id="editTypeCombo">
                     <div class="type-primary-row">
                         <input type="hidden" id="editTypeInput">
                         <div class="token-editor">
-                            <div class="selected-tokens" id="editTypeSelected" role="group" aria-label="已选类型"></div>
+                            <div class="selected-tokens" id="editTypeSelected" role="group" aria-label="已选标签"></div>
                             <div class="token-entry-row">
-                                <input type="text" id="editTypeDraft" maxlength="100" autocomplete="off" aria-label="输入新类型">
+                                <input type="text" id="editTypeDraft" maxlength="100" autocomplete="off" aria-label="输入新标签">
                                 <button type="button" class="token-add" id="editTypeManualAdd">添加</button>
                             </div>
                         </div>
-                        <button type="button" class="type-trigger" id="editTypeTrigger" aria-label="展开类型菜单" aria-expanded="false">▾</button>
+                        <button type="button" class="type-trigger" id="editTypeTrigger" aria-label="展开标签菜单" aria-expanded="false">▾</button>
                     </div>
                     <div class="type-panel hidden" id="editTypePanel">
                         <div id="editTypeOptions"></div>
                         <div class="type-actions">
-                            <button type="button" class="type-add-current" id="editTypeAddCurrent">＋ 添加输入的类型</button>
+                            <button type="button" class="type-add-current" id="editTypeAddCurrent">＋ 添加输入的标签</button>
                         </div>
                     </div>
                 </div>
@@ -1702,7 +1703,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 return new TextDecoder('utf-8', { fatal: false }).decode(bytes);
             }
 
-            function normalizeTypeValue(value) {
+            function normalizeSingleTypeValue(value) {
                 const normalized = typeof value === 'string'
                     ? value.trim().slice(0, MAX_TYPE_LENGTH)
                     : '';
@@ -1711,6 +1712,31 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 if (key === 'NCE' || key === 'OPW1') return '课外';
                 if (key === 'SHE11') return '一上';
                 return normalized;
+            }
+
+            function splitTypeValues(value) {
+                const rawValues = Array.isArray(value)
+                    ? value
+                    : String(value ?? '').split('/');
+                const result = [];
+                const seen = new Set();
+
+                rawValues.forEach(raw => {
+                    String(raw ?? '').split('/').forEach(part => {
+                        const normalized = normalizeSingleTypeValue(part);
+                        const key = normalized.toLocaleLowerCase('zh-CN');
+                        if (normalized && !seen.has(key)) {
+                            seen.add(key);
+                            result.push(normalized);
+                        }
+                    });
+                });
+
+                return result;
+            }
+
+            function normalizeTypeValue(value) {
+                return splitTypeValues(value).join('/');
             }
 
             function normalizeDictationValue(value) {
@@ -1761,13 +1787,13 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 const seen = new Set();
 
                 (Array.isArray(values) ? values : []).forEach(raw => {
-                    const value = normalizeTypeValue(raw);
-                    const key = value.toLocaleLowerCase('zh-CN');
-
-                    if (value && !seen.has(key)) {
-                        seen.add(key);
-                        result.push(value);
-                    }
+                    splitTypeValues(raw).forEach(value => {
+                        const key = value.toLocaleLowerCase('zh-CN');
+                        if (value && !seen.has(key)) {
+                            seen.add(key);
+                            result.push(value);
+                        }
+                    });
                 });
 
                 return result;
@@ -1849,7 +1875,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
             function createUploadBody(snapshot, sha) {
                 const body = {
-                    message: `更新单词数据 - ${new Date().toLocaleString()}`,
+                    message: `更新词汇数据 - ${new Date().toLocaleString()}`,
                     content: utf8ToBase64(JSON.stringify(snapshot, null, 2))
                 };
 
@@ -2109,9 +2135,9 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             function renderSelectedTokens(which) {
                 const ctx = tokenContext(which);
                 const base = ctx.input.id.replace('Input', '');
-                const selected = [normalizeTypeValue(ctx.input.value)].filter(Boolean);
-                document.getElementById(base + 'Selected').innerHTML = selected.map(value => `
-                    <span class="selected-token"><span>${escapeHtml(value)}</span><button type="button" class="token-remove" data-value="${escapeAttribute(value)}" aria-label="取消选择 ${escapeAttribute(value)}" title="取消选择">×</button></span>
+                const selected = splitTypeValues(ctx.input.value);
+                document.getElementById(base + 'Selected').innerHTML = selected.map((value, index) => `
+                    ${index > 0 ? '<span class="token-separator" aria-hidden="true">/</span>' : ''}<span class="selected-token"><span>${escapeHtml(value)}</span><button type="button" class="token-remove" data-value="${escapeAttribute(value)}" aria-label="取消选择 ${escapeAttribute(value)}" title="取消选择">×</button></span>
                 `).join('');
                 document.getElementById(base + 'ManualAdd').disabled = !document.getElementById(base + 'Draft').value.trim();
             }
@@ -2168,13 +2194,16 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     const button = event.target.closest('.token-remove[data-value]');
                     if (!button) return;
                     event.stopPropagation();
-                    ctx.input.value = '';
+                    const removeKey = normalizeSingleTypeValue(button.dataset.value).toLocaleLowerCase('zh-CN');
+                    ctx.input.value = splitTypeValues(ctx.input.value)
+                        .filter(value => value.toLocaleLowerCase('zh-CN') !== removeKey)
+                        .join('/');
                     renderTypeCombo(which);
                     draft.focus();
                 });
             }
 
-            // ---------- 类型下拉 ----------
+            // ---------- 标签下拉 ----------
             function getTypeContext(which) {
                 const isAdd = which === 'add';
                 return {
@@ -2200,25 +2229,23 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             function renderTypeCombo(which) {
                 renderSelectedTokens(which);
                 const ctx = getTypeContext(which);
-                const current = normalizeTypeValue(ctx.input.value);
-                const currentKey = current.toLocaleLowerCase('zh-CN');
+                const currentKeys = new Set(
+                    splitTypeValues(ctx.input.value).map(value => value.toLocaleLowerCase('zh-CN'))
+                );
                 const visibleTypes = normalizeTypeHistory(typeHistory);
 
                 ctx.options.innerHTML = visibleTypes.length
                     ? visibleTypes.map((value, index) => `
                         <div class="type-option-row">
-                            <button type="button" class="type-option${value.toLocaleLowerCase('zh-CN') === currentKey ? ' is-current' : ''}" data-value="${escapeAttribute(value)}">${escapeHtml(value)}</button>
-                            <button type="button" class="type-control type-rename" data-value="${escapeAttribute(value)}" aria-label="修改类型 ${escapeAttribute(value)}">修改</button>
-                            <button type="button" class="type-control type-move-up" data-value="${escapeAttribute(value)}" title="上移" aria-label="上移类型 ${escapeAttribute(value)}" ${index === 0 ? 'disabled' : ''}>↑</button>
-                            <button type="button" class="type-control type-move-down" data-value="${escapeAttribute(value)}" title="下移" aria-label="下移类型 ${escapeAttribute(value)}" ${index === visibleTypes.length - 1 ? 'disabled' : ''}>↓</button>
-                            <button type="button" class="type-control type-delete" data-value="${escapeAttribute(value)}" title="从类型菜单删除" aria-label="删除类型 ${escapeAttribute(value)}">×</button>
+                            <button type="button" class="type-option${currentKeys.has(value.toLocaleLowerCase('zh-CN')) ? ' is-current' : ''}" data-value="${escapeAttribute(value)}">${escapeHtml(value)}</button>
+                            <button type="button" class="type-control type-rename" data-value="${escapeAttribute(value)}" aria-label="修改标签 ${escapeAttribute(value)}">修改</button>
+                            <button type="button" class="type-control type-move-up" data-value="${escapeAttribute(value)}" title="上移" aria-label="上移标签 ${escapeAttribute(value)}" ${index === 0 ? 'disabled' : ''}>↑</button>
+                            <button type="button" class="type-control type-move-down" data-value="${escapeAttribute(value)}" title="下移" aria-label="下移标签 ${escapeAttribute(value)}" ${index === visibleTypes.length - 1 ? 'disabled' : ''}>↓</button>
+                            <button type="button" class="type-control type-delete" data-value="${escapeAttribute(value)}" title="从标签菜单删除" aria-label="删除标签 ${escapeAttribute(value)}">×</button>
                         </div>
                     `).join('')
-                    : '<div class="type-empty">暂无类型，可直接输入后按 Enter 添加</div>';
+                    : '<div class="type-empty">暂无标签，可直接输入后按 Enter 添加</div>';
 
-                const alreadyExists = typeHistory.some(value =>
-                    value.toLocaleLowerCase('zh-CN') === currentKey
-                );
                 ctx.addCurrent.disabled = !document.getElementById(ctx.input.id.replace('Input', 'Draft')).value.trim();
             }
 
@@ -2243,71 +2270,86 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 }
             }
 
-            function commitType(which, value = null) {
+            function commitType(which, value = null, toggle = false) {
                 const ctx = getTypeContext(which);
-                const next = normalizeTypeValue(value === null ? ctx.input.value : value);
+                const draft = document.getElementById(ctx.input.id.replace('Input', 'Draft'));
+                const next = normalizeSingleTypeValue(value === null ? draft.value : value);
 
                 if (!next) {
                     return false;
                 }
 
-                ctx.input.value = next;
+                const selected = splitTypeValues(ctx.input.value);
+                const nextKey = next.toLocaleLowerCase('zh-CN');
+                const existingIndex = selected.findIndex(item =>
+                    item.toLocaleLowerCase('zh-CN') === nextKey
+                );
+
+                if (toggle && existingIndex >= 0) {
+                    selected.splice(existingIndex, 1);
+                } else if (existingIndex < 0) {
+                    selected.push(next);
+                }
+                ctx.input.value = selected.join('/');
 
                 if (!typeHistory.some(item =>
-                    item.toLocaleLowerCase('zh-CN') === next.toLocaleLowerCase('zh-CN')
+                    item.toLocaleLowerCase('zh-CN') === nextKey
                 )) {
                     typeHistory = normalizeTypeHistory([...typeHistory, next]);
                     persistTypeHistoryChange();
-                    showToast(`已添加类型“${next}”`, 'success');
+                    showToast(`已添加标签“${next}”`, 'success');
                 } else {
                     renderTypeCombos();
                 }
 
-                setTypePanelOpen(which, false);
-                document.getElementById(ctx.input.id.replace('Input', 'Draft')).focus();
+                setTypePanelOpen(which, true);
+                draft.focus();
                 return true;
             }
 
             function renameTypeInHistory(value) {
                 const index = typeHistory.indexOf(value);
                 if (index < 0) return;
-                const entered = prompt('修改类型菜单选项：', value);
+                const entered = prompt('修改标签菜单选项：', value);
                 if (entered === null) return;
-                const next = normalizeTypeValue(entered);
-                if (!next) { showToast('类型名称不能为空', 'error'); return; }
+                const next = normalizeSingleTypeValue(entered);
+                if (!next) { showToast('标签名称不能为空', 'error'); return; }
                 if (typeHistory.some((item, i) => i !== index && item.toLocaleLowerCase('zh-CN') === next.toLocaleLowerCase('zh-CN'))) {
-                    showToast('该类型已存在', 'error'); return;
+                    showToast('该标签已存在', 'error'); return;
                 }
 
-                const previous = normalizeTypeValue(value);
+                const previous = normalizeSingleTypeValue(value);
                 const previousKey = previous.toLocaleLowerCase('zh-CN');
                 typeHistory[index] = next;
 
-                // 分类选项改名时，同步更新所有已经选择该分类的条目。
+                // 标签选项改名时，只替换条目中对应标签，并保留同一条目的其它标签。
+                const replaceSelectedTag = rawValue => splitTypeValues(rawValue)
+                    .map(item => item.toLocaleLowerCase('zh-CN') === previousKey ? next : item)
+                    .filter((item, index, list) => list.findIndex(other =>
+                        other.toLocaleLowerCase('zh-CN') === item.toLocaleLowerCase('zh-CN')
+                    ) === index)
+                    .join('/');
+
                 words.forEach(item => {
-                    if (normalizeTypeValue(item.type).toLocaleLowerCase('zh-CN') === previousKey) {
-                        item.type = next;
-                    }
+                    item.type = replaceSelectedTag(item.type);
                 });
 
                 [typeInput, editTypeInput].forEach(input => {
-                    if (normalizeTypeValue(input.value).toLocaleLowerCase('zh-CN') === previousKey) {
-                        input.value = next;
-                    }
+                    input.value = replaceSelectedTag(input.value);
                 });
 
-                // 编辑框若正打开，系统级分类改名不应被误判为用户尚未保存的编辑。
-                if (editOriginalSnapshot && normalizeTypeValue(editOriginalSnapshot.type).toLocaleLowerCase('zh-CN') === previousKey) {
-                    editOriginalSnapshot.type = next;
+                // 编辑框若正打开，系统级标签改名不应被误判为用户尚未保存的编辑。
+                if (editOriginalSnapshot) {
+                    editOriginalSnapshot.type = replaceSelectedTag(editOriginalSnapshot.type);
                 }
 
                 persistTypeHistoryChange();
                 renderTable();
-                showToast('已修改类型，并同步更新已有条目', 'success');
+                showToast('已修改标签，并同步更新已有条目', 'success');
             }
 
             function moveTypeInHistory(value, direction) {
-                const target = normalizeTypeValue(value);
+                const target = normalizeSingleTypeValue(value);
                 const index = typeHistory.findIndex(item =>
                     item.toLocaleLowerCase('zh-CN') === target.toLocaleLowerCase('zh-CN')
                 );
@@ -2327,7 +2369,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     return;
                 }
 
-                if (!confirm(`确定从类型下拉菜单中删除“${target}”吗？\n\n已有单词中的类型不会被删除。`)) {
+                if (!confirm(`确定从标签下拉菜单中删除“${target}”吗？\n\n已有词汇中的标签不会被删除。`)) {
                     return;
                 }
 
@@ -2335,7 +2377,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     item.toLocaleLowerCase('zh-CN') !== target.toLocaleLowerCase('zh-CN')
                 );
                 persistTypeHistoryChange();
-                showToast(`已从类型菜单删除“${target}”`, 'success');
+                showToast(`已从标签菜单删除“${target}”`, 'success');
             }
 
             // ---------- 核心函数 ----------
@@ -2416,7 +2458,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 countDisplay.textContent = `${exampleCount}/${words.length}`;
 
                 if (words.length === 0) {
-                    tableBody.innerHTML = `<tr class="empty-row"><td>单词列表为空，添加一个新单词吧！</td></tr>`;
+                    tableBody.innerHTML = `<tr class="empty-row"><td>词汇列表为空，添加一个新词汇吧！</td></tr>`;
                     return;
                 }
 
@@ -2539,7 +2581,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 const lesson = normalizeLessonValue(editLessonInput.value);
 
                 if (!word) {
-                    alert('请填写“单词”字段。');
+                    alert('请填写“词汇”字段。');
                     editWordInput.focus();
                     return;
                 }
@@ -2581,7 +2623,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 }
             }
 
-            // ---------- 添加单词 ----------
+            // ---------- 添加词汇 ----------
             function addWord() {
                 if (!commitTokenDrafts('add')) return;
                 const word = wordInput.value.trim().slice(0, MAX_WORD_LENGTH);
@@ -2589,7 +2631,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 const lesson = normalizeLessonValue(lessonInput.value);
 
                 if (!word) {
-                    alert('请填写“单词”字段。');
+                    alert('请填写“词汇”字段。');
                     wordInput.focus();
                     return;
                 }
@@ -2620,7 +2662,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             // ---------- 导出/导入 ----------
             function exportData() {
                 if (words.length === 0) {
-                    alert('单词列表为空，没有什么可导出的。');
+                    alert('词汇列表为空，没有什么可导出的。');
                     return;
                 }
                 const jsonStr = JSON.stringify(createDataSnapshot(), null, 2);
@@ -2667,7 +2709,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
                     const valid = normalizedImport.words;
                     if (valid.length === 0 && sourceCount > 0) {
-                        alert('文件中没有找到有效的单词数据。');
+                        alert('文件中没有找到有效的词汇数据。');
                         return;
                     }
                     if (valid.length !== sourceCount) {
@@ -2900,7 +2942,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
                 const optionButton = event.target.closest('.type-option[data-value]');
                 if (optionButton) {
-                    commitType(which, optionButton.dataset.value);
+                    commitType(which, optionButton.dataset.value, true);
                 }
             }
 

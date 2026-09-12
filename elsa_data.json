@@ -1,14 +1,14 @@
 {
   "schemaVersion": 6,
   "types": [
-    "沪教英语1上",
+    "沪教英语1A",
     "沪教英语2上",
     "自然拼读1"
   ],
   "words": [
     {
       "word": "afternoon",
-      "type": "沪教英语1上",
+      "type": "沪教英语1A",
       "lesson": "Good afternoon."
     },
     {
@@ -48,7 +48,7 @@
     },
     {
       "word": "bee",
-      "type": "沪教英语1上",
+      "type": "沪教英语1A",
       "lesson": ""
     },
     {
@@ -183,7 +183,7 @@
     },
     {
       "word": "evening",
-      "type": "沪教英语1上",
+      "type": "沪教英语1A",
       "lesson": "Good evening."
     },
     {
@@ -508,17 +508,17 @@
     },
     {
       "word": "use",
-      "type": "沪教英语1上",
+      "type": "沪教英语1A",
       "lesson": "Use my pencil."
     },
     {
       "word": "welcome",
-      "type": "沪教英语1上",
+      "type": "沪教英语1A",
       "lesson": "Welcome to China."
     },
     {
       "word": "worry",
-      "type": "沪教英语1上",
+      "type": "沪教英语1A",
       "lesson": "Don't worry."
     },
     {
@@ -528,7 +528,7 @@
     },
     {
       "word": "you",
-      "type": "沪教英语1上",
+      "type": "沪教英语1A",
       "lesson": "How are you?"
     }
   ]

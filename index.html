@@ -2411,7 +2411,8 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             }
 
             function renderTable() {
-                countDisplay.textContent = words.length;
+                const exampleCount = words.filter(item => String(item?.lesson || '').trim()).length;
+                countDisplay.textContent = `${exampleCount}/${words.length}`;
 
                 if (words.length === 0) {
                     tableBody.innerHTML = `<tr class="empty-row"><td>单词列表为空，添加一个新单词吧！</td></tr>`;

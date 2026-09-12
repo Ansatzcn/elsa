@@ -1201,9 +1201,16 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     min-width: 0;
 }
 
-/* 添加板块：例句独占首行；词汇与标签并列在下一行。 */
+/* 添加板块：电脑端例句独占首行；词汇与标签并列在下一行。 */
 .add-section .form-grid {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+/* 手机端：词汇与标签恢复为上下两行。 */
+@media (max-width: 700px) {
+    .add-section .form-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 /* 例句改为普通文本框；不保留下拉菜单。 */

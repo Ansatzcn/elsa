@@ -1067,7 +1067,7 @@
     }
 }
 
-/* 2026-08-29 字段规格：单词 1.1rem/黑色，其它字段 1rem；词组使用主色 */
+/* 字段基础字号 */
 .add-section .form-group label,
 .add-section .form-group input,
 .add-section .form-group textarea,
@@ -1118,74 +1118,6 @@
     line-height: 1.45;
 }
 
-/* 只有条目中已保存的词组内容使用主色；添加板块和编辑框中的词组控件保持黑色 */
-.word-item-meta.phrase-meta { color: #1E40AF; }
-
-label[for="phraseDraft"],
-label[for="editPhraseDraft"],
-.phrase-combo input,
-.phrase-combo .type-trigger,
-.phrase-combo .type-option { color: #000000; }
-
-.phrase-combo .type-option.is-current {
-    background: #eef2ff;
-    color: #000000;
-    font-weight: 700;
-}
-
-.phrase-option-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 38px;
-    gap: 6px;
-    align-items: stretch;
-    width: 100%;
-    min-width: 0;
-}
-.phrase-option-row + .phrase-option-row { margin-top: 6px; }
-
-@media (max-width:700px) {
-    .word-table th,
-    .word-table td,
-    .word-table .word-item-meta,
-    .word-table .action-btn,
-    .word-list-header .badge { font-size: 1rem !important; }
-    .word-table .word-item-title { font-size: 1.1rem !important; }
-    .phrase-option-row { grid-template-columns: minmax(0, 1fr) 34px; gap: 4px; }
-}
-
-.word-item-meta.lesson-meta { color: #1E40AF; }
-
-label[for="lessonDraft"],
-label[for="editLessonDraft"],
-.lesson-combo input,
-.lesson-combo .type-trigger,
-.lesson-combo .type-option { color: #000000; }
-
-.lesson-combo .type-option.is-current {
-    background: #eef2ff;
-    color: #000000;
-    font-weight: 700;
-}
-
-.lesson-option-row {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 38px;
-    gap: 6px;
-    align-items: stretch;
-    width: 100%;
-    min-width: 0;
-}
-.lesson-option-row + .lesson-option-row { margin-top: 6px; }
-
-@media (max-width:700px) {
-    .word-table th,
-    .word-table td,
-    .word-table .word-item-meta,
-    .word-table .action-btn,
-    .word-list-header .badge { font-size: 1rem !important; }
-    .word-table .word-item-title { font-size: 1.1rem !important; }
-    .lesson-option-row { grid-template-columns: minmax(0, 1fr) 34px; gap: 4px; }
-}
 
 .type-option-row, .add-section .type-option-row { grid-template-columns: minmax(0, 1fr) 44px 32px 32px 32px; }
 /* 全站统一字体，覆盖浏览器对按钮、表单及占位文字的默认字体。 */
@@ -1246,6 +1178,15 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     .word-table .action-btn.edit-btn { right: 0.8rem; }
 }
 
+
+/* 例句改为普通文本框；不保留下拉菜单。 */
+.add-section #lessonInput,
+.modal-box #editLessonInput {
+    width: 100%;
+    min-height: 76px;
+    resize: vertical;
+}
+
 </style>
 </head>
 <body>
@@ -1278,56 +1219,12 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             </h2>
             <div class="form-grid">
                 <div class="form-group full-width">
-                    <label for="lessonDraft">例句</label>
-                    <div class="type-combo phrase-combo" id="lessonCombo">
-                        <div class="type-primary-row">
-                            <input type="hidden" id="lessonInput">
-                            <div class="token-editor">
-                                <div class="selected-tokens" id="lessonSelected" role="group" aria-label="已选例句"></div>
-                                <div class="token-entry-row">
-                                    <input type="text" id="lessonDraft" maxlength="500" autocomplete="off" aria-label="输入新例句">
-                                    <button type="button" class="token-add" id="lessonManualAdd">添加</button>
-                                </div>
-                            </div>
-                            <button type="button" class="type-trigger" id="lessonTrigger" aria-label="展开例句菜单" aria-expanded="false">▾</button>
-                        </div>
-                        <div class="type-panel hidden" id="lessonPanel">
-                            <div id="lessonOptions"></div>
-                            <div class="type-actions">
-                                <button type="button" class="type-add-current" id="lessonAddCurrent">＋ 添加输入的例句</button>
-                            </div>
-                        </div>
-                    </div>
+                    <label for="lessonInput">例句</label>
+                    <textarea id="lessonInput" maxlength="500" rows="2" autocomplete="off"></textarea>
                 </div>
                 <div class="form-group full-width">
                     <label for="wordInput">单词</label>
                     <input type="text" id="wordInput" maxlength="200" autocomplete="off" autofocus>
-                </div>
-                <div class="form-group full-width" hidden aria-hidden="true">
-                    <label for="phraseDraft">词组</label>
-                    <div class="type-combo phrase-combo" id="phraseCombo">
-                        <div class="type-primary-row">
-                            <input type="hidden" id="phraseInput">
-                            <div class="token-editor">
-                                <div class="selected-tokens" id="phraseSelected" role="group" aria-label="已选词组"></div>
-                                <div class="token-entry-row">
-                                    <input type="text" id="phraseDraft" maxlength="500" autocomplete="off" aria-label="输入新词组">
-                                    <button type="button" class="token-add" id="phraseManualAdd">添加</button>
-                                </div>
-                            </div>
-                            <button type="button" class="type-trigger" id="phraseTrigger" aria-label="展开词组菜单" aria-expanded="false">▾</button>
-                        </div>
-                        <div class="type-panel hidden" id="phrasePanel">
-                            <div id="phraseOptions"></div>
-                            <div class="type-actions">
-                                <button type="button" class="type-add-current" id="phraseAddCurrent">＋ 添加输入的词组</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group full-width" hidden aria-hidden="true">
-                    <label for="dateInput">日期</label>
-                    <input type="text" id="dateInput" maxlength="100" autocomplete="off">
                 </div>
                 <div class="form-group full-width">
                     <label for="typeDraft">类型</label>
@@ -1383,52 +1280,12 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             <h3 id="editModalTitle">编辑</h3>
             <div class="modal-sub">可修改当前条目的所有字段</div>
             <div class="form-group">
-                <label for="editWordInput">单词</label>
-                <input type="text" id="editWordInput" maxlength="200" autocomplete="off">
-            </div>
-            <div class="form-group" hidden aria-hidden="true">
-                <label for="editPhraseDraft">词组</label>
-                <div class="type-combo phrase-combo" id="editPhraseCombo">
-                    <div class="type-primary-row">
-                        <input type="hidden" id="editPhraseInput">
-                        <div class="token-editor">
-                            <div class="selected-tokens" id="editPhraseSelected" role="group" aria-label="已选词组"></div>
-                            <div class="token-entry-row">
-                                <input type="text" id="editPhraseDraft" maxlength="500" autocomplete="off" aria-label="输入新词组">
-                                <button type="button" class="token-add" id="editPhraseManualAdd">添加</button>
-                            </div>
-                        </div>
-                        <button type="button" class="type-trigger" id="editPhraseTrigger" aria-label="展开词组菜单" aria-expanded="false">▾</button>
-                    </div>
-                    <div class="type-panel hidden" id="editPhrasePanel">
-                        <div id="editPhraseOptions"></div>
-                        <div class="type-actions">
-                            <button type="button" class="type-add-current" id="editPhraseAddCurrent">＋ 添加输入的词组</button>
-                        </div>
-                    </div>
-                </div>
+                <label for="editLessonInput">例句</label>
+                <textarea id="editLessonInput" maxlength="500" rows="3" autocomplete="off"></textarea>
             </div>
             <div class="form-group">
-                <label for="editLessonDraft">例句</label>
-                <div class="type-combo phrase-combo" id="editLessonCombo">
-                    <div class="type-primary-row">
-                        <input type="hidden" id="editLessonInput">
-                        <div class="token-editor">
-                            <div class="selected-tokens" id="editLessonSelected" role="group" aria-label="已选例句"></div>
-                            <div class="token-entry-row">
-                                <input type="text" id="editLessonDraft" maxlength="500" autocomplete="off" aria-label="输入新例句">
-                                <button type="button" class="token-add" id="editLessonManualAdd">添加</button>
-                            </div>
-                        </div>
-                        <button type="button" class="type-trigger" id="editLessonTrigger" aria-label="展开例句菜单" aria-expanded="false">▾</button>
-                    </div>
-                    <div class="type-panel hidden" id="editLessonPanel">
-                        <div id="editLessonOptions"></div>
-                        <div class="type-actions">
-                            <button type="button" class="type-add-current" id="editLessonAddCurrent">＋ 添加输入的例句</button>
-                        </div>
-                    </div>
-                </div>
+                <label for="editWordInput">单词</label>
+                <input type="text" id="editWordInput" maxlength="200" autocomplete="off">
             </div>
             <div class="form-group">
                 <label for="editTypeDraft">类型</label>
@@ -1451,10 +1308,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group" hidden aria-hidden="true">
-                <label for="editDateInput">日期</label>
-                <input type="text" id="editDateInput" maxlength="100" autocomplete="off">
             </div>
             <div class="modal-actions">
                 <button type="button" class="btn-modal delete" id="editDeleteBtn">删除</button>
@@ -1527,18 +1380,13 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             const MAX_ITEMS = 10000;
             const MAX_WORD_LENGTH = 200;
             const MAX_TYPE_LENGTH = 100;
-            const MAX_PHRASE_LENGTH = 500;
             const MAX_LESSON_LENGTH = 500;
-            const MAX_PHRASE_TOKEN_LENGTH = 100;
-            const MAX_LESSON_TOKEN_LENGTH = 100;
             const MAX_IMPORT_FILE_SIZE = 5 * 1024 * 1024;
             const DEFAULT_TYPES = ['写字', '识字', '课文', 'OPW', '课外', 'SHE', '一上'];
 
             // ---------- 全局状态 ----------
             let words = [];
             let typeHistory = [...DEFAULT_TYPES];
-            let phraseHistory = [];
-            let lessonHistory = [];
             let sortOrder = 'asc';
             let editingIndex = null;
             let editOriginalSnapshot = null;
@@ -1567,19 +1415,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             // ---------- DOM 引用 ----------
             const wordInput = document.getElementById('wordInput');
             const typeInput = document.getElementById('typeInput');
-            const dateInput = document.getElementById('dateInput');
-            const phraseInput = document.getElementById('phraseInput');
             const lessonInput = document.getElementById('lessonInput');
-            const phraseCombo = document.getElementById('phraseCombo');
-            const lessonCombo = document.getElementById('lessonCombo');
-            const phraseTrigger = document.getElementById('phraseTrigger');
-            const lessonTrigger = document.getElementById('lessonTrigger');
-            const phrasePanel = document.getElementById('phrasePanel');
-            const lessonPanel = document.getElementById('lessonPanel');
-            const phraseOptions = document.getElementById('phraseOptions');
-            const lessonOptions = document.getElementById('lessonOptions');
-            const phraseAddCurrent = document.getElementById('phraseAddCurrent');
-            const lessonAddCurrent = document.getElementById('lessonAddCurrent');
             const typeCombo = document.getElementById('typeCombo');
             const typeTrigger = document.getElementById('typeTrigger');
             const typePanel = document.getElementById('typePanel');
@@ -1603,19 +1439,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             const editModal = document.getElementById('editModal');
             const editWordInput = document.getElementById('editWordInput');
             const editTypeInput = document.getElementById('editTypeInput');
-            const editDateInput = document.getElementById('editDateInput');
-            const editPhraseInput = document.getElementById('editPhraseInput');
             const editLessonInput = document.getElementById('editLessonInput');
-            const editPhraseCombo = document.getElementById('editPhraseCombo');
-            const editLessonCombo = document.getElementById('editLessonCombo');
-            const editPhraseTrigger = document.getElementById('editPhraseTrigger');
-            const editLessonTrigger = document.getElementById('editLessonTrigger');
-            const editPhrasePanel = document.getElementById('editPhrasePanel');
-            const editLessonPanel = document.getElementById('editLessonPanel');
-            const editPhraseOptions = document.getElementById('editPhraseOptions');
-            const editLessonOptions = document.getElementById('editLessonOptions');
-            const editPhraseAddCurrent = document.getElementById('editPhraseAddCurrent');
-            const editLessonAddCurrent = document.getElementById('editLessonAddCurrent');
             const editTypeCombo = document.getElementById('editTypeCombo');
             const editTypeTrigger = document.getElementById('editTypeTrigger');
             const editTypePanel = document.getElementById('editTypePanel');
@@ -1879,88 +1703,15 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 return typeof value === 'string' ? value.trim().slice(0, 100) : '';
             }
 
-            function normalizePhraseParts(value) {
-                const rawParts = Array.isArray(value)
-                    ? value
-                    : String(value || '').split(/[\/／]+/);
-                const result = [];
-                const seen = new Set();
-
-                rawParts.forEach(raw => {
-                    const part = String(raw || '').trim().slice(0, MAX_PHRASE_TOKEN_LENGTH);
-                    const key = part.toLocaleLowerCase('zh-CN');
-                    if (part && !seen.has(key)) {
-                        seen.add(key);
-                        result.push(part);
-                    }
-                });
-
-                return result;
-            }
-
-            function normalizePhraseValue(value) {
-                return normalizePhraseParts(value).join('/').slice(0, MAX_PHRASE_LENGTH);
-            }
-
-            function normalizePhraseHistory(values) {
-                const result = [];
-                const seen = new Set();
-                (Array.isArray(values) ? values : []).forEach(raw => {
-                    normalizePhraseParts(raw).forEach(part => {
-                        const key = part.toLocaleLowerCase('zh-CN');
-                        if (!seen.has(key)) {
-                            seen.add(key);
-                            result.push(part);
-                        }
-                    });
-                });
-                return result;
-            }
-
-            function mergePhraseHistory(...lists) {
-                return normalizePhraseHistory(lists.flat());
-            }
-
-            function normalizeLessonParts(value) {
-                const rawParts = Array.isArray(value)
-                    ? value
-                    : String(value || '').split(/[\/／]+/);
-                const result = [];
-                const seen = new Set();
-
-                rawParts.forEach(raw => {
-                    const part = String(raw || '').trim().slice(0, MAX_LESSON_TOKEN_LENGTH);
-                    const key = part.toLocaleLowerCase('zh-CN');
-                    if (part && !seen.has(key)) {
-                        seen.add(key);
-                        result.push(part);
-                    }
-                });
-
-                return result;
-            }
-
             function normalizeLessonValue(value) {
-                return normalizeLessonParts(value).join('/').slice(0, MAX_LESSON_LENGTH);
-            }
-
-            function normalizeLessonHistory(values) {
-                const result = [];
-                const seen = new Set();
-                (Array.isArray(values) ? values : []).forEach(raw => {
-                    normalizeLessonParts(raw).forEach(part => {
-                        const key = part.toLocaleLowerCase('zh-CN');
-                        if (!seen.has(key)) {
-                            seen.add(key);
-                            result.push(part);
-                        }
-                    });
-                });
-                return result;
-            }
-
-            function mergeLessonHistory(...lists) {
-                return normalizeLessonHistory(lists.flat());
+                if (Array.isArray(value)) {
+                    return value
+                        .map(item => String(item ?? '').trim())
+                        .filter(Boolean)
+                        .join('\n')
+                        .slice(0, MAX_LESSON_LENGTH);
+                }
+                return String(value ?? '').trim().slice(0, MAX_LESSON_LENGTH);
             }
 
             function normalizeItem(item) {
@@ -2013,7 +1764,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             }
 
             function normalizeDataPayload(payload) {
-                // 兼容旧版：旧数据根节点是数组；旧 date 字段会迁移为 dictation。
                 if (Array.isArray(payload)) {
                     const legacyWords = normalizeWords(payload);
                     return {
@@ -2021,24 +1771,19 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         types: mergeTypeHistory(
                             DEFAULT_TYPES,
                             legacyWords.map(item => item.type)
-                        ),
-                        phrases: [],
-                        lessons: mergeLessonHistory(legacyWords.map(item => item.lesson))
+                        )
                     };
                 }
 
                 if (!payload || typeof payload !== 'object') {
                     return {
                         words: [],
-                        types: [...DEFAULT_TYPES],
-                        phrases: [],
-                        lessons: []
+                        types: [...DEFAULT_TYPES]
                     };
                 }
 
                 const normalizedWords = normalizeWords(payload.words);
                 const hasExplicitTypes = Array.isArray(payload.types);
-                const hasExplicitLessons = Array.isArray(payload.lessons);
 
                 return {
                     words: normalizedWords,
@@ -2047,19 +1792,14 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         : mergeTypeHistory(
                             DEFAULT_TYPES,
                             normalizedWords.map(item => item.type)
-                        ),
-                    lessons: hasExplicitLessons
-                        ? mergeLessonHistory(payload.lessons, normalizedWords.map(item => item.lesson))
-                        : mergeLessonHistory(normalizedWords.map(item => item.lesson)),
-                    phrases: []
+                        )
                 };
             }
 
             function createDataSnapshot() {
                 return {
-                    schemaVersion: 5,
+                    schemaVersion: 6,
                     types: normalizeTypeHistory(typeHistory),
-                    lessons: normalizeLessonHistory(lessonHistory),
                     words: normalizeWords(words)
                 };
             }
@@ -2089,8 +1829,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 return {
                     words: normalized.words,
                     types: normalized.types,
-                    phrases: normalized.phrases,
-                    lessons: normalized.lessons,
                     sha: data.sha
                 };
             }
@@ -2257,8 +1995,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
                         words = data.words;
                         typeHistory = data.types;
-                        phraseHistory = data.phrases;
-                        lessonHistory = data.lessons;
                         syncMeta = {
                             dirty: false,
                             baseSha: data.sha,
@@ -2266,8 +2002,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         };
                         applySortAndRender();
                         renderTypeCombos();
-                        renderPhraseCombos();
-                        renderLessonCombos();
                         saveSyncMeta();
 
                         const now = new Date();
@@ -2328,25 +2062,17 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         const normalized = normalizeDataPayload(JSON.parse(stored));
                         words = normalized.words;
                         typeHistory = normalized.types;
-                        phraseHistory = normalized.phrases;
-                        lessonHistory = normalized.lessons;
                     } catch (e) {
                         console.warn('本地数据格式无效，已使用空列表。', e);
                         words = [];
                         typeHistory = [...DEFAULT_TYPES];
-                        phraseHistory = [];
-                        lessonHistory = [];
                     }
                 } else {
                     words = [];
                     typeHistory = [...DEFAULT_TYPES];
-                    phraseHistory = [];
-                    lessonHistory = [];
                 }
                 applySortAndRender();
                 renderTypeCombos();
-                renderPhraseCombos();
-                renderLessonCombos();
             }
 
             function saveToLocal() {
@@ -2361,93 +2087,75 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 saveSyncMeta();
             }
 
-            // Selected values remain separate from text being entered.
-            function tokenContext(field, which) {
-                return field === 'type' ? getTypeContext(which) :
-                    field === 'phrase' ? getPhraseContext(which) : getLessonContext(which);
+            // Selected type values remain separate from text being entered.
+            function tokenContext(which) {
+                return getTypeContext(which);
             }
-            function renderTokenCombo(field, which) {
-                if (field === 'type') renderTypeCombo(which);
-                else if (field === 'phrase') renderPhraseCombo(which);
-                else renderLessonCombo(which);
-            }
-            function renderSelectedTokens(field, which) {
-                const ctx = tokenContext(field, which);
+
+            function renderSelectedTokens(which) {
+                const ctx = tokenContext(which);
                 const base = ctx.input.id.replace('Input', '');
-                const selected = field === 'type' ? [normalizeTypeValue(ctx.input.value)].filter(Boolean) : normalizePhraseParts(ctx.input.value);
+                const selected = [normalizeTypeValue(ctx.input.value)].filter(Boolean);
                 document.getElementById(base + 'Selected').innerHTML = selected.map(value => `
                     <span class="selected-token"><span>${escapeHtml(value)}</span><button type="button" class="token-remove" data-value="${escapeAttribute(value)}" aria-label="取消选择 ${escapeAttribute(value)}" title="取消选择">×</button></span>
                 `).join('');
                 document.getElementById(base + 'ManualAdd').disabled = !document.getElementById(base + 'Draft').value.trim();
             }
-            function addManualToken(field, which) {
-                const ctx = tokenContext(field, which);
+
+            function addManualToken(which) {
+                const ctx = tokenContext(which);
                 const draft = document.getElementById(ctx.input.id.replace('Input', 'Draft'));
                 const value = draft.value.trim();
                 if (!value) return false;
-                if (field === 'type') {
-                    commitType(which, value);
-                } else {
-                    const next = normalizePhraseParts([...normalizePhraseParts(ctx.input.value), ...normalizePhraseParts(value)]);
-                    const normalized = normalizePhraseValue(next);
-                    if (normalized !== next.join('/')) {
-                        showToast('已选内容过长，请减少选项后再添加', 'error');
-                        return false;
-                    }
-                    ctx.input.value = normalized;
-                    if (field === 'phrase') addCurrentPhrases(which);
-                    else addCurrentLessons(which);
-                }
+                commitType(which, value);
                 draft.value = '';
-                renderTokenCombo(field, which);
+                renderTypeCombo(which);
                 draft.focus();
                 return true;
             }
+
             function clearTokenDrafts(which) {
-                ['type', 'phrase', 'lesson'].forEach(field => {
-                    const ctx = tokenContext(field, which);
-                    document.getElementById(ctx.input.id.replace('Input', 'Draft')).value = '';
-                });
+                const ctx = tokenContext(which);
+                document.getElementById(ctx.input.id.replace('Input', 'Draft')).value = '';
             }
+
             function commitTokenDrafts(which) {
-                for (const field of ['type', 'phrase', 'lesson']) {
-                    const ctx = tokenContext(field, which);
-                    if (document.getElementById(ctx.input.id.replace('Input', 'Draft')).value.trim() && !addManualToken(field, which)) return false;
-                }
+                const ctx = tokenContext(which);
+                const draft = document.getElementById(ctx.input.id.replace('Input', 'Draft'));
+                if (draft.value.trim() && !addManualToken(which)) return false;
                 return true;
             }
+
             function hasTokenDrafts(which) {
-                return ['type', 'phrase', 'lesson'].some(field => {
-                    const ctx = tokenContext(field, which);
-                    return document.getElementById(ctx.input.id.replace('Input', 'Draft')).value !== '';
-                });
+                const ctx = tokenContext(which);
+                return document.getElementById(ctx.input.id.replace('Input', 'Draft')).value !== '';
             }
-            function bindTokenEditor(field, which) {
-                const ctx = tokenContext(field, which);
+
+            function bindTokenEditor(which) {
+                const ctx = tokenContext(which);
                 const base = ctx.input.id.replace('Input', '');
                 const draft = document.getElementById(base + 'Draft');
                 const open = () => {
-                    closeTypePanels(); closePhrasePanels(); closeLessonPanels();
-                    const setter = field === 'type' ? setTypePanelOpen : field === 'phrase' ? setPhrasePanelOpen : setLessonPanelOpen;
-                    setter(which, true);
-                    renderTokenCombo(field, which);
+                    closeTypePanels();
+                    setTypePanelOpen(which, true);
+                    renderTypeCombo(which);
                 };
                 draft.addEventListener('click', open);
-                draft.addEventListener('input', () => renderTokenCombo(field, which));
+                draft.addEventListener('input', () => renderTypeCombo(which));
                 draft.addEventListener('keydown', event => {
                     if (event.key === 'Enter' && !event.isComposing) {
-                        event.preventDefault(); event.stopPropagation();
-                        addManualToken(field, which);
+                        event.preventDefault();
+                        event.stopPropagation();
+                        addManualToken(which);
                     }
                 });
-                document.getElementById(base + 'ManualAdd').addEventListener('click', () => addManualToken(field, which));
+                document.getElementById(base + 'ManualAdd').addEventListener('click', () => addManualToken(which));
                 document.getElementById(base + 'Selected').addEventListener('click', event => {
                     const button = event.target.closest('.token-remove[data-value]');
                     if (!button) return;
                     event.stopPropagation();
-                    if (field === 'type') ctx.input.value = '';
-                    else ctx.input.value = normalizePhraseValue(normalizePhraseParts(ctx.input.value).filter(value => value.toLocaleLowerCase('zh-CN') !== button.dataset.value.toLocaleLowerCase('zh-CN')));
-                    renderTokenCombo(field, which);
+                    ctx.input.value = '';
+                    renderTypeCombo(which);
                     draft.focus();
                 });
             }
@@ -2476,7 +2184,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             }
 
             function renderTypeCombo(which) {
-                renderSelectedTokens('type', which);
+                renderSelectedTokens(which);
                 const ctx = getTypeContext(which);
                 const current = normalizeTypeValue(ctx.input.value);
                 const currentKey = current.toLocaleLowerCase('zh-CN');
@@ -2596,257 +2304,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 showToast(`已从类型菜单删除“${target}”`, 'success');
             }
 
-            // ---------- 词组下拉：支持多选，多个词组以 / 分隔，并按首字母（拼音）排序 ----------
-            function getPhraseContext(which) {
-                const isAdd = which === 'add';
-                return {
-                    input: isAdd ? phraseInput : editPhraseInput,
-                    combo: isAdd ? phraseCombo : editPhraseCombo,
-                    panel: isAdd ? phrasePanel : editPhrasePanel,
-                    trigger: isAdd ? phraseTrigger : editPhraseTrigger,
-                    options: isAdd ? phraseOptions : editPhraseOptions,
-                    addCurrent: isAdd ? phraseAddCurrent : editPhraseAddCurrent
-                };
-            }
-
-            function setPhrasePanelOpen(which, open) {
-                const ctx = getPhraseContext(which);
-                ctx.panel.classList.toggle('hidden', !open);
-                ctx.trigger.setAttribute('aria-expanded', String(open));
-            }
-
-            function closePhrasePanels() {
-                setPhrasePanelOpen('add', false);
-                setPhrasePanelOpen('edit', false);
-            }
-
-            function renderPhraseCombo(which) {
-                renderSelectedTokens('phrase', which);
-                const ctx = getPhraseContext(which);
-                const selected = normalizePhraseParts(ctx.input.value);
-                const selectedKeys = new Set(selected.map(value => value.toLocaleLowerCase('zh-CN')));
-                const visiblePhrases = normalizePhraseHistory(phraseHistory)
-                    .sort((a, b) => compareWordText(a, b));
-
-                ctx.options.innerHTML = visiblePhrases.length
-                    ? visiblePhrases.map(value => {
-                        const selectedNow = selectedKeys.has(value.toLocaleLowerCase('zh-CN'));
-                        return `
-                            <div class="phrase-option-row">
-                                <button type="button" class="type-option phrase-option${selectedNow ? ' is-current' : ''}" data-value="${escapeAttribute(value)}">${escapeHtml(value)}</button>
-                                <button type="button" class="type-control type-delete phrase-delete" data-value="${escapeAttribute(value)}" title="从词组菜单删除" aria-label="删除词组 ${escapeAttribute(value)}">×</button>
-                            </div>
-                        `;
-                    }).join('')
-                    : '<div class="type-empty">暂无词组，可输入后按 Enter 添加</div>';
-
-                const hasNew = selected.some(value =>
-                    !phraseHistory.some(item => item.toLocaleLowerCase('zh-CN') === value.toLocaleLowerCase('zh-CN'))
-                );
-                ctx.addCurrent.disabled = !document.getElementById(ctx.input.id.replace('Input', 'Draft')).value.trim();
-            }
-
-            function renderPhraseCombos() {
-                renderPhraseCombo('add');
-                renderPhraseCombo('edit');
-            }
-
-            function persistPhraseHistoryChange() {
-                phraseHistory = normalizePhraseHistory(phraseHistory);
-                markLocalDirty();
-                saveToLocal();
-                renderPhraseCombos();
-                if (isConfigValid()) syncToCloud(false);
-            }
-
-            function addCurrentPhrases(which) {
-                const ctx = getPhraseContext(which);
-                const current = normalizePhraseParts(ctx.input.value);
-                if (!current.length) return false;
-
-                const before = phraseHistory.length;
-                phraseHistory = mergePhraseHistory(phraseHistory, current);
-                ctx.input.value = normalizePhraseValue(current);
-
-                if (phraseHistory.length !== before) {
-                    persistPhraseHistoryChange();
-                    showToast('已添加到词组菜单', 'success');
-                } else {
-                    renderPhraseCombos();
-                }
-                return true;
-            }
-
-            function togglePhrase(which, value) {
-                const ctx = getPhraseContext(which);
-                const target = normalizePhraseParts(value)[0];
-                if (!target) return;
-
-                const current = normalizePhraseParts(ctx.input.value);
-                const targetKey = target.toLocaleLowerCase('zh-CN');
-                const exists = current.some(item => item.toLocaleLowerCase('zh-CN') === targetKey);
-                const next = exists
-                    ? current.filter(item => item.toLocaleLowerCase('zh-CN') !== targetKey)
-                    : [...current, target];
-
-                ctx.input.value = normalizePhraseValue(next);
-                renderPhraseCombo(which);
-                document.getElementById(ctx.input.id.replace('Input', 'Draft')).focus();
-            }
-
-            function deletePhraseFromHistory(value) {
-                const target = normalizePhraseParts(value)[0];
-                if (!target) return;
-                if (!confirm(`确定从词组下拉菜单中删除“${target}”吗？\n\n所有条目中的该词组也将同时移除，其它内容保留。`)) return;
-
-                phraseHistory = phraseHistory.filter(item =>
-                    item.toLocaleLowerCase('zh-CN') !== target.toLocaleLowerCase('zh-CN')
-                );
-                const targetKey = target.toLocaleLowerCase('zh-CN');
-                const removeSelected = value => normalizePhraseValue(
-                    normalizePhraseParts(value).filter(part =>
-                        part.toLocaleLowerCase('zh-CN') !== targetKey
-                    )
-                );
-                words.forEach(item => {
-                    item.phrase = removeSelected(item.phrase);
-                });
-                [phraseInput, editPhraseInput].forEach(input => {
-                    input.value = removeSelected(input.value);
-                });
-                if (editOriginalSnapshot) {
-                    editOriginalSnapshot.phrase = removeSelected(editOriginalSnapshot.phrase);
-                }
-                renderTable();
-                persistPhraseHistoryChange();
-                showToast(`已从词组菜单和对应条目中删除“${target}”`, 'success');
-            }
-
-            function getLessonContext(which) {
-                const isAdd = which === 'add';
-                return {
-                    input: isAdd ? lessonInput : editLessonInput,
-                    combo: isAdd ? lessonCombo : editLessonCombo,
-                    panel: isAdd ? lessonPanel : editLessonPanel,
-                    trigger: isAdd ? lessonTrigger : editLessonTrigger,
-                    options: isAdd ? lessonOptions : editLessonOptions,
-                    addCurrent: isAdd ? lessonAddCurrent : editLessonAddCurrent
-                };
-            }
-
-            function setLessonPanelOpen(which, open) {
-                const ctx = getLessonContext(which);
-                ctx.panel.classList.toggle('hidden', !open);
-                ctx.trigger.setAttribute('aria-expanded', String(open));
-            }
-
-            function closeLessonPanels() {
-                setLessonPanelOpen('add', false);
-                setLessonPanelOpen('edit', false);
-            }
-
-            function renderLessonCombo(which) {
-                renderSelectedTokens('lesson', which);
-                const ctx = getLessonContext(which);
-                const selected = normalizeLessonParts(ctx.input.value);
-                const selectedKeys = new Set(selected.map(value => value.toLocaleLowerCase('zh-CN')));
-                const visibleLessons = normalizeLessonHistory(lessonHistory)
-                    .sort((a, b) => compareWordText(a, b));
-
-                ctx.options.innerHTML = visibleLessons.length
-                    ? visibleLessons.map(value => {
-                        const selectedNow = selectedKeys.has(value.toLocaleLowerCase('zh-CN'));
-                        return `
-                            <div class="lesson-option-row">
-                                <button type="button" class="type-option lesson-option${selectedNow ? ' is-current' : ''}" data-value="${escapeAttribute(value)}">${escapeHtml(value)}</button>
-                                <button type="button" class="type-control type-delete lesson-delete" data-value="${escapeAttribute(value)}" title="从例句菜单删除" aria-label="删除例句 ${escapeAttribute(value)}">×</button>
-                            </div>
-                        `;
-                    }).join('')
-                    : '<div class="type-empty">暂无课文，可输入后按 Enter 添加</div>';
-
-                const hasNew = selected.some(value =>
-                    !lessonHistory.some(item => item.toLocaleLowerCase('zh-CN') === value.toLocaleLowerCase('zh-CN'))
-                );
-                ctx.addCurrent.disabled = !document.getElementById(ctx.input.id.replace('Input', 'Draft')).value.trim();
-            }
-
-            function renderLessonCombos() {
-                renderLessonCombo('add');
-                renderLessonCombo('edit');
-            }
-
-            function persistLessonHistoryChange() {
-                lessonHistory = normalizeLessonHistory(lessonHistory);
-                markLocalDirty();
-                saveToLocal();
-                renderLessonCombos();
-                if (isConfigValid()) syncToCloud(false);
-            }
-
-            function addCurrentLessons(which) {
-                const ctx = getLessonContext(which);
-                const current = normalizeLessonParts(ctx.input.value);
-                if (!current.length) return false;
-
-                const before = lessonHistory.length;
-                lessonHistory = mergeLessonHistory(lessonHistory, current);
-                ctx.input.value = normalizeLessonValue(current);
-
-                if (lessonHistory.length !== before) {
-                    persistLessonHistoryChange();
-                    showToast('已添加到课文菜单', 'success');
-                } else {
-                    renderLessonCombos();
-                }
-                return true;
-            }
-
-            function toggleLesson(which, value) {
-                const ctx = getLessonContext(which);
-                const target = normalizeLessonParts(value)[0];
-                if (!target) return;
-
-                const current = normalizeLessonParts(ctx.input.value);
-                const targetKey = target.toLocaleLowerCase('zh-CN');
-                const exists = current.some(item => item.toLocaleLowerCase('zh-CN') === targetKey);
-                const next = exists
-                    ? current.filter(item => item.toLocaleLowerCase('zh-CN') !== targetKey)
-                    : [...current, target];
-
-                ctx.input.value = normalizeLessonValue(next);
-                renderLessonCombo(which);
-                document.getElementById(ctx.input.id.replace('Input', 'Draft')).focus();
-            }
-
-            function deleteLessonFromHistory(value) {
-                const target = normalizeLessonParts(value)[0];
-                if (!target) return;
-                if (!confirm(`确定从课文下拉菜单中删除“${target}”吗？\n\n所有条目中的该课文也将同时移除，其它内容保留。`)) return;
-
-                lessonHistory = lessonHistory.filter(item =>
-                    item.toLocaleLowerCase('zh-CN') !== target.toLocaleLowerCase('zh-CN')
-                );
-                const targetKey = target.toLocaleLowerCase('zh-CN');
-                const removeSelected = value => normalizeLessonValue(
-                    normalizeLessonParts(value).filter(part =>
-                        part.toLocaleLowerCase('zh-CN') !== targetKey
-                    )
-                );
-                words.forEach(item => {
-                    item.lesson = removeSelected(item.lesson);
-                });
-                [lessonInput, editLessonInput].forEach(input => {
-                    input.value = removeSelected(input.value);
-                });
-                if (editOriginalSnapshot) {
-                    editOriginalSnapshot.lesson = removeSelected(editOriginalSnapshot.lesson);
-                }
-                renderTable();
-                persistLessonHistoryChange();
-                showToast(`已从课文菜单和对应条目中删除“${target}”`, 'success');
-            }
-
             // ---------- 核心函数 ----------
             // 显式使用拼音校对规则：中文按拼音首字母及后续拼音排序。
             // numeric: true 使 word2 排在 word10 前；ignorePunctuation 减少标点对主排序的干扰。
@@ -2937,10 +2394,10 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     html += `
                         <tr data-index="${index}">
                             <td class="col-word">
+                                ${lesson ? `<div class="word-item-meta lesson-meta">${lesson}</div>` : ''}
                                 <div class="word-item-head">
                                     <div class="word-item-title">${word}</div>
                                 </div>
-                                ${lesson ? `<div class="word-item-meta lesson-meta">${lesson}</div>` : ''}
                                 ${type ? `<div class="word-item-meta">${type}</div>` : ''}
                                 <input type="checkbox" class="entry-check" data-index="${index}" aria-label="勾选条目"${checked}>
                                 <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
@@ -2998,14 +2455,10 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     lesson: item.lesson || ''
                 };
 
+                editLessonInput.value = editOriginalSnapshot.lesson;
                 editWordInput.value = editOriginalSnapshot.word;
                 editTypeInput.value = editOriginalSnapshot.type;
-                editPhraseInput.value = '';
-                editDateInput.value = '';
-                editLessonInput.value = editOriginalSnapshot.lesson;
                 renderTypeCombo('edit');
-                renderPhraseCombo('edit');
-                renderLessonCombo('edit');
                 editModal.classList.remove('hidden');
                 editModal.setAttribute('aria-hidden', 'false');
                 setTimeout(() => editWordInput.focus(), 100);
@@ -3026,8 +2479,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
             function closeEditModal() {
                 setTypePanelOpen('edit', false);
-                setPhrasePanelOpen('edit', false);
-                setLessonPanelOpen('edit', false);
                 editModal.classList.add('hidden');
                 editModal.setAttribute('aria-hidden', 'true');
                 editingIndex = null;
@@ -3062,7 +2513,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 }
 
                 words[editingIndex] = { word, type, lesson };
-                lessonHistory = mergeLessonHistory(lessonHistory, normalizeLessonParts(lesson));
 
                 markLocalDirty();
                 closeEditModal();
@@ -3108,7 +2558,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 }
 
                 words.push({ word, type, lesson });
-                lessonHistory = mergeLessonHistory(lessonHistory, normalizeLessonParts(lesson));
                 markLocalDirty();
                 applySortAndRender();
 
@@ -3117,18 +2566,12 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 }
 
                 clearTokenDrafts('add');
+                lessonInput.value = '';
                 wordInput.value = '';
                 typeInput.value = '';
-                dateInput.value = '';
-                phraseInput.value = '';
-                lessonInput.value = '';
                 closeTypePanels();
-                closePhrasePanels();
-                closeLessonPanels();
                 renderTypeCombo('add');
-                renderPhraseCombo('add');
-                renderLessonCombo('add');
-                wordInput.focus();
+                lessonInput.focus();
             }
 
             // ---------- 排序 ----------
@@ -3206,8 +2649,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
                     words = valid;
                     typeHistory = normalizedImport.types;
-                    phraseHistory = normalizedImport.phrases;
-                    lessonHistory = normalizedImport.lessons;
                     markLocalDirty();
                     applySortAndRender();
                     showToast(`成功导入 ${words.length} 个条目`, 'success');
@@ -3347,16 +2788,12 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
             typeInput.addEventListener('click', function(e) {
                 e.stopPropagation();
-                closePhrasePanels();
-                closeLessonPanels();
                 setTypePanelOpen('edit', false);
                 setTypePanelOpen('add', true);
                 renderTypeCombo('add');
             });
             editTypeInput.addEventListener('click', function(e) {
                 e.stopPropagation();
-                closePhrasePanels();
-                closeLessonPanels();
                 setTypePanelOpen('add', false);
                 setTypePanelOpen('edit', true);
                 renderTypeCombo('edit');
@@ -3364,16 +2801,12 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
             typeTrigger.addEventListener('click', function(e) {
                 e.stopPropagation();
-                closePhrasePanels();
-                closeLessonPanels();
                 setTypePanelOpen('edit', false);
                 setTypePanelOpen('add', typePanel.classList.contains('hidden'));
                 renderTypeCombo('add');
             });
             editTypeTrigger.addEventListener('click', function(e) {
                 e.stopPropagation();
-                closePhrasePanels();
-                closeLessonPanels();
                 setTypePanelOpen('add', false);
                 setTypePanelOpen('edit', editTypePanel.classList.contains('hidden'));
                 renderTypeCombo('edit');
@@ -3397,8 +2830,8 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 }
             });
 
-            typeAddCurrent.addEventListener('click', () => addManualToken('type', 'add'));
-            editTypeAddCurrent.addEventListener('click', () => addManualToken('type', 'edit'));
+            typeAddCurrent.addEventListener('click', () => addManualToken('add'));
+            editTypeAddCurrent.addEventListener('click', () => addManualToken('edit'));
 
             function handleTypeOptionsClick(which, event) {
                 const renameButton = event.target.closest('.type-rename[data-value]');
@@ -3437,139 +2870,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             typeOptions.addEventListener('click', event => handleTypeOptionsClick('add', event));
             editTypeOptions.addEventListener('click', event => handleTypeOptionsClick('edit', event));
 
-            phraseInput.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeTypePanels();
-                closeLessonPanels();
-                setPhrasePanelOpen('edit', false);
-                setPhrasePanelOpen('add', true);
-                renderPhraseCombo('add');
-            });
-            editPhraseInput.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeTypePanels();
-                closeLessonPanels();
-                setPhrasePanelOpen('add', false);
-                setPhrasePanelOpen('edit', true);
-                renderPhraseCombo('edit');
-            });
-            phraseTrigger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeTypePanels();
-                closeLessonPanels();
-                setPhrasePanelOpen('edit', false);
-                setPhrasePanelOpen('add', phrasePanel.classList.contains('hidden'));
-                renderPhraseCombo('add');
-            });
-            editPhraseTrigger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeTypePanels();
-                closeLessonPanels();
-                setPhrasePanelOpen('add', false);
-                setPhrasePanelOpen('edit', editPhrasePanel.classList.contains('hidden'));
-                renderPhraseCombo('edit');
-            });
-            phraseInput.addEventListener('input', () => renderPhraseCombo('add'));
-            editPhraseInput.addEventListener('input', () => renderPhraseCombo('edit'));
-            phraseInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.isComposing) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    addCurrentPhrases('add');
-                }
-            });
-            editPhraseInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.isComposing) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    addCurrentPhrases('edit');
-                }
-            });
-            phraseAddCurrent.addEventListener('click', () => addManualToken('phrase', 'add'));
-            editPhraseAddCurrent.addEventListener('click', () => addManualToken('phrase', 'edit'));
-
-            function handlePhraseOptionsClick(which, event) {
-                const deleteButton = event.target.closest('.phrase-delete[data-value]');
-                if (deleteButton) {
-                    event.stopPropagation();
-                    deletePhraseFromHistory(deleteButton.dataset.value);
-                    return;
-                }
-                const optionButton = event.target.closest('.phrase-option[data-value]');
-                if (optionButton) {
-                    event.stopPropagation();
-                    togglePhrase(which, optionButton.dataset.value);
-                }
-            }
-            phraseOptions.addEventListener('click', event => handlePhraseOptionsClick('add', event));
-            editPhraseOptions.addEventListener('click', event => handlePhraseOptionsClick('edit', event));
-
-            lessonInput.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeTypePanels();
-                closePhrasePanels();
-                setLessonPanelOpen('edit', false);
-                setLessonPanelOpen('add', true);
-                renderLessonCombo('add');
-            });
-            editLessonInput.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeTypePanels();
-                closePhrasePanels();
-                setLessonPanelOpen('add', false);
-                setLessonPanelOpen('edit', true);
-                renderLessonCombo('edit');
-            });
-            lessonTrigger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeTypePanels();
-                closePhrasePanels();
-                setLessonPanelOpen('edit', false);
-                setLessonPanelOpen('add', lessonPanel.classList.contains('hidden'));
-                renderLessonCombo('add');
-            });
-            editLessonTrigger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                closeTypePanels();
-                closePhrasePanels();
-                setLessonPanelOpen('add', false);
-                setLessonPanelOpen('edit', editLessonPanel.classList.contains('hidden'));
-                renderLessonCombo('edit');
-            });
-            lessonInput.addEventListener('input', () => renderLessonCombo('add'));
-            editLessonInput.addEventListener('input', () => renderLessonCombo('edit'));
-            lessonInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.isComposing) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    addCurrentLessons('add');
-                }
-            });
-            editLessonInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.isComposing) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    addCurrentLessons('edit');
-                }
-            });
-            lessonAddCurrent.addEventListener('click', () => addManualToken('lesson', 'add'));
-            editLessonAddCurrent.addEventListener('click', () => addManualToken('lesson', 'edit'));
-
-            function handleLessonOptionsClick(which, event) {
-                const deleteButton = event.target.closest('.lesson-delete[data-value]');
-                if (deleteButton) {
-                    event.stopPropagation();
-                    deleteLessonFromHistory(deleteButton.dataset.value);
-                    return;
-                }
-                const optionButton = event.target.closest('.lesson-option[data-value]');
-                if (optionButton) {
-                    event.stopPropagation();
-                    toggleLesson(which, optionButton.dataset.value);
-                }
-            }
-            lessonOptions.addEventListener('click', event => handleLessonOptionsClick('add', event));
-            editLessonOptions.addEventListener('click', event => handleLessonOptionsClick('edit', event));
 
             document.addEventListener('click', function(event) {
                 if (!typeCombo.contains(event.target)) {
@@ -3577,14 +2877,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 }
                 if (!editTypeCombo.contains(event.target)) {
                     setTypePanelOpen('edit', false);
-                }
-                if (!lessonCombo.contains(event.target)) setLessonPanelOpen('add', false);
-                if (!editLessonCombo.contains(event.target)) setLessonPanelOpen('edit', false);
-                if (!phraseCombo.contains(event.target)) {
-                    setPhrasePanelOpen('add', false);
-                }
-                if (!editPhraseCombo.contains(event.target)) {
-                    setPhrasePanelOpen('edit', false);
                 }
             });
 
@@ -3667,12 +2959,8 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 if (e.key !== 'Escape') {
                     return;
                 }
-                if (!editTypePanel.classList.contains('hidden') || !typePanel.classList.contains('hidden') ||
-                    !editPhrasePanel.classList.contains('hidden') || !phrasePanel.classList.contains('hidden') ||
-                    !editLessonPanel.classList.contains('hidden') || !lessonPanel.classList.contains('hidden')) {
+                if (!editTypePanel.classList.contains('hidden') || !typePanel.classList.contains('hidden')) {
                     closeTypePanels();
-                    closePhrasePanels();
-                    closeLessonPanels();
                 } else if (!editModal.classList.contains('hidden')) {
                     // 编辑弹窗不响应 Escape 关闭，防止编辑过程中误操作导致内容丢失。
                     return;
@@ -3709,10 +2997,8 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
             updateBackToTopVisibility();
 
-            ['type', 'phrase', 'lesson'].forEach(field => {
-                bindTokenEditor(field, 'add');
-                bindTokenEditor(field, 'edit');
-            });
+            bindTokenEditor('add');
+            bindTokenEditor('edit');
 
             // ---------- 初始化 ----------
             // 初始页面只显示主界面；编辑和配置弹窗只能由对应按钮打开。
@@ -3721,16 +3007,12 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             configModal.classList.add('hidden');
             configModal.setAttribute('aria-hidden', 'true');
             closeTypePanels();
-            closePhrasePanels();
-            closeLessonPanels();
             document.body.style.overflow = '';
 
             loadSyncMeta();
             loadConfig();
             loadFromLocal();
             renderTypeCombos();
-            renderPhraseCombos();
-            renderLessonCombos();
             loadFromCloud();
 
             document.querySelector('.add-section').addEventListener('click', function(e) {

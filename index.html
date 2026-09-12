@@ -1193,6 +1193,13 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     .word-table .action-btn.edit-btn { right: 0.8rem; }
 }
 
+/* 词汇前勾选框：与标签前勾选框同样式。 */
+.word-table .word-item-head {
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.45rem;
+}
+
 
 /* 例句改为普通文本框；不保留下拉菜单。 */
 .add-section #lessonInput,
@@ -1739,6 +1746,29 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 return splitTypeValues(value).join('/');
             }
 
+            // 多标签显示顺序始终跟随标签下拉菜单当前顺序；
+            // 不在菜单中的旧标签保留在末尾，并维持其原有相对顺序。
+            function sortTypeValuesByHistory(value) {
+                const values = splitTypeValues(value);
+                const rank = new Map(
+                    normalizeTypeHistory(typeHistory).map((item, index) => [
+                        item.toLocaleLowerCase('zh-CN'),
+                        index
+                    ])
+                );
+
+                return values
+                    .map((item, index) => ({
+                        item,
+                        index,
+                        rank: rank.has(item.toLocaleLowerCase('zh-CN'))
+                            ? rank.get(item.toLocaleLowerCase('zh-CN'))
+                            : Number.MAX_SAFE_INTEGER
+                    }))
+                    .sort((a, b) => a.rank - b.rank || a.index - b.index)
+                    .map(entry => entry.item);
+            }
+
             function normalizeDictationValue(value) {
                 return typeof value === 'string' ? value.trim().slice(0, 100) : '';
             }
@@ -2264,6 +2294,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 markLocalDirty();
                 saveToLocal();
                 renderTypeCombos();
+                renderTable();
 
                 if (isConfigValid()) {
                     syncToCloud(false);
@@ -2465,7 +2496,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 let html = '';
                 words.forEach((item, index) => {
                     const word = escapeHtml(item.word || '');
-                    const type = escapeHtml(item.type || '');
+                    const type = escapeHtml(sortTypeValuesByHistory(item.type).join('/'));
                     const lesson = escapeHtml(item.lesson || '');
                     const checked = checkedEntries.has(item) ? ' checked' : '';
                     html += `
@@ -2473,6 +2504,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                             <td class="col-word">
                                 ${lesson ? `<div class="word-item-meta lesson-meta">${lesson}</div>` : ''}
                                 <div class="word-item-head">
+                                    <input type="checkbox" class="entry-check word-check" data-index="${index}" aria-label="勾选词汇"${checked}>
                                     <div class="word-item-title">${word}</div>
                                 </div>
                                 <div class="entry-type-row">
@@ -2493,6 +2525,9 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         if (!Number.isInteger(idx) || idx < 0 || idx >= words.length) return;
                         if (this.checked) checkedEntries.add(words[idx]);
                         else checkedEntries.delete(words[idx]);
+                        document.querySelectorAll(`#tableBody .entry-check[data-index="${idx}"]`).forEach(other => {
+                            if (other !== this) other.checked = this.checked;
+                        });
                     });
                     box.addEventListener('click', e => e.stopPropagation());
                 });

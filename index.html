@@ -1430,7 +1430,8 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             let lastKnownSha = null;
             let localChangeVersion = 0;
             let previousFocusedElement = null;
-            const checkedEntries = new WeakSet();
+            const checkedWordEntries = new WeakSet();
+            const checkedTypeEntries = new WeakSet();
 
             let syncMeta = {
                 dirty: false,
@@ -2510,17 +2511,18 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     const word = escapeHtml(item.word || '');
                     const type = escapeHtml(sortTypeValuesByHistory(item.type).join('/'));
                     const lesson = escapeHtml(item.lesson || '');
-                    const checked = checkedEntries.has(item) ? ' checked' : '';
+                    const wordChecked = checkedWordEntries.has(item) ? ' checked' : '';
+                    const typeChecked = checkedTypeEntries.has(item) ? ' checked' : '';
                     html += `
                         <tr data-index="${index}">
                             <td class="col-word">
                                 ${lesson ? `<div class="word-item-meta lesson-meta">${lesson}</div>` : ''}
                                 <div class="word-item-head">
-                                    <input type="checkbox" class="entry-check word-check" data-index="${index}" aria-label="勾选词汇"${checked}>
+                                    <input type="checkbox" class="entry-check word-check" data-index="${index}" aria-label="勾选词汇"${wordChecked}>
                                     <div class="word-item-title">${word}</div>
                                 </div>
                                 <div class="entry-type-row">
-                                    <input type="checkbox" class="entry-check" data-index="${index}" aria-label="勾选条目"${checked}>
+                                    <input type="checkbox" class="entry-check" data-index="${index}" aria-label="勾选条目"${typeChecked}>
                                     ${type ? `<div class="word-item-meta entry-type-text">${type}</div>` : ''}
                                 </div>
                                 <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
@@ -2535,11 +2537,11 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         e.stopPropagation();
                         const idx = Number.parseInt(this.dataset.index || '', 10);
                         if (!Number.isInteger(idx) || idx < 0 || idx >= words.length) return;
-                        if (this.checked) checkedEntries.add(words[idx]);
-                        else checkedEntries.delete(words[idx]);
-                        document.querySelectorAll(`#tableBody .entry-check[data-index="${idx}"]`).forEach(other => {
-                            if (other !== this) other.checked = this.checked;
-                        });
+                        const checkedSet = this.classList.contains('word-check')
+                            ? checkedWordEntries
+                            : checkedTypeEntries;
+                        if (this.checked) checkedSet.add(words[idx]);
+                        else checkedSet.delete(words[idx]);
                     });
                     box.addEventListener('click', e => e.stopPropagation());
                 });

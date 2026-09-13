@@ -1188,6 +1188,17 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     margin: 0;
     font-size: 0.9rem !important;
 }
+.word-table .col-word.single-line {
+    padding-bottom: 0.8rem !important;
+}
+.word-table .col-word.single-line .word-item-head {
+    padding-right: 4rem;
+}
+.word-table .col-word.single-line .action-btn.edit-btn {
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
+}
 @media (max-width: 700px) {
     .word-table .entry-type-row { left: 0.8rem; }
     .word-table .action-btn.edit-btn { right: 0.8rem; }
@@ -2518,9 +2529,10 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     const lesson = escapeHtml(item.lesson || '');
                     const wordChecked = checkedWordEntries.has(item) ? ' checked' : '';
                     const typeChecked = checkedTypeEntries.has(item) ? ' checked' : '';
+                    const singleLineClass = !lesson && !type ? ' single-line' : '';
                     html += `
                         <tr data-index="${index}">
-                            <td class="col-word">
+                            <td class="col-word${singleLineClass}">
                                 ${lesson ? `<div class="word-item-meta lesson-meta">${lesson}</div>` : ''}
                                 <div class="word-item-head">
                                     <input type="checkbox" class="entry-check word-check" data-index="${index}" aria-label="勾选词汇"${wordChecked}>

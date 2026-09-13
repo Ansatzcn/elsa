@@ -2497,9 +2497,14 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 saveToLocal();
             }
 
+            function updateCountDisplay() {
+                const wordCheckedCount = words.filter(item => checkedWordEntries.has(item)).length;
+                const typeCheckedCount = words.filter(item => checkedTypeEntries.has(item)).length;
+                countDisplay.textContent = `${wordCheckedCount}/${typeCheckedCount}/${words.length}`;
+            }
+
             function renderTable() {
-                const exampleCount = words.filter(item => String(item?.lesson || '').trim()).length;
-                countDisplay.textContent = `${exampleCount}/${words.length}`;
+                updateCountDisplay();
 
                 if (words.length === 0) {
                     tableBody.innerHTML = `<tr class="empty-row"><td>词汇列表为空，添加一个新词汇吧！</td></tr>`;
@@ -2542,6 +2547,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                             : checkedTypeEntries;
                         if (this.checked) checkedSet.add(words[idx]);
                         else checkedSet.delete(words[idx]);
+                        updateCountDisplay();
                     });
                     box.addEventListener('click', e => e.stopPropagation());
                 });

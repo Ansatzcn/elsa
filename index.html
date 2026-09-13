@@ -2526,10 +2526,10 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                                     <input type="checkbox" class="entry-check word-check" data-index="${index}" aria-label="勾选词汇"${wordChecked}>
                                     <div class="word-item-title">${word}</div>
                                 </div>
-                                <div class="entry-type-row">
+                                ${type ? `<div class="entry-type-row">
                                     <input type="checkbox" class="entry-check" data-index="${index}" aria-label="勾选条目"${typeChecked}>
-                                    ${type ? `<div class="word-item-meta entry-type-text">${type}</div>` : ''}
-                                </div>
+                                    <div class="word-item-meta entry-type-text">${type}</div>
+                                </div>` : ''}
                                 <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
                             </td>
                         </tr>

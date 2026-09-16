@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="app-build" content="2026-08-31-elsa-edit-modal-no-accidental-close-v1">
+    <meta name="app-build" content="2026-09-17-elsa-type-as-edit-link-v2">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <title>Elsa</title>
     <style>
@@ -1140,7 +1140,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 .type-primary-row { align-items: stretch; }
 
 
-/* 2026-09-12 条目字段与操作区：例句 1.1rem 主色加粗；词汇和分组 1rem 黑色；编辑 0.9rem。 */
+/* 2026-09-17 条目字段与操作区：标签不再单独显示，直接作为右下角编辑入口文字。 */
 .word-table .col-word {
     position: relative;
     padding-bottom: 2.25rem !important;
@@ -1157,16 +1157,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     color: #1E40AF !important;
     font-weight: 700 !important;
 }
-.word-table .entry-type-row {
-    position: absolute;
-    left: 1.2rem;
-    bottom: 0.58rem;
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    min-width: 0;
-    max-width: calc(100% - 7rem);
-}
 .word-table .entry-check {
     flex: 0 0 auto;
     width: 16px;
@@ -1176,17 +1166,23 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     accent-color: #1E40AF;
     cursor: pointer;
 }
-.word-table .entry-type-text {
-    margin-top: 0;
-    min-width: 0;
-    overflow-wrap: anywhere;
-}
 .word-table .action-btn.edit-btn {
     position: absolute;
     right: 1.2rem;
     bottom: 0.58rem;
+    max-width: calc(100% - 2.4rem);
     margin: 0;
-    font-size: 0.9rem !important;
+    color: #000000 !important;
+    font-size: 1rem !important;
+    line-height: 1.45;
+    text-align: right;
+    text-decoration: none !important;
+    overflow-wrap: anywhere;
+}
+.word-table .action-btn.edit-btn:hover,
+.word-table .action-btn.edit-btn:focus-visible {
+    color: #000000 !important;
+    text-decoration: none !important;
 }
 .word-table .col-word.single-line {
     padding-bottom: 0.8rem !important;
@@ -1200,7 +1196,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     transform: translateY(-50%);
 }
 @media (max-width: 700px) {
-    .word-table .entry-type-row { left: 0.8rem; }
     .word-table .action-btn.edit-btn { right: 0.8rem; }
 }
 
@@ -2528,7 +2523,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     const type = escapeHtml(sortTypeValuesByHistory(item.type).join('/'));
                     const lesson = escapeHtml(item.lesson || '');
                     const wordChecked = checkedWordEntries.has(item) ? ' checked' : '';
-                    const typeChecked = checkedTypeEntries.has(item) ? ' checked' : '';
+                    const linkText = type || '编辑';
                     const singleLineClass = !lesson && !type ? ' single-line' : '';
                     html += `
                         <tr data-index="${index}">
@@ -2538,11 +2533,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                                     <input type="checkbox" class="entry-check word-check" data-index="${index}" aria-label="勾选词汇"${wordChecked}>
                                     <div class="word-item-title">${word}</div>
                                 </div>
-                                ${type ? `<div class="entry-type-row">
-                                    <input type="checkbox" class="entry-check" data-index="${index}" aria-label="勾选条目"${typeChecked}>
-                                    <div class="word-item-meta entry-type-text">${type}</div>
-                                </div>` : ''}
-                                <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">编辑</button>
+                                <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">${linkText}</button>
                             </td>
                         </tr>
                     `;
@@ -2554,11 +2545,8 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         e.stopPropagation();
                         const idx = Number.parseInt(this.dataset.index || '', 10);
                         if (!Number.isInteger(idx) || idx < 0 || idx >= words.length) return;
-                        const checkedSet = this.classList.contains('word-check')
-                            ? checkedWordEntries
-                            : checkedTypeEntries;
-                        if (this.checked) checkedSet.add(words[idx]);
-                        else checkedSet.delete(words[idx]);
+                        if (this.checked) checkedWordEntries.add(words[idx]);
+                        else checkedWordEntries.delete(words[idx]);
                         updateCountDisplay();
                     });
                     box.addEventListener('click', e => e.stopPropagation());

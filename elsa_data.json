@@ -4,7 +4,7 @@
     "沪教1A",
     "沪教1B",
     "沪教2A",
-    "自然拼读1"
+    "拼读1"
   ],
   "words": [
     {
@@ -14,42 +14,42 @@
     },
     {
       "word": "alligator",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "angry",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "ant",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "apple",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "ax",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "banana",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "bear",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "bed",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -59,12 +59,12 @@
     },
     {
       "word": "big",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "bird",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -79,7 +79,7 @@
     },
     {
       "word": "box",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -89,7 +89,7 @@
     },
     {
       "word": "car",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -124,37 +124,37 @@
     },
     {
       "word": "computer",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "cool",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "cup",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "desk",
-      "type": "沪教1A/自然拼读1",
+      "type": "沪教1A/拼读1",
       "lesson": "Clean my desk."
     },
     {
       "word": "dizzy",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "dog",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "doll",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -164,7 +164,7 @@
     },
     {
       "word": "duck",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -184,17 +184,17 @@
     },
     {
       "word": "elbow",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "elephant",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": "It is an elephant."
     },
     {
       "word": "energetic",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -204,7 +204,7 @@
     },
     {
       "word": "envelope",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -234,12 +234,12 @@
     },
     {
       "word": "fan",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": "I have a fan."
     },
     {
       "word": "farm",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -249,7 +249,7 @@
     },
     {
       "word": "fish",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -259,12 +259,12 @@
     },
     {
       "word": "fork",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "fox",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -279,27 +279,27 @@
     },
     {
       "word": "funny",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "gift",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "girl",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "goat",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "good",
-      "type": "沪教1A/自然拼读1",
+      "type": "沪教1A/拼读1",
       "lesson": "That's good."
     },
     {
@@ -309,17 +309,17 @@
     },
     {
       "word": "gorilla",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "happy",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "hat",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -354,77 +354,77 @@
     },
     {
       "word": "igloo",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "iguana",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "ink",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "insect",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "interesting",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "jacket",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "jam",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "jet",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": "That is a jet."
     },
     {
       "word": "juice",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "jumbo",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "kangaroo",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "key",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "kicking",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "king",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "kite",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": "This is a kite."
     },
     {
@@ -434,17 +434,17 @@
     },
     {
       "word": "lamp",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "lazy",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "leaf",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -454,12 +454,12 @@
     },
     {
       "word": "lemon",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "lion",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -469,22 +469,22 @@
     },
     {
       "word": "merry",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "milk",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "money",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "monkey",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -494,7 +494,7 @@
     },
     {
       "word": "mouse",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -514,17 +514,17 @@
     },
     {
       "word": "nest",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "net",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "noisy",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -534,17 +534,17 @@
     },
     {
       "word": "nut",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "octopus",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "olive",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -554,17 +554,17 @@
     },
     {
       "word": "orange",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "ostrich",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "ox",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -574,17 +574,17 @@
     },
     {
       "word": "panda",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "peach",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "pen",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -594,42 +594,42 @@
     },
     {
       "word": "pineapple",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "pink",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "queen",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "question",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "quiet",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "quilt",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "quiz",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "rabbit",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -639,17 +639,17 @@
     },
     {
       "word": "rice",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "robot",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "rose",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -664,32 +664,32 @@
     },
     {
       "word": "seal",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "six",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "soap",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "socks",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "sun",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "teacher",
-      "type": "沪教1A/自然拼读1",
+      "type": "沪教1A/拼读1",
       "lesson": ""
     },
     {
@@ -699,12 +699,12 @@
     },
     {
       "word": "tent",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "tiger",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -714,27 +714,27 @@
     },
     {
       "word": "turtle",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "umbrella",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "umpire",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "uncle",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "up",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -744,37 +744,37 @@
     },
     {
       "word": "van",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "vest",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "vet",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "violin",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "watch",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "water",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "wax",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -789,7 +789,7 @@
     },
     {
       "word": "web",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -799,7 +799,7 @@
     },
     {
       "word": "wolf",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -809,17 +809,17 @@
     },
     {
       "word": "yacht",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "yak",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "yogurt",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
@@ -829,27 +829,27 @@
     },
     {
       "word": "yo-yo",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "zebra",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "zero",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "zipper",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     },
     {
       "word": "zoo",
-      "type": "自然拼读1",
+      "type": "拼读1",
       "lesson": ""
     }
   ]

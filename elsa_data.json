@@ -2,7 +2,7 @@
   "schemaVersion": 6,
   "types": [
     "沪教1A",
-    "沪教英语1B",
+    "沪教1B",
     "沪教英语2A",
     "自然拼读1"
   ],
@@ -784,7 +784,7 @@
     },
     {
       "word": "weather",
-      "type": "沪教英语1B",
+      "type": "沪教1B",
       "lesson": "How's the weather?"
     },
     {

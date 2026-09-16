@@ -1,7 +1,7 @@
 {
   "schemaVersion": 6,
   "types": [
-    "沪教英语1A",
+    "沪教1A",
     "沪教英语1B",
     "沪教英语2A",
     "自然拼读1"
@@ -9,7 +9,7 @@
   "words": [
     {
       "word": "afternoon",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Good afternoon."
     },
     {
@@ -54,7 +54,7 @@
     },
     {
       "word": "bee",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
@@ -69,12 +69,12 @@
     },
     {
       "word": "blackboard",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Let me clean the blackboard."
     },
     {
       "word": "book",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Let me put the books back."
     },
     {
@@ -94,32 +94,32 @@
     },
     {
       "word": "cat",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "chair",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Clean your chair."
     },
     {
       "word": "China",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "class",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "classroom",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Clean our classroom."
     },
     {
       "word": "clean",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Clean your desk."
     },
     {
@@ -139,7 +139,7 @@
     },
     {
       "word": "desk",
-      "type": "沪教英语1A/自然拼读1",
+      "type": "沪教1A/自然拼读1",
       "lesson": "Clean my desk."
     },
     {
@@ -159,7 +159,7 @@
     },
     {
       "word": "door",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
@@ -169,17 +169,17 @@
     },
     {
       "word": "duty",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Who's on duty today?"
     },
     {
       "word": "ear",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "egg",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "I see an egg."
     },
     {
@@ -199,7 +199,7 @@
     },
     {
       "word": "English",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "I learn English."
     },
     {
@@ -209,27 +209,27 @@
     },
     {
       "word": "eraser",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "evening",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Good evening."
     },
     {
       "word": "eye",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "face",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Draw a face."
     },
     {
       "word": "family",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
@@ -244,7 +244,7 @@
     },
     {
       "word": "fine",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
@@ -254,7 +254,7 @@
     },
     {
       "word": "floor",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Let me clean the floor."
     },
     {
@@ -269,12 +269,12 @@
     },
     {
       "word": "friend",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "funny",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "I see a funny face."
     },
     {
@@ -299,12 +299,12 @@
     },
     {
       "word": "good",
-      "type": "沪教英语1A/自然拼读1",
+      "type": "沪教1A/自然拼读1",
       "lesson": "That's good."
     },
     {
       "word": "goodbye",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Goodbye."
     },
     {
@@ -324,32 +324,32 @@
     },
     {
       "word": "hello",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Hello."
     },
     {
       "word": "hen",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "hi",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "horse",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "hot",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "house",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "I have a house for Mira."
     },
     {
@@ -449,7 +449,7 @@
     },
     {
       "word": "learn",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
@@ -464,7 +464,7 @@
     },
     {
       "word": "lovely",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Draw a lovely face."
     },
     {
@@ -489,7 +489,7 @@
     },
     {
       "word": "morning",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Good morning."
     },
     {
@@ -499,17 +499,17 @@
     },
     {
       "word": "mouth",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "my",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
       "word": "name",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "My name is Shenshen."
     },
     {
@@ -529,7 +529,7 @@
     },
     {
       "word": "nose",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
@@ -569,7 +569,7 @@
     },
     {
       "word": "pack",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Pack my pencils."
     },
     {
@@ -589,7 +589,7 @@
     },
     {
       "word": "pencil",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
@@ -634,7 +634,7 @@
     },
     {
       "word": "red",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
@@ -654,12 +654,12 @@
     },
     {
       "word": "ruler",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Pack my ruler."
     },
     {
       "word": "schoolbag",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
@@ -689,7 +689,7 @@
     },
     {
       "word": "teacher",
-      "type": "沪教英语1A/自然拼读1",
+      "type": "沪教1A/自然拼读1",
       "lesson": ""
     },
     {
@@ -709,7 +709,7 @@
     },
     {
       "word": "today",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": ""
     },
     {
@@ -739,7 +739,7 @@
     },
     {
       "word": "use",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Use my pencil."
     },
     {
@@ -779,7 +779,7 @@
     },
     {
       "word": "we",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "We learn English."
     },
     {
@@ -794,7 +794,7 @@
     },
     {
       "word": "welcome",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Welcome to China."
     },
     {
@@ -804,7 +804,7 @@
     },
     {
       "word": "worry",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "Don't worry."
     },
     {
@@ -824,7 +824,7 @@
     },
     {
       "word": "you",
-      "type": "沪教英语1A",
+      "type": "沪教1A",
       "lesson": "How are you?"
     },
     {

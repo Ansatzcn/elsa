@@ -1239,6 +1239,26 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     resize: vertical;
 }
 
+
+/* 2026-09-17 条目垂直节奏：例句靠近顶部分隔线，并与词汇保持舒适间距。 */
+.word-table td.col-word {
+    padding-top: 0.48rem !important;
+    padding-bottom: 0.78rem !important;
+}
+.word-table .word-item-meta.lesson-meta {
+    margin-top: 0 !important;
+    margin-bottom: 0.52rem !important;
+    line-height: 1.42 !important;
+}
+@media (max-width: 700px) {
+    .word-table td.col-word {
+        padding-top: 0.42rem !important;
+        padding-bottom: 0.72rem !important;
+    }
+    .word-table .word-item-meta.lesson-meta {
+        margin-bottom: 0.48rem !important;
+    }
+}
 </style>
 </head>
 <body>

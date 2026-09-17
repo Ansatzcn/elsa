@@ -1140,7 +1140,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 .type-primary-row { align-items: stretch; }
 
 
-/* 2026-09-17 条目字段与操作区：标签仅作为编辑入口文字，与左侧词汇最后一行等高。 */
+/* 2026-09-17 手机端修正：标签链接整体靠右，不逐字断行；词汇保留正常可用宽度。 */
 .word-table .col-word {
     position: relative;
     padding-bottom: 0.8rem !important;
@@ -1169,7 +1169,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 }
 .word-table .word-item-head {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr) max-content;
     align-items: end;
     column-gap: 0.45rem;
     width: 100%;
@@ -1177,25 +1177,46 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 }
 .word-table .word-item-title {
     min-width: 0;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    word-break: normal;
 }
 .word-table .action-btn.edit-btn {
     position: static;
     justify-self: end;
     align-self: end;
-    max-width: min(42%, 18rem);
+    min-width: max-content;
+    max-width: none;
     margin: 0;
     color: #000000 !important;
     font-size: 1rem !important;
     line-height: 1.45;
     text-align: right;
     text-decoration: none !important;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: keep-all;
+    hyphens: none;
 }
 .word-table .action-btn.edit-btn:hover,
 .word-table .action-btn.edit-btn:focus-visible {
     color: #000000 !important;
     text-decoration: none !important;
+}
+
+@media (max-width: 700px) {
+    .word-table .word-item-head {
+        grid-template-columns: auto minmax(0, 1fr) fit-content(44%);
+        column-gap: 0.4rem;
+    }
+    .word-table .action-btn.edit-btn {
+        min-width: 0;
+        max-width: 44vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow-wrap: normal;
+        word-break: keep-all;
+    }
 }
 
 /* 添加板块：电脑端例句独占首行；词汇与标签并列在下一行。 */

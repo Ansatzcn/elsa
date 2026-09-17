@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="app-build" content="2026-09-17-elsa-type-as-edit-link-v2">
+    <meta name="app-build" content="2026-09-17-elsa-tag-link-single-select-v3">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <title>Elsa</title>
     <style>
@@ -1140,10 +1140,10 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 .type-primary-row { align-items: stretch; }
 
 
-/* 2026-09-17 条目字段与操作区：标签不再单独显示，直接作为右下角编辑入口文字。 */
+/* 2026-09-17 条目字段与操作区：标签仅作为编辑入口文字，与左侧词汇最后一行等高。 */
 .word-table .col-word {
     position: relative;
-    padding-bottom: 2.25rem !important;
+    padding-bottom: 0.8rem !important;
 }
 .word-table .word-item-title,
 .word-table .word-item-meta {
@@ -1165,12 +1165,25 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
     padding: 0;
     accent-color: #1E40AF;
     cursor: pointer;
+    align-self: center;
+}
+.word-table .word-item-head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: 0.45rem;
+    width: 100%;
+    min-width: 0;
+}
+.word-table .word-item-title {
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 .word-table .action-btn.edit-btn {
-    position: absolute;
-    right: 1.2rem;
-    bottom: 0.58rem;
-    max-width: calc(100% - 2.4rem);
+    position: static;
+    justify-self: end;
+    align-self: end;
+    max-width: min(42%, 18rem);
     margin: 0;
     color: #000000 !important;
     font-size: 1rem !important;
@@ -1183,28 +1196,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 .word-table .action-btn.edit-btn:focus-visible {
     color: #000000 !important;
     text-decoration: none !important;
-}
-.word-table .col-word.single-line {
-    padding-bottom: 0.8rem !important;
-}
-.word-table .col-word.single-line .word-item-head {
-    padding-right: 4rem;
-}
-.word-table .col-word.single-line .action-btn.edit-btn {
-    top: 50%;
-    bottom: auto;
-    transform: translateY(-50%);
-}
-@media (max-width: 700px) {
-    .word-table .action-btn.edit-btn { right: 0.8rem; }
-}
-
-/* 词汇前勾选框：与标签前勾选框同样式；总表各字段仍各占一行。 */
-.word-table .word-item-head {
-    justify-content: flex-start;
-    align-items: center;
-    gap: 0.45rem;
-    min-width: 0;
 }
 
 /* 添加板块：电脑端例句独占首行；词汇与标签并列在下一行。 */
@@ -2320,27 +2311,20 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 }
             }
 
-            function commitType(which, value = null, toggle = false) {
+            function commitType(which, value = null) {
                 const ctx = getTypeContext(which);
                 const draft = document.getElementById(ctx.input.id.replace('Input', 'Draft'));
-                const next = normalizeSingleTypeValue(value === null ? draft.value : value);
+                const candidates = splitTypeValues(value === null ? draft.value : value);
+                const next = candidates[0] || '';
 
                 if (!next) {
                     return false;
                 }
 
-                const selected = splitTypeValues(ctx.input.value);
+                // 标签从现在起为单选：用户一旦主动选择或输入标签，就以该标签替换当前选择。
+                // 已有条目中历史遗留的多标签只在用户主动修改标签时才会变成单选，不做批量迁移。
                 const nextKey = next.toLocaleLowerCase('zh-CN');
-                const existingIndex = selected.findIndex(item =>
-                    item.toLocaleLowerCase('zh-CN') === nextKey
-                );
-
-                if (toggle && existingIndex >= 0) {
-                    selected.splice(existingIndex, 1);
-                } else if (existingIndex < 0) {
-                    selected.push(next);
-                }
-                ctx.input.value = selected.join('/');
+                ctx.input.value = next;
 
                 if (!typeHistory.some(item =>
                     item.toLocaleLowerCase('zh-CN') === nextKey
@@ -2524,16 +2508,15 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     const lesson = escapeHtml(item.lesson || '');
                     const wordChecked = checkedWordEntries.has(item) ? ' checked' : '';
                     const linkText = type || '编辑';
-                    const singleLineClass = !lesson && !type ? ' single-line' : '';
                     html += `
                         <tr data-index="${index}">
-                            <td class="col-word${singleLineClass}">
+                            <td class="col-word">
                                 ${lesson ? `<div class="word-item-meta lesson-meta">${lesson}</div>` : ''}
                                 <div class="word-item-head">
                                     <input type="checkbox" class="entry-check word-check" data-index="${index}" aria-label="勾选词汇"${wordChecked}>
                                     <div class="word-item-title">${word}</div>
+                                    <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">${linkText}</button>
                                 </div>
-                                <button type="button" class="action-btn edit-btn" data-index="${index}" title="编辑">${linkText}</button>
                             </td>
                         </tr>
                     `;
@@ -2997,7 +2980,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
                 const optionButton = event.target.closest('.type-option[data-value]');
                 if (optionButton) {
-                    commitType(which, optionButton.dataset.value, true);
+                    commitType(which, optionButton.dataset.value);
                 }
             }
 

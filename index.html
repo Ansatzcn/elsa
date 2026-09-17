@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="app-build" content="2026-09-17-elsa-tag-link-single-select-v3">
+    <meta name="app-build" content="2026-09-17-elsa-zero-webstorage-idb-opfs-v1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <title>Elsa</title>
     <style>
@@ -1443,11 +1443,14 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             // ============================================================
             //  配置存储
             // ============================================================
-            const CONFIG_KEY = 'github_wordbook_config_v2';
-            const STORAGE_KEY = 'wordbook_az_data_v2';
-            const SYNC_META_KEY = 'wordbook_az_sync_meta_v1';
-            const TOKEN_LOCAL_KEY = 'github_wordbook_token_local_v1';
-            const TOKEN_SESSION_KEY = 'github_wordbook_token_session_v1';
+            const LOCAL_DB_NAME = 'elsa_wordbook_local_v1';
+            const LOCAL_DB_VERSION = 1;
+            const LOCAL_STORE_NAME = 'kv';
+            const CONFIG_KEY = 'config';
+            const TOKEN_KEY = 'github_token';
+            const SYNC_META_KEY = 'sync_meta';
+            const WORKING_COPY_KEY = 'working_copy';
+            const OPFS_WORKING_COPY_FILE = 'elsa_working_copy.json';
 
             const MAX_ITEMS = 10000;
             const MAX_WORD_LENGTH = 200;
@@ -1535,68 +1538,126 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             const toast = document.getElementById('toast');
             let toastTimer = null;
 
-            // ---------- 安全存储 ----------
-            function safeStorageGet(storage, key) {
+            // ---------- 本地持久化：IndexedDB + OPFS ----------
+            let localDbPromise = null;
+            let workingCopySaveQueue = Promise.resolve(true);
+            let syncMetaSaveQueue = Promise.resolve(true);
+
+            function openLocalDb() {
+                if (localDbPromise) return localDbPromise;
+                localDbPromise = new Promise((resolve, reject) => {
+                    const request = indexedDB.open(LOCAL_DB_NAME, LOCAL_DB_VERSION);
+                    request.onupgradeneeded = () => {
+                        const db = request.result;
+                        if (!db.objectStoreNames.contains(LOCAL_STORE_NAME)) {
+                            db.createObjectStore(LOCAL_STORE_NAME);
+                        }
+                    };
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error || new Error('IndexedDB 打开失败'));
+                    request.onblocked = () => console.warn('IndexedDB 升级被其他页面阻塞。');
+                });
+                return localDbPromise;
+            }
+
+            async function idbGet(key) {
+                const db = await openLocalDb();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(LOCAL_STORE_NAME, 'readonly');
+                    const request = tx.objectStore(LOCAL_STORE_NAME).get(key);
+                    request.onsuccess = () => resolve(request.result);
+                    request.onerror = () => reject(request.error || new Error(`IndexedDB 读取失败：${key}`));
+                });
+            }
+
+            async function idbSet(key, value) {
+                const db = await openLocalDb();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(LOCAL_STORE_NAME, 'readwrite');
+                    tx.objectStore(LOCAL_STORE_NAME).put(value, key);
+                    tx.oncomplete = () => resolve(true);
+                    tx.onerror = () => reject(tx.error || new Error(`IndexedDB 写入失败：${key}`));
+                    tx.onabort = () => reject(tx.error || new Error(`IndexedDB 写入中止：${key}`));
+                });
+            }
+
+            async function idbDelete(key) {
+                const db = await openLocalDb();
+                return new Promise((resolve, reject) => {
+                    const tx = db.transaction(LOCAL_STORE_NAME, 'readwrite');
+                    tx.objectStore(LOCAL_STORE_NAME).delete(key);
+                    tx.oncomplete = () => resolve(true);
+                    tx.onerror = () => reject(tx.error || new Error(`IndexedDB 删除失败：${key}`));
+                    tx.onabort = () => reject(tx.error || new Error(`IndexedDB 删除中止：${key}`));
+                });
+            }
+
+            async function getOpfsRoot() {
+                if (!navigator.storage || typeof navigator.storage.getDirectory !== 'function') {
+                    return null;
+                }
+                return navigator.storage.getDirectory();
+            }
+
+            async function writeOpfsWorkingCopy(snapshot) {
+                const root = await getOpfsRoot();
+                if (!root) return false;
+                const handle = await root.getFileHandle(OPFS_WORKING_COPY_FILE, { create: true });
+                const writable = await handle.createWritable();
+                await writable.write(JSON.stringify(snapshot));
+                await writable.close();
+                return true;
+            }
+
+            async function readOpfsWorkingCopy() {
+                const root = await getOpfsRoot();
+                if (!root) return null;
                 try {
-                    return storage.getItem(key);
+                    const handle = await root.getFileHandle(OPFS_WORKING_COPY_FILE);
+                    const file = await handle.getFile();
+                    const text = await file.text();
+                    return text ? JSON.parse(text) : null;
                 } catch (e) {
-                    console.warn(`读取存储失败：${key}`, e);
+                    if (e && e.name === 'NotFoundError') return null;
+                    console.warn('读取 OPFS 工作副本失败。', e);
                     return null;
                 }
             }
 
-            function safeStorageSet(storage, key, value, showError = false) {
+            async function requestPersistentStorage() {
                 try {
-                    storage.setItem(key, value);
-                    return true;
-                } catch (e) {
-                    console.error(`写入存储失败：${key}`, e);
-                    if (showError) {
-                        showToast(`本地保存失败：${e.message}`, 'error');
+                    if (navigator.storage && typeof navigator.storage.persist === 'function') {
+                        await navigator.storage.persist();
                     }
-                    return false;
-                }
-            }
-
-            function safeStorageRemove(storage, key) {
-                try {
-                    storage.removeItem(key);
                 } catch (e) {
-                    console.warn(`删除存储失败：${key}`, e);
+                    console.warn('请求持久存储失败，将继续使用浏览器默认策略。', e);
                 }
             }
 
             // ---------- 配置管理 ----------
-            function loadConfig() {
-                const stored = safeStorageGet(localStorage, CONFIG_KEY);
+            async function loadConfig() {
                 let parsed = {};
-
-                if (stored) {
-                    try {
-                        parsed = JSON.parse(stored);
-                    } catch (e) {
-                        console.warn('GitHub 配置格式无效，已忽略。', e);
-                    }
+                try {
+                    const stored = await idbGet(CONFIG_KEY);
+                    if (stored && typeof stored === 'object') parsed = stored;
+                } catch (e) {
+                    console.warn('读取 GitHub 配置失败，已使用默认配置。', e);
                 }
 
-                const legacyToken = typeof parsed.token === 'string' ? parsed.token : '';
-                const localToken = safeStorageGet(localStorage, TOKEN_LOCAL_KEY) || '';
-                const sessionToken = safeStorageGet(sessionStorage, TOKEN_SESSION_KEY) || '';
-
-                // 兼容旧版本：若旧配置内直接保存过 Token，先迁移到本设备保存槽位。
-                if (legacyToken && !localToken) {
-                    safeStorageSet(localStorage, TOKEN_LOCAL_KEY, legacyToken);
+                let persistentToken = '';
+                try {
+                    const storedToken = await idbGet(TOKEN_KEY);
+                    persistentToken = typeof storedToken === 'string' ? storedToken : '';
+                } catch (e) {
+                    console.warn('读取 GitHub Token 失败。', e);
                 }
 
-                const effectiveLocalToken = localToken || legacyToken;
                 const rememberToken = typeof parsed.rememberToken === 'boolean'
                     ? parsed.rememberToken
-                    : Boolean(effectiveLocalToken);
+                    : Boolean(persistentToken);
 
                 config = {
-                    token: rememberToken
-                        ? (effectiveLocalToken || sessionToken)
-                        : sessionToken,
+                    token: rememberToken ? persistentToken : '',
                     rememberToken,
                     owner: typeof parsed.owner === 'string' ? parsed.owner : '',
                     repo: typeof parsed.repo === 'string' ? parsed.repo : '',
@@ -1604,16 +1665,6 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                         ? parsed.file.trim()
                         : 'wordbook_data.json'
                 };
-
-                // 清理旧配置对象中的明文 Token，Token 独立存放。
-                if (legacyToken || Object.prototype.hasOwnProperty.call(parsed, 'token')) {
-                    safeStorageSet(localStorage, CONFIG_KEY, JSON.stringify({
-                        rememberToken: config.rememberToken,
-                        owner: config.owner,
-                        repo: config.repo,
-                        file: config.file
-                    }));
-                }
 
                 cfgToken.value = config.token;
                 cfgRememberToken.checked = config.rememberToken;
@@ -1624,35 +1675,32 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 return isConfigValid();
             }
 
-            function saveConfig() {
+            async function saveConfig() {
                 config.token = cfgToken.value.trim();
                 config.rememberToken = cfgRememberToken.checked;
                 config.owner = cfgOwner.value.trim();
                 config.repo = cfgRepo.value.trim();
                 config.file = cfgFile.value.trim() || 'wordbook_data.json';
 
-                if (config.rememberToken) {
-                    if (config.token) {
-                        safeStorageSet(localStorage, TOKEN_LOCAL_KEY, config.token, true);
+                try {
+                    if (config.rememberToken && config.token) {
+                        await idbSet(TOKEN_KEY, config.token);
                     } else {
-                        safeStorageRemove(localStorage, TOKEN_LOCAL_KEY);
+                        await idbDelete(TOKEN_KEY);
                     }
-                    safeStorageRemove(sessionStorage, TOKEN_SESSION_KEY);
-                } else {
-                    safeStorageRemove(localStorage, TOKEN_LOCAL_KEY);
-                    if (config.token) {
-                        safeStorageSet(sessionStorage, TOKEN_SESSION_KEY, config.token);
-                    } else {
-                        safeStorageRemove(sessionStorage, TOKEN_SESSION_KEY);
-                    }
-                }
 
-                return safeStorageSet(localStorage, CONFIG_KEY, JSON.stringify({
-                    rememberToken: config.rememberToken,
-                    owner: config.owner,
-                    repo: config.repo,
-                    file: config.file
-                }), true);
+                    await idbSet(CONFIG_KEY, {
+                        rememberToken: config.rememberToken,
+                        owner: config.owner,
+                        repo: config.repo,
+                        file: config.file
+                    });
+                    return true;
+                } catch (e) {
+                    console.error('保存 GitHub 配置失败。', e);
+                    showToast(`本地保存失败：${e.message}`, 'error');
+                    return false;
+                }
             }
 
             function isConfigValid() {
@@ -2153,51 +2201,113 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 }
             }
 
-            // ---------- 本地存储 ----------
-            function loadSyncMeta() {
-                const stored = safeStorageGet(localStorage, SYNC_META_KEY);
-                if (!stored) {
-                    return;
-                }
-
+            // ---------- 本地正式工作副本 ----------
+            async function loadSyncMeta() {
                 try {
-                    const parsed = JSON.parse(stored);
+                    const parsed = await idbGet(SYNC_META_KEY);
+                    if (!parsed || typeof parsed !== 'object') return;
                     syncMeta = {
                         dirty: Boolean(parsed.dirty),
                         baseSha: typeof parsed.baseSha === 'string' ? parsed.baseSha : null,
                         remoteKey: typeof parsed.remoteKey === 'string' ? parsed.remoteKey : ''
                     };
                 } catch (e) {
-                    console.warn('同步元数据格式无效，已重置。', e);
+                    console.warn('读取同步元数据失败，已使用默认值。', e);
                 }
             }
 
             function saveSyncMeta() {
-                safeStorageSet(localStorage, SYNC_META_KEY, JSON.stringify(syncMeta));
+                const snapshot = {
+                    dirty: Boolean(syncMeta.dirty),
+                    baseSha: typeof syncMeta.baseSha === 'string' ? syncMeta.baseSha : null,
+                    remoteKey: typeof syncMeta.remoteKey === 'string' ? syncMeta.remoteKey : ''
+                };
+                syncMetaSaveQueue = syncMetaSaveQueue
+                    .catch(() => true)
+                    .then(() => idbSet(SYNC_META_KEY, snapshot))
+                    .catch(e => {
+                        console.warn('保存同步元数据失败。', e);
+                        return false;
+                    });
+                return syncMetaSaveQueue;
             }
 
-            function loadFromLocal() {
-                const stored = safeStorageGet(localStorage, STORAGE_KEY);
-                if (stored) {
-                    try {
-                        const normalized = normalizeDataPayload(JSON.parse(stored));
-                        words = normalized.words;
-                        typeHistory = normalized.types;
-                    } catch (e) {
-                        console.warn('本地数据格式无效，已使用空列表。', e);
-                        words = [];
-                        typeHistory = [...DEFAULT_TYPES];
+            async function loadFromLocal() {
+                let stored = null;
+                let normalized = null;
+
+                try {
+                    stored = await idbGet(WORKING_COPY_KEY);
+                    if (stored) {
+                        try {
+                            normalized = normalizeDataPayload(stored);
+                        } catch (e) {
+                            console.warn('IndexedDB 工作副本格式无效，将尝试 OPFS 镜像。', e);
+                            stored = null;
+                        }
                     }
+                } catch (e) {
+                    console.warn('读取 IndexedDB 工作副本失败，将尝试 OPFS。', e);
+                }
+
+                if (!normalized) {
+                    const opfsStored = await readOpfsWorkingCopy();
+                    if (opfsStored) {
+                        try {
+                            normalized = normalizeDataPayload(opfsStored);
+                            stored = opfsStored;
+                            try {
+                                await idbSet(WORKING_COPY_KEY, opfsStored);
+                            } catch (e) {
+                                console.warn('从 OPFS 恢复到 IndexedDB 失败。', e);
+                            }
+                        } catch (e) {
+                            console.warn('OPFS 工作副本格式无效，已使用空列表。', e);
+                        }
+                    }
+                }
+
+                if (normalized) {
+                    words = normalized.words;
+                    typeHistory = normalized.types;
                 } else {
                     words = [];
                     typeHistory = [...DEFAULT_TYPES];
                 }
-                applySortAndRender();
+
+                sortWords(sortOrder);
+                renderTable();
+                updateSortIcon();
                 renderTypeCombos();
+
+                if (normalized) {
+                    void writeOpfsWorkingCopy(createDataSnapshot()).catch(e => {
+                        console.warn('更新 OPFS 镜像失败。', e);
+                    });
+                }
+            }
+
+            async function persistWorkingCopy(snapshot) {
+                await idbSet(WORKING_COPY_KEY, snapshot);
+                try {
+                    await writeOpfsWorkingCopy(snapshot);
+                } catch (e) {
+                    console.warn('OPFS 镜像写入失败，IndexedDB 工作副本仍已保存。', e);
+                }
+                return true;
             }
 
             function saveToLocal() {
-                return safeStorageSet(localStorage, STORAGE_KEY, JSON.stringify(createDataSnapshot()), true);
+                const snapshot = createDataSnapshot();
+                workingCopySaveQueue = workingCopySaveQueue
+                    .catch(() => true)
+                    .then(() => persistWorkingCopy(snapshot))
+                    .catch(e => {
+                        console.error('保存本地工作副本失败。', e);
+                        showToast(`本地保存失败：${e.message}`, 'error');
+                        return false;
+                    });
+                return workingCopySaveQueue;
             }
 
             function markLocalDirty() {
@@ -2881,7 +2991,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 previousFocusedElement = null;
             }
 
-            function saveConfigAndConnect() {
+            async function saveConfigAndConnect() {
                 const token = cfgToken.value.trim();
                 const owner = cfgOwner.value.trim();
                 const repo = cfgRepo.value.trim();
@@ -2916,7 +3026,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 config.repo = repo;
                 config.file = file;
 
-                if (!saveConfig()) {
+                if (!await saveConfig()) {
                     return;
                 }
 
@@ -3158,6 +3268,17 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             bindTokenEditor('add');
             bindTokenEditor('edit');
 
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'hidden') {
+                    saveToLocal();
+                    saveSyncMeta();
+                }
+            });
+            window.addEventListener('pagehide', () => {
+                saveToLocal();
+                saveSyncMeta();
+            });
+
             // ---------- 初始化 ----------
             // 初始页面只显示主界面；编辑和配置弹窗只能由对应按钮打开。
             editModal.classList.add('hidden');
@@ -3167,11 +3288,15 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             closeTypePanels();
             document.body.style.overflow = '';
 
-            loadSyncMeta();
-            loadConfig();
-            loadFromLocal();
-            renderTypeCombos();
-            loadFromCloud();
+            async function initializeApp() {
+                await requestPersistentStorage();
+                await loadSyncMeta();
+                await loadConfig();
+                await loadFromLocal();
+                loadFromCloud();
+            }
+
+            void initializeApp();
 
             document.querySelector('.add-section').addEventListener('click', function(e) {
                 const target = e.target;

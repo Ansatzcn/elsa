@@ -1405,7 +1405,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 </div>
                 <div class="form-group">
                     <label for="cfgFile">数据文件名</label>
-                    <input type="text" id="cfgFile" value="wordbook_data.json">
+                    <input type="text" id="cfgFile">
                 </div>
             </div>
             <div class="config-actions">
@@ -1423,6 +1423,8 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             // ============================================================
             //  配置存储
             // ============================================================
+            const DEFAULT_JSON_FILE = 'elsa_data.json';
+
             const CONFIG_KEY = 'github_wordbook_config_v2';
             const STORAGE_KEY = 'wordbook_az_data_v2';
             const SYNC_META_KEY = 'wordbook_az_sync_meta_v1';
@@ -1462,7 +1464,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 rememberToken: true,
                 owner: '',
                 repo: '',
-                file: 'wordbook_data.json'
+                file: DEFAULT_JSON_FILE
             };
 
             // ---------- DOM 引用 ----------
@@ -1582,7 +1584,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     repo: typeof parsed.repo === 'string' ? parsed.repo : '',
                     file: typeof parsed.file === 'string' && parsed.file.trim()
                         ? parsed.file.trim()
-                        : 'wordbook_data.json'
+                        : 'elsa_data.json'
                 };
 
                 // 清理旧配置对象中的明文 Token，Token 独立存放。
@@ -1609,7 +1611,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 config.rememberToken = cfgRememberToken.checked;
                 config.owner = cfgOwner.value.trim();
                 config.repo = cfgRepo.value.trim();
-                config.file = cfgFile.value.trim() || 'wordbook_data.json';
+                config.file = cfgFile.value.trim() || DEFAULT_JSON_FILE;
 
                 if (config.rememberToken) {
                     if (config.token) {
@@ -2834,7 +2836,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 cfgRememberToken.checked = config.rememberToken;
                 cfgOwner.value = config.owner || '';
                 cfgRepo.value = config.repo || '';
-                cfgFile.value = config.file || 'wordbook_data.json';
+                cfgFile.value = config.file || DEFAULT_JSON_FILE;
 
                 syncConfigViewport();
                 configScroll.scrollTop = 0;
@@ -2865,7 +2867,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 const token = cfgToken.value.trim();
                 const owner = cfgOwner.value.trim();
                 const repo = cfgRepo.value.trim();
-                const file = cfgFile.value.trim() || 'wordbook_data.json';
+                const file = cfgFile.value.trim() || DEFAULT_JSON_FILE;
 
                 if (!token) {
                     showToast('请输入 GitHub Token', 'error');

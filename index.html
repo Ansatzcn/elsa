@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="app-build" content="2026-09-17-elsa-tag-link-single-select-v3">
+    <meta name="app-build" content="2026-09-22-elsa-html-backup-v1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
     <title>Elsa</title>
     <style>
@@ -1258,7 +1258,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 <button type="button" class="btn-outline" id="configBtn">配置</button>
                 <button type="button" class="btn-outline" id="exportBtn">导出</button>
                 <button type="button" class="btn-outline" id="importBtn">导入</button>
-                <input type="file" id="fileInput" accept=".json" style="display: none;">
+                <input type="file" id="fileInput" accept=".html,.htm,.json,text/html,application/json" style="display: none;">
             </div>
             <div class="right-group">
                 <span style="font-size:0.8rem;color:#94a3b8;" id="lastSyncTime">未同步</span>
@@ -1435,7 +1435,10 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             const MAX_WORD_LENGTH = 200;
             const MAX_TYPE_LENGTH = 100;
             const MAX_LESSON_LENGTH = 500;
-            const MAX_IMPORT_FILE_SIZE = 5 * 1024 * 1024;
+            const MAX_IMPORT_FILE_SIZE = 50 * 1024 * 1024;
+            const EXPORT_SITE_NAME = 'elsa';
+            const HTML_BACKUP_ELEMENT_ID = 'elsaHtmlBackupData';
+            const HTML_BACKUP_FORMAT = 'elsa-html-backup-v1';
             const DEFAULT_TYPES = ['写字', '识字', '课文', 'OPW', '课外', 'SHE', '一上'];
 
             // ---------- 全局状态 ----------
@@ -2721,22 +2724,140 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
             }
 
             // ---------- 导出/导入 ----------
+            function createHtmlBackupPayload(timestamp) {
+                return {
+                    backupFormat: HTML_BACKUP_FORMAT,
+                    siteName: EXPORT_SITE_NAME,
+                    exportedAtUnix: timestamp,
+                    exportedAt: new Date(timestamp * 1000).toISOString(),
+                    data: createDataSnapshot()
+                };
+            }
+
+            function createHtmlBackupDocument(payload) {
+                const clone = document.documentElement.cloneNode(true);
+                clone.querySelectorAll(`#${HTML_BACKUP_ELEMENT_ID}`).forEach(node => node.remove());
+
+                const backupNode = document.createElement('script');
+                backupNode.id = HTML_BACKUP_ELEMENT_ID;
+                backupNode.type = 'application/octet-stream';
+                backupNode.dataset.format = HTML_BACKUP_FORMAT;
+                backupNode.dataset.encoding = 'base64';
+                backupNode.textContent = utf8ToBase64(JSON.stringify(payload));
+
+                const cloneBody = clone.querySelector('body');
+                if (!cloneBody) {
+                    throw new Error('无法生成完整 HTML 备份');
+                }
+                cloneBody.appendChild(backupNode);
+
+                return '<!DOCTYPE html>\n' + clone.outerHTML;
+            }
+
+            function extractHtmlBackupPayload(htmlText) {
+                const doc = new DOMParser().parseFromString(String(htmlText || ''), 'text/html');
+                const backupNode = doc.getElementById(HTML_BACKUP_ELEMENT_ID);
+                if (!backupNode) {
+                    throw new Error('该 HTML 文件中未找到 Elsa 备份数据');
+                }
+                if (backupNode.dataset.format && backupNode.dataset.format !== HTML_BACKUP_FORMAT) {
+                    throw new Error('该 HTML 备份格式不受当前版本支持');
+                }
+
+                const encoded = String(backupNode.textContent || '').trim();
+                if (!encoded) {
+                    throw new Error('HTML 备份中的数据为空');
+                }
+
+                let payload;
+                try {
+                    const decoded = backupNode.dataset.encoding === 'base64'
+                        ? base64ToUtf8(encoded)
+                        : encoded;
+                    payload = JSON.parse(decoded);
+                } catch (err) {
+                    throw new Error(`HTML 备份数据损坏：${err.message}`);
+                }
+
+                if (!payload || typeof payload !== 'object') {
+                    throw new Error('HTML 备份数据格式无效');
+                }
+                return payload.data && typeof payload.data === 'object'
+                    ? payload.data
+                    : payload;
+            }
+
+            function parseImportPayload(text, fileName) {
+                const raw = String(text || '');
+                const trimmed = raw.trim();
+                const lowerName = String(fileName || '').toLocaleLowerCase('en-US');
+                const looksLikeHtml = lowerName.endsWith('.html')
+                    || lowerName.endsWith('.htm')
+                    || /^<!doctype\s+html/i.test(trimmed)
+                    || /^<html[\s>]/i.test(trimmed);
+
+                if (looksLikeHtml) {
+                    return extractHtmlBackupPayload(raw);
+                }
+
+                try {
+                    return JSON.parse(raw);
+                } catch (jsonError) {
+                    if (trimmed.includes(`id="${HTML_BACKUP_ELEMENT_ID}"`)
+                        || trimmed.includes(`id='${HTML_BACKUP_ELEMENT_ID}'`)) {
+                        return extractHtmlBackupPayload(raw);
+                    }
+                    throw new Error('无法识别该文件。请选择本站导出的 HTML 备份或有效的 JSON 数据文件。');
+                }
+            }
+
+            function loadEmbeddedBackupIfPresent() {
+                const backupNode = document.getElementById(HTML_BACKUP_ELEMENT_ID);
+                if (!backupNode) {
+                    return false;
+                }
+
+                try {
+                    const payload = extractHtmlBackupPayload(document.documentElement.outerHTML);
+                    const normalized = normalizeDataPayload(payload);
+                    words = normalized.words;
+                    typeHistory = normalized.types;
+                    applySortAndRender();
+                    renderTypeCombos();
+                    lastSyncTime.textContent = 'HTML 备份快照';
+                    setCloudStatus('offline', '备份模式');
+                    return true;
+                } catch (e) {
+                    console.error('读取 HTML 内嵌备份失败:', e);
+                    showToast(`HTML 备份数据读取失败：${e.message}`, 'error');
+                    return false;
+                }
+            }
+
             function exportData() {
                 if (words.length === 0) {
                     alert('词汇列表为空，没有什么可导出的。');
                     return;
                 }
-                const jsonStr = JSON.stringify(createDataSnapshot(), null, 2);
-                const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `wordbook_backup_${new Date().toISOString().slice(0, 10)}.json`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                setTimeout(() => URL.revokeObjectURL(url), 0);
-                showToast('导出成功', 'success');
+
+                try {
+                    const timestamp = Math.floor(Date.now() / 1000);
+                    const payload = createHtmlBackupPayload(timestamp);
+                    const html = createHtmlBackupDocument(payload);
+                    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${EXPORT_SITE_NAME}${timestamp}.html`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(url), 0);
+                    showToast(`导出成功：${EXPORT_SITE_NAME}${timestamp}.html`, 'success');
+                } catch (e) {
+                    console.error('导出 HTML 备份失败:', e);
+                    alert(`导出失败：${e.message}`);
+                }
             }
 
             function importData(file) {
@@ -2744,7 +2865,7 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     return;
                 }
                 if (file.size > MAX_IMPORT_FILE_SIZE) {
-                    alert('导入文件过大，请选择不超过 5 MB 的 JSON 文件。');
+                    alert('导入文件过大，请选择不超过 50 MB 的 HTML 或 JSON 文件。');
                     return;
                 }
 
@@ -2752,9 +2873,9 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                 reader.onload = function(e) {
                     let imported;
                     try {
-                        imported = JSON.parse(String(e.target.result || ''));
+                        imported = parseImportPayload(String(e.target.result || ''), file.name);
                     } catch (err) {
-                        alert('解析文件失败，请确保是有效的 JSON 文件。');
+                        alert(`解析文件失败：${err.message}`);
                         return;
                     }
 
@@ -2790,7 +2911,9 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
                     words = valid;
                     typeHistory = normalizedImport.types;
                     markLocalDirty();
+                    saveToLocal();
                     applySortAndRender();
+                    renderTypeCombos();
                     showToast(`成功导入 ${words.length} 个条目`, 'success');
                     if (isConfigValid()) {
                         syncToCloud(false);
@@ -3151,9 +3274,12 @@ input::placeholder, textarea::placeholder, input::file-selector-button {
 
             loadSyncMeta();
             loadConfig();
-            loadFromLocal();
-            renderTypeCombos();
-            loadFromCloud();
+            const isHtmlBackup = loadEmbeddedBackupIfPresent();
+            if (!isHtmlBackup) {
+                loadFromLocal();
+                renderTypeCombos();
+                loadFromCloud();
+            }
 
             document.querySelector('.add-section').addEventListener('click', function(e) {
                 const target = e.target;
